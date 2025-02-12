@@ -35,6 +35,17 @@ crypto_platforms = {
                 "help": "The flavors to build. Default is SHARED."
             }
         },
+    },
+    "SharedCryptoLibraryPkg": {
+        "PRODUCT_NAME": "SharedCryptoLibrary",
+        "ACTIVE_PLATFORM": "SharedCryptoLibraryPkg/SharedCryptoLibraryPkg.dsc",
+        "custom_settings": {
+            "flavor": {
+                "supported_flavors": ("SHARED",),
+                "type": str,
+                "help": "The flavors to build. Default is SHARED."
+            }
+        },
     }
 }
 
