@@ -1,3 +1,15 @@
+/** @file
+  SharedCryptoLoaderDxe.c
+
+  Copyright (c) Microsoft Corporation.
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+
+  This file contains the implementation of the SharedCryptoLoader DXE driver,
+  which is responsible for loading and initializing the shared cryptographic
+  library and its dependencies.
+
+**/
+
 #include <Library/DebugLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiRuntimeServicesTableLib.h>
@@ -7,9 +19,9 @@
 #include <Library/DebugLib.h>
 #include <Library/RngLib.h>
 
-#include <Library/SharedCrtLibSupport.h>
-#include <Protocol/SharedCryptoProtocol.h>
+#include "SharedDependencySupport.h"
 #include "SharedLoaderShim.h"
+#include <Protocol/SharedCryptoProtocol.h>
 
 #define EFI_SECTION_PE32  0x10
 
@@ -208,6 +220,8 @@ DxeEntryPoint (
     DEBUG ((DEBUG_ERROR, "Failed to install protocol: %r\n", Status));
     goto Exit;
   }
+  
+  DEBUG ((DEBUG_INFO, "SharedCrypto Protocol installed successfully.\n"));
 
   Status = EFI_SUCCESS;
 

@@ -31,7 +31,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
-  OpensslPkg/OpensslLibPkg.dec
+  CryptoPkg/SharedCryptoPkg.dec
 
 [LibraryClasses]
   UefiDriverEntryPoint
