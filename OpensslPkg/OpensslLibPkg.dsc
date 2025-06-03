@@ -41,51 +41,25 @@
   gEfiMdePkgTokenSpaceGuid.PcdFixedDebugPrintErrorLevel|gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel
 
 [LibraryClasses]
-#
-# BE VERY CAREFUL PUTTING ANYTHING HERE
-# We need to be very specific with our dependencies
-#
-UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
-StackCheckFailureHookLib|MdePkg/Library/StackCheckFailureHookLibNull/StackCheckFailureHookLibNull.inf
-BaseLib|MdePkg/Library/BaseLib/BaseLib.inf
-
-
-[LibraryClasses.common.DXE_DRIVER]
-  UefiLib                 |MdePkg/Library/UefiLib/UefiLib.inf
-  PcdLib                  |MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
-  DebugPrintErrorLevelLib |MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
-  AssertLib|AdvLoggerPkg/Library/AssertLib/AssertLib.inf
-  DebugLib                |AdvLoggerPkg/Library/BaseDebugLibAdvancedLogger/BaseDebugLibAdvancedLogger.inf
-  AdvancedLoggerLib       |AdvLoggerPkg/Library/AdvancedLoggerLib/Dxe/AdvancedLoggerLib.inf
-
-  #DebugLib                |MdePkg/Library/UefiDebugLibDebugPortProtocol/UefiDebugLibDebugPortProtocol.inf
-  BaseMemoryLib           |MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
-  NULL                    |MdePkg/Library/StackCheckLib/StackCheckLibStaticInit.inf
-  MemoryAllocationLib     |MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
-  DxeServicesLib          |MdePkg/Library/DxeServicesLib/DxeServicesLib.inf
-  PeCoffGetEntryPointLib  |MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
-  PeCoffLib               |MdePkg/Library/BasePeCoffLib/BasePeCoffLib.inf
-  CacheMaintenanceLib     |MdePkg/Library/BaseCacheMaintenanceLib/BaseCacheMaintenanceLib.inf
-  DxeServicesTableLib     |MdePkg/Library/DxeServicesTableLib/DxeServicesTableLib.inf
-  UefiDriverEntryPoint    |MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
-  PrintLib                |MdePkg/Library/BasePrintLib/BasePrintLib.inf
-  DevicePathLib           |MdePkg/Library/UefiDevicePathLibDevicePathProtocol/UefiDevicePathLibDevicePathProtocol.inf
-  UefiRuntimeServicesTableLib |MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
-  PeCoffExtraActionLib        |MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
-  HobLib                      |MdePkg/Library/DxeHobLib/DxeHobLib.inf
-  RngLib                      |MdePkg/Library/BaseRngLib/BaseRngLib.inf
+  #
+  # BE VERY CAREFUL PUTTING ANYTHING HERE
+  # We need to be very specific with our dependencies
+  #
 
 
 [LibraryClasses.common.UEFI_APPLICATION]
-  BaseMemoryLib|MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
-  BasePrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
-  SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
-  IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
-  PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
-  DebugLib|MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
-  NULL|MdePkg/Library/StackCheckLib/StackCheckLibStaticInit.inf
+  UefiBootServicesTableLib |MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
+  StackCheckFailureHookLib |MdePkg/Library/StackCheckFailureHookLibNull/StackCheckFailureHookLibNull.inf
+  BaseLib                  |MdePkg/Library/BaseLib/BaseLib.inf
+  BaseMemoryLib            |MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
+  BasePrintLib             |MdePkg/Library/BasePrintLib/BasePrintLib.inf
+  SafeIntLib               |MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf # Required for UEFI applications
-  OpensslLib|OpensslPkg/Library/OpensslLib/OpenssLibShared.inf
+  PcdLib                   |MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
+  DebugLib                 |MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
+  NULL                     |MdePkg/Library/StackCheckLib/StackCheckLibStaticInit.inf
+  IntrinsicLib             |CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
+  OpensslLib               |OpensslPkg/Library/OpensslLib/OpenssLibShared.inf
 
 
 ###################################################################################################
@@ -108,7 +82,8 @@ BaseLib|MdePkg/Library/BaseLib/BaseLib.inf
 ###################################################################################################
 [Components]
   OpensslPkg/Library/SharedCryptLib/SharedCryptoBin.inf
-  OpensslPkg/Library/SharedCryptLib/Driver/SharedCryptoLoaderDxe.inf
+  #OpensslPkg/Library/SharedCryptLib/Driver/SharedCryptoLoaderDxe.inf
+  #OpensslPkg/Library/SharedCryptLib/Driver/SharedCryptoLoaderStandaloneMM.inf
 
 [BuildOptions]
   *_*_*_CC_FLAGS = -D DISABLE_NEW_DEPRECATED_INTERFACES
