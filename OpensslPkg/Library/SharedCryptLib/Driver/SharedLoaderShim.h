@@ -2,7 +2,7 @@
 #define SHAREDLOADER_SHIM_H
 
 #include <Uefi.h>
-#include "SharedDependencySupport.h"
+#include "Library/SharedCryptoDependencySupport.h"
 
 //
 // These represent the dependencies that the driver needs to function

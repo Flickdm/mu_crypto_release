@@ -1,9 +1,9 @@
 #ifndef SHARED_DEBUG_LIB
 #define SHARED_DEBUG_LIB
 
-#include <Library/SharedCrtLibSupport.h>
+#include <Private/SharedCrtLibSupport.h>
 
-extern SHARED_DEPENDENCIES *gSharedDepends;
+extern SHARED_DEPENDENCIES  *gSharedDepends;
 
 #define ASSERT(Expression) \
   do { \
@@ -11,7 +11,7 @@ extern SHARED_DEPENDENCIES *gSharedDepends;
       gSharedDepends->ASSERT(Expression); \
     } else { \
       while (!(Expression)) { \
-        /* Spin loop */ \
+  /* Spin loop */ \
       } \
     } \
   } while (0)
@@ -82,5 +82,5 @@ DebugCodeEnabled (
 
 **/
 #define DEBUG_CODE_END()  __DebugCodeLocal = 0; __DebugCodeLocal++; } } while (FALSE)
-  
+
 #endif // SHARED_DEBUG_LIB

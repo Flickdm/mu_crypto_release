@@ -6,7 +6,7 @@
 #include <Library/BaseMemoryLib.h>
 #include <Library/PrintLib.h>
 
-#include "SharedDependencySupport.h"
+#include <Library/SharedCryptoDependencySupport.h>
 
 VOID *
 EFIAPI

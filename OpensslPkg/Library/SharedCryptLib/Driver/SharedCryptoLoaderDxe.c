@@ -19,9 +19,9 @@
 #include <Library/DebugLib.h>
 #include <Library/RngLib.h>
 
-#include "SharedDependencySupport.h"
-#include "SharedLoaderShim.h"
+#include <Library/SharedCryptoDependencySupport.h>
 #include <Protocol/SharedCryptoProtocol.h>
+#include "SharedLoaderShim.h"
 
 #define EFI_SECTION_PE32  0x10
 
@@ -220,7 +220,7 @@ DxeEntryPoint (
     DEBUG ((DEBUG_ERROR, "Failed to install protocol: %r\n", Status));
     goto Exit;
   }
-  
+
   DEBUG ((DEBUG_INFO, "SharedCrypto Protocol installed successfully.\n"));
 
   Status = EFI_SUCCESS;

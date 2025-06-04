@@ -28,10 +28,13 @@ except ImportError:
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 INCLUDE_PATH = os.path.join(SCRIPT_DIR, "../Include")
+LIBRARY_INCLUDE_PATH = os.path.join(INCLUDE_PATH, "Library")
+PROTOCOL_INCLUDE_PATH = os.path.join(INCLUDE_PATH, "Protocol")
 LIBRARY_PATH = os.path.join(SCRIPT_DIR, "../Library/Include")
 
+SHARED_CRYPTO_DEFINITIONS = os.path.join(LIBRARY_INCLUDE_PATH, "SharedCryptoDefinitions.h")
+
 # Paths to the library and include directories
-LIBRARY_INCLUDE_PATH = os.path.join(LIBRARY_PATH, "Include")
 BASE_CRYPTO_PATH = os.path.join(LIBRARY_PATH, "BaseCryptLibOnProtocol")
 
 # Default group for functions that don't have a group specified
@@ -71,7 +74,7 @@ def cli() -> dict:
     parser.add_argument("-p", "--generate-protocol", help="Generate the protocol file",
                         action="store_true", default=False)
     parser.add_argument(
-        "--output-protocol", help="The output file to write the transformed protocol header file to", default=os.path.join(INCLUDE_PATH, "SharedCryptoProtocol.h"))
+        "--output-protocol", help="The output file to write the transformed protocol header file to", default=os.path.join(PROTOCOL_INCLUDE_PATH, "SharedCryptoProtocol.h"))
     parser.add_argument("-l", "--generate-library", help="Generate the library file",
                         action="store_true", default=False)
 
@@ -437,10 +440,19 @@ def generate_protocol(file_name: str, function_info: FunctionInfo, output_file: 
         f.write(f"#ifndef {guard_statement}\n")
         f.write(f"#define {guard_statement}\n\n")
         f.write("#include <Uefi.h>\n")
-        f.write(f"#include <{file_name}>\n\n")
+        f.write(f"#include <Library\{file_name}>\n\n")
         f.write(create_divider())
         f.write(f"// Protocol version: {major}.{minor}.{revision}\n")
         f.write(create_divider())
+        f.write(f"#define VERSION_MAJOR     {major}ULL\n")
+        f.write(f"#define VERSION_MINOR     {minor}ULL\n")
+        f.write(f"#define VERSION_REVISION  {revision}ULL\n")
+
+        #///
+        #/// Shared Crypto Protocol forward declaration
+        #///
+        #typedef struct _SHARED_CRYPTO_PROTOCOL SHARED_CRYPTO_PROTOCOL;
+
         f.write("\n")
         f.write(create_divider())
         f.write("// Typedef Declarations\n")
@@ -491,6 +503,7 @@ def generate_library(file_name: str, function_info: FunctionInfo):
             f.write(f"#ifndef {guard_statement}\n")
             f.write(f"#define {guard_statement}\n\n")
             f.write("#include <Uefi.h>\n")
+            f.write(f"#include <Library\{file_name}>\n\n")
             f.write(create_divider())
             f.write(f"// Library for {group}\n")
             f.write(create_divider())
@@ -501,13 +514,13 @@ def generate_library(file_name: str, function_info: FunctionInfo):
                 f.write(f"{function.comment}\n")
                 f.write(f"{function.return_type}\n")
                 f.write(f"{function.calling_convention}\n")
-                f.write(f"{function_name} (")
-                f.write(f"{function.params});\n\n")
+                f.write(f"{function_name} (\n")
+                f.write(f"{function.params}\n);\n\n")
 
             f.write(f"#endif // {guard_statement}\n")
 
         logger.info(f"Library file written to {library_file}")
-
+        #TODO run a formatter on the file to ensure it is formatted correctly
     #
     # Generate the BaseCrypt library file
     #
@@ -523,9 +536,8 @@ def process_header_file(header_file: str, output_file: str) -> dict:
 
         functions = extract_function_details(file)
         function_info = FunctionInfo(functions, create_typedefs(functions), extract_version(file))
-        generate_protocol(file_name, function_info, output_file)
-        generate_library(file_name, function_info)
-
+        generate_protocol("SharedCryptoDefinitions.h", function_info, output_file)
+        generate_library("SharedCryptoDefinitions.h", function_info)
 
 if __name__ == "__main__":
     args = cli()

@@ -22,10 +22,8 @@
 #include <Protocol/FirmwareVolume2.h>
 #include <Ppi/FirmwareVolumeInfo.h>
 
-#include <Library/SharedCryptoLibrary.h>
 #include <Protocol/SharedCryptoProtocol.h>
-
-#include "SharedDependencySupport.h"
+#include <Library/SharedCryptoDependencySupport.h>
 #include "SharedLoaderShim.h"
 
 #define EFI_SECTION_PE32  0x10

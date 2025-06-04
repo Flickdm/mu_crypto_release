@@ -5,7 +5,6 @@
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
 
-
 //
 // FILE_GUID(76ABA88D-9D16-49A2-AA3A-DB6112FAC5CB) of SharedCryptoBin.inf
 //
@@ -18,7 +17,7 @@
 
 /*
   @typedef GET_VERSION
-  
+
   @brief Defines a function pointer type for a function that returns the version.
   @return UINT64 The version number.
 */
@@ -26,9 +25,6 @@ typedef UINT64 (EFIAPI *GET_VERSION)(
   VOID
   );
 
-/*
-
-*/
 typedef VOID *(*ALLOCATE_POOL)(
   UINTN  AllocationSize
   );
