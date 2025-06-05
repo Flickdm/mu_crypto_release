@@ -3,7 +3,7 @@
 
 #include <Uefi.h>
 #include <CrtLibSupport.h>
-#include <Library/SharedCryptoLibrary.h>
+#include <Private/SharedCryptoLibrary.h>
 
 // TODO: remove in near future to stop using deprecated OpenSSL APIs
 #define OPENSSL_NO_DEPRECATED  0

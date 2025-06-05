@@ -1,6 +1,6 @@
 #include "SharedOpenssl.h"
 #include <Protocol/SharedCryptoProtocol.h>
-#include <Library/SharedCryptoLibrary.h>
+#include <Private/SharedCryptoLibrary.h>
 #include <CrtLibSupport.h>
 #include <Uefi.h>
 
@@ -221,16 +221,28 @@ InitAvailableCrypto (
   // ========================================================================================================
   // X509 Certificate Primitives
   // ========================================================================================================
-  Crypto->X509GetSubjectName             = X509GetSubjectName;
-  Crypto->X509GetCommonName              = X509GetCommonName;
-  Crypto->X509GetOrganizationName        = X509GetOrganizationName;
-  Crypto->X509VerifyCert                 = X509VerifyCert;
-  Crypto->X509ConstructCertificate       = X509ConstructCertificate;
-  Crypto->X509ConstructCertificateStackV = X509ConstructCertificateStackV;
-  Crypto->X509ConstructCertificateStack  = X509ConstructCertificateStack;
-  Crypto->X509Free                       = X509Free;
-  Crypto->X509StackFree                  = X509StackFree;
-  Crypto->X509GetTBSCert                 = X509GetTBSCert;
+  Crypto->X509GetSubjectName              = X509GetSubjectName;
+  Crypto->X509GetCommonName               = X509GetCommonName;
+  Crypto->X509GetOrganizationName         = X509GetOrganizationName;
+  Crypto->X509VerifyCert                  = X509VerifyCert;
+  Crypto->X509ConstructCertificate        = X509ConstructCertificate;
+  Crypto->X509ConstructCertificateStackV  = X509ConstructCertificateStackV;
+  Crypto->X509ConstructCertificateStack   = X509ConstructCertificateStack;
+  Crypto->X509Free                        = X509Free;
+  Crypto->X509StackFree                   = X509StackFree;
+  Crypto->X509GetTBSCert                  = X509GetTBSCert;
+  Crypto->X509GetVersion                  = X509GetVersion;
+  Crypto->X509GetSerialNumber             = X509GetSerialNumber;
+  Crypto->X509GetIssuerName               = X509GetIssuerName;
+  Crypto->X509GetSignatureAlgorithm       = X509GetSignatureAlgorithm;
+  Crypto->X509GetExtensionData            = X509GetExtensionData;
+  Crypto->X509GetValidity                 = X509GetValidity;
+  Crypto->X509FormatDateTime              = X509FormatDateTime;
+  Crypto->X509GetKeyUsage                 = X509GetKeyUsage;
+  Crypto->X509GetExtendedKeyUsage         = X509GetExtendedKeyUsage;
+  Crypto->X509VerifyCertChain             = X509VerifyCertChain;
+  Crypto->X509GetCertFromCertChain        = X509GetCertFromCertChain;
+  Crypto->X509GetExtendedBasicConstraints = X509GetExtendedBasicConstraints;
 
   // ========================================================================================================
   // Random Number Generation
