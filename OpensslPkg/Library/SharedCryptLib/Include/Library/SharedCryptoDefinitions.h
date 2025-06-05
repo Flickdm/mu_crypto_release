@@ -1,3 +1,12 @@
+/** @file
+  SharedCryptoDefinitions.h
+
+  This file contains the definitions and constants used in the shared cryptographic library that
+  are shared across different headers.
+
+  Copyright (c) Microsoft Corporation.
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+**/
 #ifndef SHARED_CRYPT_LIB_DEFS_H_
 #define SHARED_CRYPT_LIB_DEFS_H_
 

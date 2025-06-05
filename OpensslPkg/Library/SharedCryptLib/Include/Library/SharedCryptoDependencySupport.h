@@ -1,3 +1,14 @@
+
+
+/** @file
+  SharedCryptoDependencySupport.h
+
+  This file contains the definitions and constants used in the shared cryptographic library that
+  are shared across different headers.
+
+  Copyright (c) Microsoft Corporation.
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+**/
 #ifndef SHARED_DEPENDENCY_SUPPORT_H
 #define SHARED_DEPENDENCY_SUPPORT_H
 
