@@ -68,7 +68,7 @@ LoaderEntryPoint (
   //
   // Confirm that the image is an EFI application
   //
-  if ((Image.Context.ImageType != EFI_IMAGE_SUBSYSTEM_EFI_APPLICATION)) {
+  if ((Image.Context.ImageType != EFI_IMAGE_SUBSYSTEM_EFI_BOOT_SERVICE_DRIVER)) {
     DEBUG ((DEBUG_ERROR, "Invalid image type: %d\n", Image.Context.ImageType));
     return EFI_UNSUPPORTED;
   }

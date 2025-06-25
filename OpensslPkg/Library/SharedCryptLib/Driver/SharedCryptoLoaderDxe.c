@@ -143,7 +143,7 @@ DxeEntryPoint (
   // This must match the INF for SharedCryptoBin
   //
   EFI_GUID  SharedLibGuid = {
-    0x76ABA88D, 0x9D16, 0x49A2, { 0xAA, 0x3A, 0xDB, 0x61, 0x12, 0xFA, 0xC5, 0xCB }
+    0x76ABA88D, 0x9D16, 0x49A2, { 0xAA, 0x3A, 0xDB, 0x61, 0x12, 0xFA, 0xC5, 0xCC }
   };
 
   //
@@ -212,7 +212,7 @@ DxeEntryPoint (
 
   Status = SystemTable->BootServices->InstallMultipleProtocolInterfaces (
               &ImageHandle,
-              &gSharedCryptoProtocolGuid,
+              &gSharedCryptoDxeProtocolGuid,
               (SHARED_CRYPTO_PROTOCOL *)&mSharedCryptoProtocol,
               NULL
               );
