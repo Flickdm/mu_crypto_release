@@ -7,6 +7,7 @@
   Copyright (c) Microsoft Corporation.
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
+
 #ifndef SHARED_CRYPT_LIB_DEFS_H_
 #define SHARED_CRYPT_LIB_DEFS_H_
 
@@ -80,6 +81,8 @@
     Revision = (UINT32)((Version) & 0xFFFF); \
   } while (0)
 
+
+
 ///
 /// RSA Key Tags Definition used in RsaSetKey() function for key component identification.
 ///
@@ -93,5 +96,35 @@ typedef enum {
   RsaKeyDq,     ///< q's CRT exponent (== d mod (q - 1))
   RsaKeyQInv    ///< The CRT coefficient (== 1/q mod p)
 } RSA_KEY_TAG;
+
+/**
+  The 3rd parameter of Pkcs7GetSigners will return all embedded
+  X.509 certificate in one given PKCS7 signature. The format is:
+  //
+  // UINT8  CertNumber;
+  // UINT32 Cert1Length;
+  // UINT8  Cert1[];
+  // UINT32 Cert2Length;
+  // UINT8  Cert2[];
+  // ...
+  // UINT32 CertnLength;
+  // UINT8  Certn[];
+  //
+
+  The two following C-structure are used for parsing CertStack more clearly.
+**/
+#pragma pack(1)
+
+typedef struct {
+  UINT32    CertDataLength;       // The length in bytes of X.509 certificate.
+  UINT8     CertDataBuffer[0];    // The X.509 certificate content (DER).
+} EFI_CERT_DATA;
+
+typedef struct {
+  UINT8    CertNumber;            // Number of X.509 certificate.
+  // EFI_CERT_DATA   CertArray[];  // An array of X.509 certificate.
+} EFI_CERT_STACK;
+
+#pragma pack()
 
 #endif // SHARED_CRYPT_LIB_DEFS_H_
