@@ -5,11 +5,12 @@
 
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = SharedCryptoBin
-  FILE_GUID                      = 76ABA88D-9D16-49A2-AA3A-DB6112FAC5CB
-  MODULE_TYPE                    = UEFI_APPLICATION
+  BASE_NAME                      = SharedCryptoMmBin
+  FILE_GUID                      = 76ABA88D-9D16-49A2-AA3A-DB6112FAC5CC #TODO UPDATE
+  MODULE_TYPE                    = MM_STANDALONE
   VERSION_STRING                 = 1.0
-  ENTRY_POINT                    = UefiMain
+  ENTRY_POINT                    = MmEntry
+  PI_SPECIFICATION_VERSION       = 0x00010032
 
   DEFINE OPENSSL_PATH            = openssl
   DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
@@ -21,7 +22,8 @@
 #
 
 [LibraryClasses]
-  UefiApplicationEntryPoint
+  StandaloneMmDriverEntryPoint
+  MmServicesTableLib
   IntrinsicLib
   BaseLib
   BasePrintLib
@@ -33,6 +35,7 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   OpensslPkg/OpensslLibPkg.dec
+  StandaloneMmPkg/StandaloneMmPkg.dec
 
 [Sources]
   InternalCryptLib.h
@@ -100,3 +103,6 @@
   MSFT:*_*_*_GENFW_FLAGS = --keepoptionalheader
 
   MSFT:*_*_*_CC_FLAGS = -D SHARED_CRYPTO_ENVIRONMENT
+
+  [Protocols]
+    gSharedCryptoPrivateProtocolGuid
