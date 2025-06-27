@@ -39,7 +39,7 @@ SHARED_DEPENDENCIES  *mSharedDepends = NULL;
 //
 // Crypto protocol for the shared library
 //
-SHARED_CRYPTO_PROTOCOL mSharedCryptoProtocol;
+SHARED_CRYPTO_PROTOCOL  *ProtocolInstance = NULL;
 
 UINT64
 EFIAPI
@@ -103,7 +103,7 @@ InstallSharedDependencies (
  */
 VOID
 InstallDriverDependencies (
-   VOID
+  VOID
   )
 {
   gDriverDependencies->AllocatePages  = gMmst->MmAllocatePages;
@@ -112,81 +112,6 @@ InstallDriverDependencies (
   gDriverDependencies->AllocatePool   = gMmst->MmAllocatePool;
   gDriverDependencies->FreePool       = gMmst->MmFreePool;
 }
-
-/*
-EFI_STATUS
-DiscoverCryptoBinary (
-  IN EFI_GUID  *TargetGuid,
-  OUT VOID     **OutSectionData,
-  OUT UINT64   *OutSectionDataSize
-  )
-{
-  EFI_PEI_HOB_POINTERS        Hob;
-  EFI_FIRMWARE_VOLUME_HEADER  *FwVolHeader;
-  EFI_FFS_FILE_HEADER         *FileHeader;
-  EFI_STATUS                  Status;
-  VOID                        *SectionData;
-  BOOLEAN                     Found;
-  UINTN                       FileSize;
-
-  Found = FALSE;
-
-  Hob.Raw = GetHobList ();
-  if (Hob.Raw == NULL) {
-    return EFI_NOT_FOUND;
-  }
-
-  do {
-    Hob.Raw = GetNextHob (EFI_HOB_TYPE_FV, Hob.Raw);
-
-    if (Hob.Raw != NULL) {
-      FwVolHeader = (EFI_FIRMWARE_VOLUME_HEADER *)(UINTN)(Hob.FirmwareVolume->BaseAddress);
-
-      FileHeader = NULL;
-      Status     = FfsFindNextFile (EFI_FV_FILETYPE_MM_STANDALONE, FwVolHeader, &FileHeader);
-
-      while (!EFI_ERROR (Status)) {
-        DEBUG ((DEBUG_INFO, "Found EFI Application: %g\n", &FileHeader->Name));
-
-        if (CompareGuid (&FileHeader->Name, TargetGuid)) {
-          DEBUG ((DEBUG_INFO, "Found EFI Application with matching GUID.\n"));
-          Found  = TRUE;
-          Status = EFI_SUCCESS;
-          break;
-        }
-
-        Status = FfsFindNextFile (EFI_FV_FILETYPE_MM_STANDALONE, FwVolHeader, &FileHeader);
-      }
-
-      Hob.Raw = GetNextHob (EFI_HOB_TYPE_FV, GET_NEXT_HOB (Hob));
-    }
-  } while (Hob.Raw != NULL);
-
-  if (!Found && !EFI_ERROR (Status)) {
-    Status = EFI_NOT_FOUND;
-  }
-
-  if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "Failed to find file by GUID: %r\n", Status));
-    return Status;
-  }
-
-  UINTN SectionDataSize = 0;
-  Status = FfsFindSectionData (EFI_SECTION_PE32, FileHeader, &SectionData, &SectionDataSize);
-  if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "Failed to find section with known GUID: %r\n", Status));
-    return Status;
-  }
-
-  FileSize = 0;
-  CopyMem (&FileSize, FileHeader->Size, sizeof (FileHeader->Size));
-
-  *OutSectionDataSize = FileSize - sizeof (EFI_FFS_FILE_HEADER);;
-  *OutSectionData = SectionData;
-
-  return EFI_SUCCESS;
-}
-*/
 
 /**
  * Entry point for the DXE (Driver Execution Environment) phase.
@@ -208,38 +133,38 @@ MmEntry (
   IN EFI_MM_SYSTEM_TABLE  *MmSystemTable
   )
 {
-  EFI_STATUS   Status;
-  // VOID         *SectionData;
-  // UINTN        SectionSize;
-  UINT32  ReturnedMajor;
-  UINT16  ReturnedMinor;
-  UINT16  ReturnedRevision;
-  SHARED_CRYPTO_MM_CONSTRUCTOR_PROTOCOL *ConstructorProtocol;
+  EFI_STATUS                             Status;
+  UINT32                                 ReturnedMajor;
+  UINT16                                 ReturnedMinor;
+  UINT16                                 ReturnedRevision;
+  SHARED_CRYPTO_MM_CONSTRUCTOR_PROTOCOL  *ConstructorProtocol;
+  EFI_HANDLE                             ProtocolHandle = NULL;
 
   DEBUG ((DEBUG_INFO, "SharedCryptoLoaderMm: Entry point called.\n"));
 
   //
   // Locate the private protocol that provides the constructor
   //
-  Status = gMmst->MmLocateProtocol (
-    &gSharedCryptoPrivateProtocolGuid,
-    NULL,
-    (VOID **)&ConstructorProtocol
-  );
+  Status = MmSystemTable->MmLocateProtocol (
+                            &gSharedCryptoPrivateProtocolGuid,
+                            NULL,
+                            (VOID **)&ConstructorProtocol
+                            );
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to locate SharedCrypto private protocol: %r\n", Status));
     goto Exit;
   }
-  
+
   if (ConstructorProtocol->Signature != SHARED_CRYPTO_MM_CONSTRUCTOR_PROTOCOL_SIGNATURE) {
     DEBUG ((DEBUG_ERROR, "SharedCrypto private protocol signature is invalid: %x\n", ConstructorProtocol->Signature));
     return EFI_UNSUPPORTED;
   }
+
   DEBUG ((DEBUG_INFO, "SharedCrypto private protocol found: %g\n", &gSharedCryptoPrivateProtocolGuid));
-  
+
   //
   // Ensure that the constructor function is not NULL
-  // 
+  //
   ASSERT (ConstructorProtocol->Constructor != NULL);
 
   //
@@ -267,45 +192,53 @@ MmEntry (
     InstallSharedDependencies (mSharedDepends);
   }
 
+  Status = MmSystemTable->MmAllocatePool (
+                            EfiRuntimeServicesData,
+                            sizeof (SHARED_CRYPTO_PROTOCOL),
+                            (VOID **)&ProtocolInstance
+                            );
+
+  if (EFI_ERROR (Status) || (ProtocolInstance == NULL)) {
+    DEBUG ((DEBUG_ERROR, "SharedCryptoBin: Failed to allocate memory for shared crypto protocol: %r\n", Status));
+    return EFI_OUT_OF_RESOURCES;
+  }
+
   //
   // Provide the requested version to the constructor
   //
-  mSharedCryptoProtocol.GetVersion = GetVersion;
+  ProtocolInstance->GetVersion = GetVersion;
 
   //
   // Call library constructor to generate the protocol
   //
-  Status = ConstructorProtocol->Constructor(mSharedDepends, &mSharedCryptoProtocol);
+  Status = ConstructorProtocol->Constructor (mSharedDepends, ProtocolInstance);
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to call LibConstructor: %r\n", Status));
     goto Exit;
   }
 
-  UNPACK_VERSION (mSharedCryptoProtocol.GetVersion (), ReturnedMajor, ReturnedMinor, ReturnedRevision);
+  DEBUG ((DEBUG_INFO, "SharedCrypto Protocol Constructor called successfully.\n"));
+
+  UNPACK_VERSION (ProtocolInstance->GetVersion (), ReturnedMajor, ReturnedMinor, ReturnedRevision);
   DEBUG ((DEBUG_INFO, "SharedCrypto Protocol Version: %d.%d.%d\n", ReturnedMajor, ReturnedMinor, ReturnedRevision));
 
-  /*
-  Status = gMmst->MmInstallProtocolInterface (
-    &ImageHandle,
-    &gSharedCryptoMmProtocolGuid,
-    EFI_NATIVE_INTERFACE,
-    (VOID *)&mSharedCryptoProtocol
-  );
+  DEBUG ((DEBUG_INFO, "Installing SharedCrypto Protocol...\n"));
+  Status = MmSystemTable->MmInstallProtocolInterface (
+                            &ProtocolHandle,
+                            &gSharedCryptoMmProtocolGuid,
+                            EFI_NATIVE_INTERFACE,
+                            ProtocolInstance
+                            );
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to install protocol: %r\n", Status));
     goto Exit;
-  }*/
+  }
 
   DEBUG ((DEBUG_INFO, "SharedCrypto Protocol installed successfully.\n"));
 
   Status = EFI_SUCCESS;
 
 Exit:
-
-  //
-  // In the standalone MM environment, section data is pointing at a FFS file
-  // therefore it is not allocated by the MM services, so we do not free it.
-  //
 
   //
   // The driver dependencies may be freed regardless of the status
