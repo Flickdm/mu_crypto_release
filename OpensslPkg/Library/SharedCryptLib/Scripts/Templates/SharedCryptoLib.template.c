@@ -11,7 +11,7 @@
 #include <Base.h>
 #include <Library/BaseLib.h>
 #include <Library/DebugLib.h>
-#include <Library/BaseCryptLib.h>
+#include <Library/SharedCryptoLib.h>
 #include <Library/TlsLib.h>
 #include <Protocol/SharedCryptoProtocol.h>
 

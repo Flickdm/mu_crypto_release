@@ -6,11 +6,11 @@
 
 **/
 
-#ifndef __EDKII_CRYPTO_PROTOCOL_H__
-#define __EDKII_CRYPTO_PROTOCOL_H__
+#ifndef SHARED_CRYPTO_PROTOCOL_H__
+#define SHARED_CRYPTO_PROTOCOL_H__
 
 #include <Base.h>
-#include <Library/BaseCryptLib.h>
+#include <Library/SharedCryptoLib.h>
 #include <Library/PcdLib.h>
 
 ///
