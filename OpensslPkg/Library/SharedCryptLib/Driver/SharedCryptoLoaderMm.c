@@ -39,16 +39,7 @@ SHARED_DEPENDENCIES  *mSharedDepends = NULL;
 //
 // Crypto protocol for the shared library
 //
-SHARED_CRYPTO_PROTOCOL  *ProtocolInstance = NULL;
-
-UINT64
-EFIAPI
-GetVersion (
-  VOID
-  )
-{
-  return PACK_VERSION (VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION);
-}
+SHARED_CRYPTO_PROTOCOL  *SharedCryptoProtocol = NULL;
 
 /**
  * @brief Asserts that the given EFI_STATUS is not an error.
@@ -134,9 +125,6 @@ MmEntry (
   )
 {
   EFI_STATUS                             Status;
-  UINT32                                 ReturnedMajor;
-  UINT16                                 ReturnedMinor;
-  UINT16                                 ReturnedRevision;
   SHARED_CRYPTO_MM_CONSTRUCTOR_PROTOCOL  *ConstructorProtocol;
   EFI_HANDLE                             ProtocolHandle = NULL;
 
@@ -195,10 +183,10 @@ MmEntry (
   Status = MmSystemTable->MmAllocatePool (
                             EfiRuntimeServicesData,
                             sizeof (SHARED_CRYPTO_PROTOCOL),
-                            (VOID **)&ProtocolInstance
+                            (VOID **)&SharedCryptoProtocol
                             );
 
-  if (EFI_ERROR (Status) || (ProtocolInstance == NULL)) {
+  if (EFI_ERROR (Status) || (SharedCryptoProtocol == NULL)) {
     DEBUG ((DEBUG_ERROR, "SharedCryptoBin: Failed to allocate memory for shared crypto protocol: %r\n", Status));
     return EFI_OUT_OF_RESOURCES;
   }
@@ -206,33 +194,48 @@ MmEntry (
   //
   // Provide the requested version to the constructor
   //
-  ProtocolInstance->GetVersion = GetVersion;
+  SharedCryptoProtocol->Major    = VERSION_MAJOR;
+  SharedCryptoProtocol->Minor    = VERSION_MINOR;
+  SharedCryptoProtocol->Revision = VERSION_REVISION;
+
 
   //
   // Call library constructor to generate the protocol
   //
-  Status = ConstructorProtocol->Constructor (mSharedDepends, ProtocolInstance);
+  Status = ConstructorProtocol->Constructor (mSharedDepends, SharedCryptoProtocol);
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to call LibConstructor: %r\n", Status));
     goto Exit;
   }
 
   DEBUG ((DEBUG_INFO, "SharedCrypto Protocol Constructor called successfully.\n"));
+  DEBUG ((DEBUG_INFO, "SharedCrypto Protocol Version: %d.%d.%d\n", SharedCryptoProtocol->Major, SharedCryptoProtocol->Minor, SharedCryptoProtocol->Revision));
 
-  UNPACK_VERSION (ProtocolInstance->GetVersion (), ReturnedMajor, ReturnedMinor, ReturnedRevision);
-  DEBUG ((DEBUG_INFO, "SharedCrypto Protocol Version: %d.%d.%d\n", ReturnedMajor, ReturnedMinor, ReturnedRevision));
+  //
+  // Validate the protocol structure before installing it
+  //
+  /*
+  Status = ValidateSharedCryptoProtocol (SharedCryptoProtocol);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "SharedCrypto Protocol validation failed: %r\n", Status));
+    DUMP_HEX (DEBUG_ERROR, 0, SharedCryptoProtocol, sizeof (SHARED_CRYPTO_PROTOCOL), "CORRUPTED PROTOCOL DUMP");
+    goto Exit;
+  }*/
 
   DEBUG ((DEBUG_INFO, "Installing SharedCrypto Protocol...\n"));
   Status = MmSystemTable->MmInstallProtocolInterface (
                             &ProtocolHandle,
                             &gSharedCryptoMmProtocolGuid,
                             EFI_NATIVE_INTERFACE,
-                            ProtocolInstance
+                            SharedCryptoProtocol
                             );
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to install protocol: %r\n", Status));
     goto Exit;
   }
+
+  DUMP_HEX (DEBUG_INFO, 0, SharedCryptoProtocol, sizeof (SHARED_CRYPTO_PROTOCOL), "");
+  
 
   DEBUG ((DEBUG_INFO, "SharedCrypto Protocol installed successfully.\n"));
 

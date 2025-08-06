@@ -20,13 +20,9 @@
 
 [Sources]
   SharedCryptoLoaderMm.c
-  #PrePiHobLibStub.c
   SharedLoaderShim.h
-  SharedLoaderShim.c
-  PeCoffLib.h
-  PeCoffLib.c
-  MemoryProtections.h
-  MemoryProtections.c
+  #SharedLoaderShim.c
+
 
 [Packages]
   MdePkg/MdePkg.dec
@@ -50,9 +46,10 @@
 
 [Protocols]
   ## TODO Add protocols here
-  gEfiMemoryAttributeProtocolGuid     ## CONSUMES
+  # gEfiMemoryAttributeProtocolGuid     ## CONSUMES
   gSharedCryptoMmProtocolGuid         ## PRODUCES
   gSharedCryptoPrivateProtocolGuid    ## CONSUMES
 
 [Depex]
-  gSharedCryptoPrivateProtocolGuid
+  gSharedCryptoPrivateProtocolGuid 
+  # AND gEfiMemoryAttributeProtocolGuid

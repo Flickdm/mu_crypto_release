@@ -37,16 +37,7 @@ SHARED_DEPENDENCIES  *mSharedDepends = NULL;
 //
 // Crypto protocol for the shared library
 //
-SHARED_CRYPTO_PROTOCOL mSharedCryptoProtocol;
-
-UINT64
-EFIAPI
-GetVersion (
-  VOID
-  )
-{
-  return PACK_VERSION (VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION);
-}
+SHARED_CRYPTO_PROTOCOL  mSharedCryptoProtocol;
 
 /**
  * @brief Asserts that the given EFI_STATUS is not an error.
@@ -199,7 +190,9 @@ DxeEntryPoint (
   //
   // Provide the requested version to the constructor
   //
-  mSharedCryptoProtocol.GetVersion = GetVersion;
+  mSharedCryptoProtocol.Major    = VERSION_MAJOR;
+  mSharedCryptoProtocol.Minor    = VERSION_MINOR;
+  mSharedCryptoProtocol.Revision = VERSION_REVISION;
 
   //
   // Call library constructor to generate the protocol
@@ -211,11 +204,11 @@ DxeEntryPoint (
   }
 
   Status = SystemTable->BootServices->InstallMultipleProtocolInterfaces (
-              &ImageHandle,
-              &gSharedCryptoDxeProtocolGuid,
-              (SHARED_CRYPTO_PROTOCOL *)&mSharedCryptoProtocol,
-              NULL
-              );
+                                        &ImageHandle,
+                                        &gSharedCryptoDxeProtocolGuid,
+                                        (SHARED_CRYPTO_PROTOCOL *)&mSharedCryptoProtocol,
+                                        NULL
+                                        );
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to install protocol: %r\n", Status));
     goto Exit;

@@ -8,8 +8,8 @@
 
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = SharedCryptoDxe
-  FILE_GUID                      = FBF68669-8C12-43CA-B2A6-66C8C5CEFDA0
+  BASE_NAME                      = SharedCryptoDxeLoader
+  FILE_GUID                      = 4F25834D-11D0-4A8F-9860-72B303B9F242
   MODULE_TYPE                    = DXE_DRIVER
   VERSION_STRING                 = 1.0
   ENTRY_POINT                    = DxeEntryPoint
