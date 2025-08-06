@@ -3,19 +3,36 @@
 #include <Private/SharedCryptoLibrary.h>
 #include <CrtLibSupport.h>
 #include <Uefi.h>
+#include <openssl/opensslv.h>
+#include <openssl/crypto.h>
 
 /**
-  Retrieves the version of the shared crypto protocol.
-
-  @return  The version of the shared crypto protocol.
+  Gets the OpenSSL version information.
+  
+  @return  Pointer to OpenSSL version string.
 **/
-UINT64
+CONST CHAR8 *
 EFIAPI
-GetVersion (
+GetOpenSslVersionText (
   VOID
   )
 {
-  return PACK_VERSION (VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION);
+  // Return the compile-time version string
+  return OPENSSL_VERSION_TEXT;
+}
+
+/**
+  Gets the OpenSSL version number.
+  
+  @return  OpenSSL version number.
+**/
+UINTN
+EFIAPI
+GetOpenSslVersionNumber (
+  VOID
+  )
+{
+  return OPENSSL_VERSION_NUMBER;
 }
 
 /**
@@ -32,7 +49,9 @@ InitAvailableCrypto (
   //
   // Set the Crypto Version
   //
-  Crypto->GetVersion = GetVersion;
+  Crypto->Major    = VERSION_MAJOR;
+  Crypto->Minor    = VERSION_MINOR;
+  Crypto->Revision = VERSION_REVISION;
 
   //
   // Begin filling out the crypto protocol
@@ -115,36 +134,46 @@ InitAvailableCrypto (
   Crypto->Md5Duplicate      = NULL;
  #endif // ENABLE_MD5_DEPRECATED_INTERFACES
 
-  Crypto->Sha1GetContextSize   = Sha1GetContextSize;
-  Crypto->Sha1Init             = Sha1Init;
-  Crypto->Sha1Update           = Sha1Update;
-  Crypto->Sha1Final            = Sha1Final;
-  Crypto->Sha1Duplicate        = Sha1Duplicate;
-  Crypto->Sha1HashAll          = Sha1HashAll;
+  Crypto->Sha1GetContextSize = Sha1GetContextSize;
+  Crypto->Sha1Init           = Sha1Init;
+  Crypto->Sha1Update         = Sha1Update;
+  Crypto->Sha1Final          = Sha1Final;
+  Crypto->Sha1Duplicate      = Sha1Duplicate;
+  Crypto->Sha1HashAll        = Sha1HashAll;
+
   Crypto->Sha256GetContextSize = Sha256GetContextSize;
   Crypto->Sha256Init           = Sha256Init;
   Crypto->Sha256Update         = Sha256Update;
   Crypto->Sha256Final          = Sha256Final;
   Crypto->Sha256Duplicate      = Sha256Duplicate;
   Crypto->Sha256HashAll        = Sha256HashAll;
+
+  Crypto->Sha384GetContextSize = Sha384GetContextSize;
+  Crypto->Sha384Init           = Sha384Init;
+  Crypto->Sha384Update         = Sha384Update;
+  Crypto->Sha384Final          = Sha384Final;
+  Crypto->Sha384Duplicate      = Sha384Duplicate;
+  Crypto->Sha384HashAll        = Sha384HashAll;
+
   Crypto->Sha512GetContextSize = Sha512GetContextSize;
   Crypto->Sha512Init           = Sha512Init;
   Crypto->Sha512Update         = Sha512Update;
   Crypto->Sha512Final          = Sha512Final;
   Crypto->Sha512Duplicate      = Sha512Duplicate;
   Crypto->Sha512HashAll        = Sha512HashAll;
-  
-  /*DISABLED*/
-  /*
-  Crypto->Sm3GetContextSize    = Sm3GetContextSize;
-  Crypto->Sm3Init              = Sm3Init;
-  Crypto->Sm3Update            = Sm3Update;
-  Crypto->Sm3Final             = Sm3Final;
-  Crypto->Sm3Duplicate         = Sm3Duplicate;
-  Crypto->Sm3HashAll           = Sm3HashAll;
-  */
+
+  //
+  // Set SM3 functions to NULL since they are disabled
+  //
+  Crypto->Sm3GetContextSize = NULL;
+  Crypto->Sm3Init           = NULL;
+  Crypto->Sm3Update         = NULL;
+  Crypto->Sm3Final          = NULL;
+  Crypto->Sm3Duplicate      = NULL;
+  Crypto->Sm3HashAll        = NULL;
+
   // ========================================================================================================
-  // HMAC based Key Derivation Functions
+  // Selection code documentation
   // ========================================================================================================
   Crypto->HkdfSha256Expand           = HkdfSha256Expand;
   Crypto->HkdfSha256Extract          = HkdfSha256Extract;
@@ -156,18 +185,24 @@ InitAvailableCrypto (
   // ========================================================================================================
   // PK
   // ========================================================================================================
-  Crypto->AuthenticodeVerify  = AuthenticodeVerify;
-  Crypto->DhNew               = DhNew;
-  Crypto->DhFree              = DhFree;
-  Crypto->DhGenerateParameter = DhGenerateParameter;
-  Crypto->DhSetParameter      = DhSetParameter;
-  Crypto->DhGenerateKey       = DhGenerateKey;
-  Crypto->DhComputeKey        = DhComputeKey;
-  Crypto->Pkcs5HashPassword   = Pkcs5HashPassword;
-  Crypto->Pkcs1v2Encrypt      = Pkcs1v2Encrypt;
-  Crypto->Pkcs1v2Decrypt      = Pkcs1v2Decrypt;
-  Crypto->RsaOaepEncrypt      = RsaOaepEncrypt;
-  Crypto->RsaOaepDecrypt      = RsaOaepDecrypt;
+  Crypto->AuthenticodeVerify         = AuthenticodeVerify;
+  Crypto->DhNew                      = DhNew;
+  Crypto->DhFree                     = DhFree;
+  Crypto->DhGenerateParameter        = DhGenerateParameter;
+  Crypto->DhSetParameter             = DhSetParameter;
+  Crypto->DhGenerateKey              = DhGenerateKey;
+  Crypto->DhComputeKey               = DhComputeKey;
+  Crypto->Pkcs5HashPassword          = Pkcs5HashPassword;
+  Crypto->Pkcs1v2Encrypt             = Pkcs1v2Encrypt;
+  Crypto->Pkcs1v2Decrypt             = Pkcs1v2Decrypt;
+  Crypto->RsaOaepEncrypt             = RsaOaepEncrypt;
+  Crypto->RsaOaepDecrypt             = RsaOaepDecrypt;
+  Crypto->Pkcs7GetSigners            = Pkcs7GetSigners;
+  Crypto->Pkcs7FreeSigners           = Pkcs7FreeSigners;
+  Crypto->Pkcs7GetCertificatesList   = Pkcs7GetCertificatesList;
+  Crypto->Pkcs7Verify                = Pkcs7Verify;
+  Crypto->VerifyEKUsInPkcs7Signature = VerifyEKUsInPkcs7Signature;
+  Crypto->Pkcs7GetAttachedContent    = Pkcs7GetAttachedContent;
 
   // ========================================================================================================
   // Basic Elliptic Curve Primitives
@@ -296,6 +331,11 @@ InitAvailableCrypto (
   Crypto->TlsGetCertRevocationList   = TlsGetCertRevocationList;
   Crypto->TlsGetExportKey            = TlsGetExportKey;
 
+  //
+  // Missing Timestamp function
+  //
+  Crypto->ImageTimestampVerify = NULL; // TODO: Implement or set to actual function if available
+
   return;
 }
 
@@ -317,10 +357,10 @@ CryptoInit (
   SHARED_CRYPTO_PROTOCOL  *Crypto
   )
 {
-  SHARED_CRYPTO_PROTOCOL LocalCrypto;
-  UINT32  RequestedMajor;
-  UINT16  RequestedMinor;
-  UINT16  RequestedRevision;
+  SHARED_CRYPTO_PROTOCOL  LocalCrypto;
+  UINT32                  RequestedMajor;
+  UINT32                  RequestedMinor;
+  UINT32                  RequestedRevision;
 
   if (Crypto == NULL) {
     DEBUG ((DEBUG_ERROR, "CryptoInit: Crypto is NULL\n"));
@@ -334,7 +374,9 @@ CryptoInit (
   //
   // CRASHPOINT
   //
-  UNPACK_VERSION (Crypto->GetVersion (), RequestedMajor, RequestedMinor, RequestedRevision);
+  RequestedMajor    = Crypto->Major;
+  RequestedMinor    = Crypto->Minor;
+  RequestedRevision = Crypto->Revision;
 
   //
   // If the Major version is different, then the caller is expecting a different version of the protocol.
@@ -350,7 +392,9 @@ CryptoInit (
     ASSERT (RequestedMajor == VERSION_MAJOR && RequestedMinor <= VERSION_MINOR);
     return;
   }
+
   DEBUG ((DEBUG_ERROR, "Version accepted: (%d.%d.%d)\n", RequestedMajor, RequestedMinor, RequestedRevision));
+  DEBUG ((DEBUG_INFO, "OpenSSL Version: %a (0x%lx)\n", GetOpenSslVersionText(), (UINT64)GetOpenSslVersionNumber()));
 
   //
   // TODO Add logic to support backward compatibility with older versions of the protocol.
@@ -358,11 +402,11 @@ CryptoInit (
   //
 
   // Initialize the local instance with available crypto functions
-  InitAvailableCrypto(&LocalCrypto);
+  InitAvailableCrypto (&LocalCrypto);
 
   // Copy back the initialized local instance to the provided Crypto structure
-  //TODO
-  CopyMem(Crypto, &LocalCrypto, sizeof(SHARED_CRYPTO_PROTOCOL));
+  // TODO
+  CopyMem (Crypto, &LocalCrypto, sizeof (SHARED_CRYPTO_PROTOCOL));
 
   return;
 }
