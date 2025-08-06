@@ -23,28 +23,6 @@
 #define VERSION_MINOR     0ULL
 #define VERSION_REVISION  0ULL
 
-/**
-  @defgroup Info Information Functions
-  @brief Functions related to retrieving information.
-
-  @{
-**/
-
-/**
-  Retrieves the version of the shared crypto protocol.
-
-  @return  The version of the shared crypto protocol.
-
-  @since 1.0.0
-  @ingroup Info
-**/
-UINT64
-EFIAPI
-GetVersion (
-  VOID
-  );
-
-/** @} */ // end of Info group
 
 /**
   @defgroup HMAC hash-based message authentication

@@ -65,24 +65,6 @@
 ///
 #define AES_BLOCK_SIZE  16
 
-//
-// Pack the version number into a single UINT64
-//
-#define PACK_VERSION(Major, Minor, Revision) \
-  (((UINT64)(Major) << 32) | ((UINT64)(Minor) << 16) | (UINT64)(Revision))
-
-//
-// Unpack the version number from a single UINT64
-//
-#define UNPACK_VERSION(Version, Major, Minor, Revision) \
-  do { \
-    Major = (UINT32)((Version) >> 32); \
-    Minor = (UINT32)(((Version) >> 16) & 0xFFFF); \
-    Revision = (UINT32)((Version) & 0xFFFF); \
-  } while (0)
-
-
-
 ///
 /// RSA Key Tags Definition used in RsaSetKey() function for key component identification.
 ///

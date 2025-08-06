@@ -46,16 +46,16 @@ INCLUDE_HEADERS = [
 
 BASECRYPT_PARENT_DIR = os.path.join(LIBRARY_PATH, "BaseCryptLibOnProtocolPpi")
 BASECRYPT_SOURCE_FILES = [
-    "CryptLib.c",
+    "SharedCryptoLib.c",
 ]
 
 
 # Default group for functions that don't have a group specified
 # TODO Ideally this would have a different name like "Shared"
-DEFAULT_GROUP = "BaseCrypt"
+DEFAULT_GROUP = "SharedCrypto"
 LIBRARY_GROUPS = [
     "Tls",
-    "HMAC",
+    "Hmac",
 ]  # Any function that doesn't fit into the groups above will be added to one large group
 
 
@@ -395,6 +395,10 @@ def create_protocol_structure(functions: dict, indent=" " * 2) -> str:
     structure += f"{indent}// Revision - Some non breaking change\n"
     structure += f"{indent}//\n"
     structure += create_divider(indent=indent, divider="-", length=80)
+    structure += f"{indent}UINT16 Major;\n"
+    structure += f"{indent}UINT16 Minor;\n"
+    structure += f"{indent}UINT16 Revision;\n"
+    structure += f"{indent}UINT16 Reserved;\n\n"
 
     for version in sorted_versions:
         group = None
@@ -514,7 +518,9 @@ def generate_library_headers(function_info: FunctionInfo):
     # Generate the library files
     #
     for group in grouped_functions:
-        basename = f"{group}ApiLib.h"
+        basename = f"{group}Lib.h"
+        if DEFAULT_GROUP in group:
+            basename = "SharedCryptoLib.h"
 
         if not os.path.exists(LIBRARY_INCLUDE_PATH):
             os.makedirs(LIBRARY_INCLUDE_PATH)
