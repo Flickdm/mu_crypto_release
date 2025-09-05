@@ -331,10 +331,11 @@ InitAvailableCrypto (
   Crypto->TlsGetCertRevocationList   = TlsGetCertRevocationList;
   Crypto->TlsGetExportKey            = TlsGetExportKey;
 
-  //
-  // Missing Timestamp function
-  //
-  Crypto->ImageTimestampVerify = NULL; // TODO: Implement or set to actual function if available
+  // ========================================================================================================
+  // Timestamp Primitives
+  // ========================================================================================================
+
+  Crypto->ImageTimestampVerify = ImageTimestampVerify;
 
   return;
 }
