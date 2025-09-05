@@ -38,6 +38,33 @@ AllocatePool (
 }
 
 /**
+  Allocates and zeros a buffer of a specified size from the pool.
+
+  This function allocates a buffer of size AllocationSize from the pool and then
+  zeros the entire allocated buffer. If the allocation fails, the function returns NULL.
+
+  @param[in]  AllocationSize  The number of bytes to allocate and zero.
+
+  @retval  NULL    If the allocation fails, or if AllocationSize is 0.
+  @retval  Others  A pointer to the allocated and zeroed buffer.
+**/
+VOID *
+EFIAPI
+AllocateZeroPool (
+  IN UINTN  AllocationSize
+  )
+{
+  VOID  *Buffer;
+
+  Buffer = AllocatePool (AllocationSize);
+  if (Buffer != NULL) {
+    ZeroMem (Buffer, AllocationSize);
+  }
+
+  return Buffer;
+}
+
+/**
   Frees a pool of memory.
 
   This function checks if the global shared dependencies and its FreePool function

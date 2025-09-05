@@ -14,6 +14,12 @@ AllocatePool (
   IN UINTN  AllocationSize
   );
 
+VOID *
+EFIAPI
+AllocateZeroPool (
+  IN UINTN  AllocationSize
+  );
+
 VOID
 EFIAPI
 FreePool (
@@ -32,5 +38,6 @@ EFIAPI
 GetRandomNumber64 (
   OUT UINT64  *Rand
   );
+
 
 #endif // SHARED_CRT_LIB_H
