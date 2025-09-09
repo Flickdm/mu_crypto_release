@@ -21,7 +21,6 @@
 [Sources]
   SharedCryptoLoaderMm.c
   SharedLoaderShim.h
-  #SharedLoaderShim.c
 
 
 [Packages]

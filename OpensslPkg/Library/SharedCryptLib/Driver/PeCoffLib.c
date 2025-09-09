@@ -205,67 +205,6 @@ FindExportedFunction (
 }
 
 /**
-  Get the range of memory that should be executable from the binary.
-  This function retrieves the range of memory (code section) that should be executable from the binary.
-  @param[in]  Image                     A pointer to the internal image context
-  @param[out] CodeBase                  A pointer to the base address of the code section.
-  @param[out] CodeSize                  A pointer to the size of the code section.
-  @retval EFI_SUCCESS                   The code section range is found.
-  @retval EFI_INVALID_PARAMETER         A parameter is invalid.
-  @retval EFI_UNSUPPORTED               The image is not a valid PE/COFF image.
-**/
-EFI_STATUS
-GetExecutableMemoryRange (
-  IN  INTERNAL_IMAGE_CONTEXT  *Image,
-  OUT PHYSICAL_ADDRESS        **CodeBase,
-  OUT UINT32                  *CodeSize
-  )
-{
-  UINT16                               Magic;
-  EFI_IMAGE_OPTIONAL_HEADER_PTR_UNION  OptionalHeaderPtrUnion;
-
-  if ((Image == NULL) || (CodeBase == NULL) || (CodeSize == NULL)) {
-    return EFI_INVALID_PARAMETER;
-  }
-
-  //
-  // Determine the magic value based on the machine type
-  //
-  switch (Image->Context.Machine) {
-    case EFI_IMAGE_MACHINE_IA32:
-      Magic = EFI_IMAGE_NT_OPTIONAL_HDR32_MAGIC;
-      break;
-    case EFI_IMAGE_MACHINE_X64:
-    case EFI_IMAGE_MACHINE_AARCH64:
-      Magic = EFI_IMAGE_NT_OPTIONAL_HDR64_MAGIC;
-      break;
-    default:
-      return EFI_UNSUPPORTED;
-  }
-
-  OptionalHeaderPtrUnion.Pe32 = (EFI_IMAGE_NT_HEADERS32 *)((UINTN)Image->Context.ImageAddress + Image->Context.PeCoffHeaderOffset);
-
-  //
-  // Check the PE/COFF Header Signature
-  //
-  if (OptionalHeaderPtrUnion.Pe32->Signature != EFI_IMAGE_NT_SIGNATURE) {
-    return EFI_UNSUPPORTED;
-  }
-
-  if (Magic == EFI_IMAGE_NT_OPTIONAL_HDR32_MAGIC) {
-    *CodeBase = (VOID *)((UINTN)Image->Context.ImageAddress + OptionalHeaderPtrUnion.Pe32->OptionalHeader.BaseOfCode);
-    *CodeSize = OptionalHeaderPtrUnion.Pe32->OptionalHeader.SizeOfCode;
-  } else if (OptionalHeaderPtrUnion.Pe32->OptionalHeader.Magic == EFI_IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
-    *CodeBase = (VOID *)((UINTN)Image->Context.ImageAddress + OptionalHeaderPtrUnion.Pe32Plus->OptionalHeader.BaseOfCode);
-    *CodeSize = OptionalHeaderPtrUnion.Pe32Plus->OptionalHeader.SizeOfCode;
-  } else {
-    return EFI_UNSUPPORTED;
-  }
-
-  return EFI_SUCCESS;
-}
-
-/**
   Get the start address and size of a given section in a PE/COFF image.
   This function retrieves the start address and size of a given section in a PE/COFF image.
   @param[in]  Image            A pointer to the internal image context
@@ -312,35 +251,6 @@ GetSectionByName (
   }
 
   return EFI_NOT_FOUND;
-}
-
-/**
-  Convert section base and size to page start and page size.
-  This function converts the section base and size to page start and page size.
-  @param[in]  SectionBase      The base address of the section.
-  @param[in]  SectionSize      The size of the section.
-  @param[out] PageStart        The start address of the page.
-  @param[out] PageSize         The size of the page.
-  @retval EFI_SUCCESS           The conversion is successful.
-  @retval EFI_INVALID_PARAMETER A parameter is invalid.
-**/
-EFI_STATUS
-ConvertSectionToPage (
-  IN  PHYSICAL_ADDRESS  SectionBase,
-  IN  UINT32            SectionSize,
-  OUT PHYSICAL_ADDRESS  *PageStart,
-  OUT UINT32            *PageSize
-  )
-{
-  if ((SectionBase == (PHYSICAL_ADDRESS)NULL) || (PageStart == (PHYSICAL_ADDRESS)NULL) || (PageSize == NULL)) {
-    return EFI_INVALID_PARAMETER;
-  }
-
-  *PageStart = SectionBase & ~(EFI_PAGE_SIZE - 1);
-  //TODO This is unsafe
-  *PageSize  = (UINT32)((((UINT64)SectionBase + (UINT64)SectionSize + EFI_PAGE_SIZE - 1) & ~(EFI_PAGE_SIZE - 1)) - (UINT64)*PageStart);
-
-  return EFI_SUCCESS;
 }
 
 

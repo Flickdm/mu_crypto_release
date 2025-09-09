@@ -22,11 +22,8 @@
 [Sources]
   SharedCryptoLoaderDxe.c
   SharedLoaderShim.h
-  SharedLoaderShim.c
   PeCoffLib.h
   PeCoffLib.c
-  MemoryProtections.h
-  MemoryProtections.c
 
 [Packages]
   MdePkg/MdePkg.dec

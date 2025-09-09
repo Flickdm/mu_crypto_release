@@ -18,10 +18,12 @@
 #include <Library/DxeServicesLib.h>
 #include <Library/DebugLib.h>
 #include <Library/RngLib.h>
+#include <Library/PeCoffGetEntryPointLib.h>
 
 #include <Library/SharedCryptoDependencySupport.h>
 #include <Protocol/SharedCryptoProtocol.h>
 #include "SharedLoaderShim.h"
+#include "PeCoffLib.h"
 
 #define EFI_SECTION_PE32  0x10
 
@@ -73,7 +75,7 @@ InstallSharedDependencies (
   OUT SHARED_DEPENDENCIES  *SharedDepends
   )
 {
-  // TODO add a version number in case the dependencies grow
+
   SharedDepends->AllocatePool      = AllocatePool;
   SharedDepends->FreePool          = FreePool;
   SharedDepends->ASSERT            = AssertEfiError;
@@ -105,6 +107,111 @@ InstallDriverDependencies (
   gDriverDependencies->FreePool       = SystemTable.BootServices->FreePool;
 }
 
+
+/**
+ * @brief Entry point for the loader using a pre-loaded image.
+ *
+ * This function serves as an alternative entry point that works with an already loaded image.
+ * It uses the EFI_LOADED_IMAGE_PROTOCOL to get the image base and then locates the constructor
+ * function from the export directory.
+ *
+ * @param LoadedImage Pointer to the loaded image protocol containing the image base address.
+ * @param Constructor Output parameter that will contain the constructor function pointer.
+ * @return EFI_STATUS indicating the result of the operation.
+ */
+EFI_STATUS
+EFIAPI
+GetConstructorFromLoadedImage (
+  IN EFI_LOADED_IMAGE_PROTOCOL  *LoadedImage,
+  OUT CONSTRUCTOR               *Constructor
+  )
+{
+  EFI_STATUS                  Status;
+  UINT32                      RVA;
+  INTERNAL_IMAGE_CONTEXT      Image;
+  EFI_IMAGE_EXPORT_DIRECTORY  *Exports;
+
+  if ((LoadedImage == NULL) || (Constructor == NULL)) {
+    return EFI_INVALID_PARAMETER;
+  }
+
+  if (LoadedImage->ImageBase == NULL) {
+    DEBUG ((DEBUG_ERROR, "LoadedImage->ImageBase is NULL\n"));
+    return EFI_INVALID_PARAMETER;
+  }
+
+  ZeroMem (&Image, sizeof (Image));
+
+  //
+  // Set up the image context using the loaded image's base address
+  // We don't need to load or relocate since the image is already loaded by UEFI
+  //
+  Image.Context.ImageAddress = (EFI_PHYSICAL_ADDRESS)(UINTN)LoadedImage->ImageBase;
+  Image.Context.ImageSize    = (UINT64)LoadedImage->ImageSize;
+  Image.Context.Handle       = LoadedImage->ImageBase;
+  Image.Context.ImageRead    = PeCoffLoaderImageReadFromMemory;
+
+  //
+  // Get image info to validate it's a proper PE/COFF image
+  //
+  Status = PeCoffLoaderGetImageInfo (&Image.Context);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Failed to get image info from loaded image: %r\n", Status));
+    return Status;
+  }
+
+  //
+  // Confirm that the image is an EFI driver (really should be a MM_STANDLONE_DRIVER)
+  //
+  if (Image.Context.ImageType != EFI_IMAGE_SUBSYSTEM_EFI_BOOT_SERVICE_DRIVER) {
+    DEBUG ((DEBUG_ERROR, "Invalid image type: %d\n", Image.Context.ImageType));
+    return EFI_UNSUPPORTED;
+  }
+
+  //
+  // Grab the export directory from the loaded image
+  //
+  Status = GetExportDirectoryInPeCoffImage (&Image, &Exports);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Failed to get export directory from loaded image: %r\n", Status));
+    return Status;
+  }
+
+  DEBUG_CODE_BEGIN ();
+
+  //
+  // Print out the exported functions for debugging
+  //
+  PrintExportedFunctions (&Image, Exports);
+
+  DEBUG_CODE_END ();
+
+  //
+  // Find the constructor function
+  //
+  Status = FindExportedFunction (&Image, Exports, CONSTRUCTOR_NAME, &RVA);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Failed to find exported function '%a': %r\n", CONSTRUCTOR_NAME, Status));
+    return Status;
+  }
+
+  //
+  // Setup the Library constructor function
+  // Since the image is already loaded and relocated, we can directly use the RVA
+  //
+  *Constructor = (CONSTRUCTOR)((EFI_PHYSICAL_ADDRESS)LoadedImage->ImageBase + RVA);
+
+  DEBUG ((
+    DEBUG_INFO,
+    "Crypto Constructor found at address: %p (Base: %p + RVA: 0x%x)\n",
+    *Constructor,
+    LoadedImage->ImageBase,
+    RVA
+    ));
+
+  return EFI_SUCCESS;
+}
+
 /**
  * Entry point for the DXE (Driver Execution Environment) phase.
  *
@@ -125,10 +232,15 @@ DxeEntryPoint (
   IN EFI_SYSTEM_TABLE  *SystemTable
   )
 {
-  EFI_STATUS   Status;
-  VOID         *SectionData;
-  UINTN        SectionSize;
-  CONSTRUCTOR  Constructor;
+  EFI_STATUS                 Status;
+  VOID                       *SectionData;
+  UINTN                      SectionSize;
+  CONSTRUCTOR                Constructor;
+  EFI_LOADED_IMAGE_PROTOCOL  *LoadedImage;
+  EFI_HANDLE                 LoadedImageHandle;
+
+  LoadedImageHandle = NULL;
+  LoadedImage       = NULL;
 
   //
   // This must match the INF for SharedCryptoBin
@@ -177,13 +289,45 @@ DxeEntryPoint (
   }
 
   //
-  // Load the binary and get the entry point
-  // TODO: This should be able to be replaced if we rewrite the Uefi Loader
-  // and create a new entry point
+  // Load the PE32 image using LoadImage
   //
-  Status = LoaderEntryPoint (SectionData, SectionSize, &Constructor);
+  Status = SystemTable->BootServices->LoadImage (
+                                        FALSE,
+                                        ImageHandle,
+                                        NULL,
+                                        SectionData,
+                                        SectionSize,
+                                        &LoadedImageHandle
+                                        );
   if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "Failed to load shared library: %r\n", Status));
+    DEBUG ((DEBUG_ERROR, "Failed to load image: %r\n", Status));
+    goto Exit;
+  }
+
+  //
+  // Get the loaded image protocol to access the entry point
+  //
+  Status = SystemTable->BootServices->HandleProtocol (
+                                        LoadedImageHandle,
+                                        &gEfiLoadedImageProtocolGuid,
+                                        (VOID **)&LoadedImage
+                                        );
+
+  if (EFI_ERROR (Status) || (LoadedImage == NULL)) {
+    DEBUG ((
+      DEBUG_ERROR,
+      "Failed to get loaded image protocol: %r\n",
+      Status
+      ));
+    goto Exit;
+  }
+
+  //
+  // With the loaded image, we can locate the exported constructor function
+  //
+  Status = GetConstructorFromLoadedImage (LoadedImage, &Constructor);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Failed to get entry point from loaded image: %r\n", Status));
     goto Exit;
   }
 
