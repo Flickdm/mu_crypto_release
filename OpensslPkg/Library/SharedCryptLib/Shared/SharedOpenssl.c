@@ -201,6 +201,7 @@ InitAvailableCrypto (
   Crypto->Pkcs7FreeSigners           = Pkcs7FreeSigners;
   Crypto->Pkcs7GetCertificatesList   = Pkcs7GetCertificatesList;
   Crypto->Pkcs7Verify                = Pkcs7Verify;
+  Crypto->Pkcs7Sign                  = Pkcs7Sign;
   Crypto->VerifyEKUsInPkcs7Signature = VerifyEKUsInPkcs7Signature;
   Crypto->Pkcs7GetAttachedContent    = Pkcs7GetAttachedContent;
 
@@ -395,7 +396,7 @@ CryptoInit (
   }
 
   DEBUG ((DEBUG_ERROR, "Version accepted: (%d.%d.%d)\n", RequestedMajor, RequestedMinor, RequestedRevision));
-  DEBUG ((DEBUG_INFO, "OpenSSL Version: %a (0x%lx)\n", GetOpenSslVersionText(), (UINT64)GetOpenSslVersionNumber()));
+  DEBUG ((DEBUG_ERROR, "OpenSSL Version: %a (0x%lx)\n", GetOpenSslVersionText(), (UINT64)GetOpenSslVersionNumber()));
 
   //
   // TODO Add logic to support backward compatibility with older versions of the protocol.
