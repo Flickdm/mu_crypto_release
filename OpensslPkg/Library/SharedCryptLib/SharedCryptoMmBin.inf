@@ -47,8 +47,10 @@
   Shared/Syscall/BaseMemAllocation.c
   Shared/Syscall/TimerWrapper.c
   Shared/Math/DivS64x64Remainder.c
+
   # Big Number Crypto API
   Shared/BN/CryptBn.c
+
   # Cipher Crypto API
   Shared/Cipher/CryptAeadAesGcm.c
   Shared/Cipher/CryptAes.c
@@ -79,13 +81,12 @@
   Shared/Pk/CryptPkcs7VerifyBase.c
   Shared/Pk/CryptPkcs7VerifyCommon.c
   Shared/Pk/CryptPkcs7VerifyEku.c
-  Shared/Pk/CryptPkcs7VerifyEkuRuntime.c
-  Shared/Pk/CryptPkcs7VerifyRuntime.c
   Shared/Pk/CryptRsaBasic.c
   Shared/Pk/CryptRsaExt.c
   Shared/Pk/CryptRsaPss.c
   Shared/Pk/CryptRsaPssSign.c
   Shared/Pk/CryptX509.c
+  Shared/Pk/CryptTs.c
 
   # Random Crypto API
   Shared/Rand/CryptRand.h
