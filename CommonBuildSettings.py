@@ -13,6 +13,23 @@ from edk2toolext.invocables.edk2_setup import SetupSettingsManager, RequiredSubm
 from edk2toolext.invocables.edk2_update import UpdateSettingsManager
 from edk2toollib.utility_functions import RunCmd
 
+crypto_platforms = {
+    "CryptoBinPkg": {
+        "PRODUCT_NAME": "CryptoBin",
+        "ACTIVE_PLATFORM": "CryptoBinPkg/CryptoBinPkg.dsc",
+    },
+    "CryptoPkg": {
+        "PRODUCT_NAME": "SharedCrypto",
+        "ACTIVE_PLATFORM": "CryptoPkg/CryptoPkg.dsc",
+    }
+}
+
+def validate_platform_option(active_platform):
+    if active_platform not in crypto_platforms:
+        logging.error(f"Invalid platform option: {active_platform}. Must be one of {list(crypto_platforms.keys())}")
+        raise ValueError(f"Invalid platform option: {active_platform}. Must be one of {list(crypto_platforms.keys())}")
+
+    return active_platform
 
 # ####################################################################################### #
 #                                Common Configuration                                     #
@@ -21,13 +38,11 @@ class CommonPlatform():
     ''' Common settings for this platform.  Define static data here and use
         for the different parts of stuart
     '''
-    BaseName = "CryptoBin"
-    PackagesSupported = ("CryptoBinPkg",)
+    BaseName = "SharedCrypto"
+    PackagesSupported = ("CryptoBinPkg", "CryptoPkg")
     ArchSupported = ("IA32", "X64", "AARCH64")
     TargetsSupported = ("DEBUG", "RELEASE")
-    Scopes = ('cryptobin', 'edk2-build')
-    # TODO: Maybe load this from the supported flavors in MU_BASECORE\CryptoPkg\Driver\Packaging modules?
-    AvailableFlavors = ('ALL', 'TINY_SHA', 'MINIMAL_SHA_SM3', 'SMALL_SHA_RSA', 'STANDARD')
+    Scopes = ('sharedcrypto', 'edk2-build')
     WorkspaceRoot = os.path.dirname(os.path.abspath(__file__))
 
     def GetAllSubmodules():
@@ -66,7 +81,7 @@ class CommonPlatform():
                     raise ValueError("must be in set: {%s}" % valid_archs)
             return archs
         parserObj.add_argument("-a", "--arch", dest="arch", type=validate_arch,
-                               default=valid_archs,
+                               default='X64', # TODO why isn't this being respected
                                help="target architecture(s) for the build {%s}" % valid_archs)
 
 
