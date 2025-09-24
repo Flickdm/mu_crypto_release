@@ -10,7 +10,7 @@
 	path = Features/MM_SUPV
 	url = https://github.com/microsoft/mu_feature_mm_supv.git
 	branch = main
-[submodule "OpensslPkg/Library/OpensslLib/openssl"]
+[submodule "CryptoPkg/Library/OpensslLib/openssl"]
 	path = OpensslPkg/Library/OpensslLib/openssl
 	url = https://github.com/openssl/openssl.git
 [submodule "Common/MU"]

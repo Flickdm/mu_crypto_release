@@ -1433,7 +1433,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   CryptoPkg/CryptoPkg.dec
-  OpensslPkg/OpensslPkg.dec
+  CryptoPkg/CryptoPkg.dec
 
 [LibraryClasses]
   BaseLib
