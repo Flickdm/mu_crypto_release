@@ -1,0 +1,105 @@
+## @file
+#  BaseCryptLib library implementation using OpenSSL
+#
+#  This library provides crypto functionality extracted from SharedCryptoBin
+#  and made available as a reusable library.
+#
+#  Copyright (c) Microsoft Corporation.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BaseCryptLib
+  FILE_GUID                      = A3BC9A4E-5F5C-4E8B-9C3D-8E2F3A1B9C5D
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BaseCryptLib
+
+  DEFINE OPENSSL_PATH            = openssl
+  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
+  DEFINE OPENSSL_FLAGS_CONFIG    =
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 ARM AARCH64
+#
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  PrintLib
+  IntrinsicLib
+  OpensslLib
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  OpensslPkg/OpensslPkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
+
+[Sources]
+  BaseCryptLib.c
+  SharedOpenssl.h
+  
+  # Hash Crypto API
+  Hash/CryptSha256.c
+  Hash/CryptSha1.c
+  Hash/CryptSha512.c
+  
+  # HMAC Crypto API
+  Hmac/CryptHmac.c
+  
+  # Random Number Generation API
+  Rand/CryptRand.c
+  
+  # Math functions
+  Math/DivS64x64Remainder.c
+  
+  # System Call Wrappers
+  Syscall/BaseMemAllocation.c
+  Syscall/ConstantTimeClock.c
+  Syscall/CrtWrapper.c
+  Syscall/inet_pton.c
+  Syscall/TimerWrapper.c
+  
+  # BigNum Crypto API
+  BN/CryptBn.c
+  
+  # Cipher Crypto API
+  Cipher/CryptAeadAesGcm.c
+  Cipher/CryptAes.c
+  
+  # Key Derivation Functions
+  Kdf/CryptHkdf.c
+  
+  # PEM API
+  Pem/CryptPem.c
+  
+  # Public Key Crypto API
+  Pk/CryptAuthenticode.c
+  Pk/CryptDh.c
+  Pk/CryptEc.c
+  Pk/CryptPkcs1Oaep.c
+  Pk/CryptPkcs5Pbkdf2.c
+  Pk/CryptPkcs7Encrypt.c
+  Pk/CryptPkcs7Sign.c
+  Pk/CryptPkcs7VerifyBase.c
+  Pk/CryptPkcs7VerifyCommon.c
+  Pk/CryptPkcs7VerifyEku.c
+  Pk/CryptPkcs7VerifyRuntime.c
+  Pk/CryptRsaBasic.c
+  Pk/CryptRsaExt.c
+  Pk/CryptRsaPss.c
+  Pk/CryptRsaPssSign.c
+  Pk/CryptTs.c
+  Pk/CryptX509.c
+  
+  # TLS API - Commented out due to networking dependencies not available in UEFI
+  # Tls/TlsConfig.c
+  # Tls/TlsInit.c
+  # Tls/TlsProcess.c
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_CONFIG) /wd4090 /wd4244 /wd4245 /wd4267 /wd4389 /wd4702 /wd4706
+  GCC:*_*_*_CC_FLAGS = $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_CONFIG)

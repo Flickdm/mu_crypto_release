@@ -1,0 +1,25 @@
+## @file
+# Minimal BaseMemoryLib implementation
+#
+# This library provides minimal BaseMemoryLib functionality for OneCryptoPkg.
+# Functions will be implemented as needed.
+#
+# Copyright (c) Microsoft Corporation.
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MinimalBaseMemoryLib
+  FILE_GUID                      = 36470E82-36F2-4BA0-8CC8-937C7D9FF888
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BaseMemoryLib
+
+[Sources]
+  MinimalBaseMemoryLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec

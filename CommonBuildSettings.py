@@ -21,6 +21,10 @@ crypto_platforms = {
     "OpensslPkg": {
         "PRODUCT_NAME": "SharedCrypto",
         "ACTIVE_PLATFORM": "OpensslPkg/OpensslPkg.dsc",
+    },
+    "OneCryptoPkg": {
+        "PRODUCT_NAME": "OneCrypto",
+        "ACTIVE_PLATFORM": "OneCryptoPkg/OneCryptoPkg.dsc",
     }
 }
 
@@ -39,7 +43,7 @@ class CommonPlatform():
         for the different parts of stuart
     '''
     BaseName = "SharedCrypto"
-    PackagesSupported = ("CryptoBinPkg", "OpensslPkg", "CryptoPkg")
+    PackagesSupported = ("CryptoBinPkg", "OpensslPkg", "OneCryptoPkg", "CryptoPkg")
     ArchSupported = ("IA32", "X64", "AARCH64")
     TargetsSupported = ("DEBUG", "RELEASE")
     Scopes = ('sharedcrypto', 'edk2-build')
