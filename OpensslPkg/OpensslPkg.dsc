@@ -52,7 +52,7 @@
   BaseMemoryLib               |OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
   BasePrintLib                |OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
   MmServicesTableLib          |MmSupervisorPkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf
-  StandaloneMmDriverEntryPoint|OneCryptoPkg/Library/BaseStandaloneMmDriverEntryPoint/BaseStandaloneMmDriverEntryPoint.inf
+  StandaloneMmDriverEntryPoint|OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   PcdLib                      |MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
   DebugLib                    |MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
   
