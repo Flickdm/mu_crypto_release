@@ -10,8 +10,21 @@ extern SHARED_DEPENDENCIES  *gSharedDepends;
     if (gSharedDepends != NULL && gSharedDepends->ASSERT != NULL) { \
       gSharedDepends->ASSERT(Expression); \
     } else { \
+      /* Fallback: minimal self-contained assert - spin loop on failure */ \
       while (!(Expression)) { \
-  /* Spin loop */ \
+        /* Spin loop for assert failure */ \
+      } \
+    } \
+  } while (0)
+
+#define ASSERT_EFI_ERROR(StatusParameter) \
+  do { \
+    if (gSharedDepends != NULL && gSharedDepends->ASSERT != NULL) { \
+      gSharedDepends->ASSERT(!EFI_ERROR(StatusParameter)); \
+    } else { \
+      /* Fallback: minimal self-contained EFI error assert */ \
+      while (EFI_ERROR(StatusParameter)) { \
+        /* Spin loop for EFI error */ \
       } \
     } \
   } while (0)

@@ -45,6 +45,9 @@
   # BE VERY CAREFUL PUTTING ANYTHING HERE
   # We need to be very specific with our dependencies
   #
+  PrintLib                    |OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
+  BaseLib                     |OneCryptoPkg/Library/MinimalBaseLib/MinimalBaseLib.inf
+  BaseMemoryLib               |OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
 
 [LibraryClasses.common.MM_STANDALONE]
   UefiBootServicesTableLib    |MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
@@ -61,6 +64,8 @@
   IntrinsicLib                |OpensslPkg/Library/IntrinsicLib/IntrinsicLib.inf
   FltUsedLib                  |MdePkg/Library/FltUsedLib/FltUsedLib.inf
   OpensslLib                  |OpensslPkg/Library/OpensslLib/OpenssLibShared.inf
+  BaseCryptLib                |OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
+  TlsLib                      |OpensslPkg/Library/TlsLib/TlsLib.inf
 
 
 
@@ -85,6 +90,7 @@
 ###################################################################################################
 [Components]
   OpensslPkg/SharedCryptoBin/SharedCryptoMmBin.inf
+  OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
 
 [BuildOptions]
   *_*_*_CC_FLAGS = -D DISABLE_NEW_DEPRECATED_INTERFACES

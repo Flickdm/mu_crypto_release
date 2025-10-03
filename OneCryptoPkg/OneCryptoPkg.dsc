@@ -36,3 +36,4 @@
   OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
   OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
   OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
+  OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
