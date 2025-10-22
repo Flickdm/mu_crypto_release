@@ -28,7 +28,7 @@ The following library mappings are defined in OneCryptoPkg.dsc:
 - `BaseLib` → `OneCryptoPkg/Library/MinimalBaseLib/MinimalBaseLib.inf` (Minimal BaseLib to satisfy dependencies)
 - `BaseMemoryLib` → `OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf`
 - `PrintLib` → `OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf`
-- `MmServicesTableLib` → `Features/MM_SUPV/MmSupervisorPkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf`
+- `MmServicesTableLib` → `MdePkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf`
 - `StandaloneMmDriverEntryPoint` → `OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf`
 - `PcdLib` → `MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf` (NULL implementation)
 - `DebugLib` → `MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf` (NULL implementation)
@@ -37,7 +37,7 @@ The following library mappings are defined in OneCryptoPkg.dsc:
 
 ### MinimalStandaloneMmDriverEntryPoint
 
-This library is based on the original `Features/MM_SUPV/MmSupervisorPkg/Library/StandaloneMmDriverEntryPoint` but with the following modifications:
+This library is based on the original `MU_BASECORE/StandaloneMmPkg/Library/StandaloneMmDriverEntryPoint` but with the following modifications:
 
 **Removed:**
 - `ProcessLibraryConstructorList (ImageHandle, MmSystemTable);` - Library constructor calls
