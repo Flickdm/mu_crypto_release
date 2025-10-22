@@ -41,65 +41,65 @@
 
 [Sources]
   BaseCryptLib.c
-  Implementations/SharedOpenssl.h
+  SharedOpenssl.h
   
   # Hash Crypto API
-  Implementations/Hash/CryptSha256.c
-  Implementations/Hash/CryptSha1.c
-  Implementations/Hash/CryptSha512.c
+  Hash/CryptSha256.c
+  Hash/CryptSha1.c
+  Hash/CryptSha512.c
   
   # HMAC Crypto API
-  Implementations/Hmac/CryptHmac.c
+  Hmac/CryptHmac.c
   
   # Random Number Generation API
-  Implementations/Rand/CryptRand.c
+  Rand/CryptRand.c
   
   # Math functions
-  Implementations/Math/DivS64x64Remainder.c
+  Math/DivS64x64Remainder.c
   
   # System Call Wrappers
-  Implementations/Syscall/BaseMemAllocation.c
-  Implementations/Syscall/ConstantTimeClock.c
-  Implementations/Syscall/CrtWrapper.c
-  Implementations/Syscall/inet_pton.c
-  Implementations/Syscall/TimerWrapper.c
+  Syscall/BaseMemAllocation.c
+  Syscall/ConstantTimeClock.c
+  Syscall/CrtWrapper.c
+  Syscall/inet_pton.c
+  Syscall/TimerWrapper.c
   
   # BigNum Crypto API
-  Implementations/BN/CryptBn.c
+  BN/CryptBn.c
   
   # Cipher Crypto API
-  Implementations/Cipher/CryptAeadAesGcm.c
-  Implementations/Cipher/CryptAes.c
+  Cipher/CryptAeadAesGcm.c
+  Cipher/CryptAes.c
   
   # Key Derivation Functions
-  Implementations/Kdf/CryptHkdf.c
+  Kdf/CryptHkdf.c
   
   # PEM API
-  Implementations/Pem/CryptPem.c
+  Pem/CryptPem.c
   
   # Public Key Crypto API
-  Implementations/Pk/CryptAuthenticode.c
-  Implementations/Pk/CryptDh.c
-  Implementations/Pk/CryptEc.c
-  Implementations/Pk/CryptPkcs1Oaep.c
-  Implementations/Pk/CryptPkcs5Pbkdf2.c
-  Implementations/Pk/CryptPkcs7Encrypt.c
-  Implementations/Pk/CryptPkcs7Sign.c
-  Implementations/Pk/CryptPkcs7VerifyBase.c
-  Implementations/Pk/CryptPkcs7VerifyCommon.c
-  Implementations/Pk/CryptPkcs7VerifyEku.c
-  Implementations/Pk/CryptPkcs7VerifyRuntime.c
-  Implementations/Pk/CryptRsaBasic.c
-  Implementations/Pk/CryptRsaExt.c
-  Implementations/Pk/CryptRsaPss.c
-  Implementations/Pk/CryptRsaPssSign.c
-  Implementations/Pk/CryptTs.c
-  Implementations/Pk/CryptX509.c
+  Pk/CryptAuthenticode.c
+  Pk/CryptDh.c
+  Pk/CryptEc.c
+  Pk/CryptPkcs1Oaep.c
+  Pk/CryptPkcs5Pbkdf2.c
+  Pk/CryptPkcs7Encrypt.c
+  Pk/CryptPkcs7Sign.c
+  Pk/CryptPkcs7VerifyBase.c
+  Pk/CryptPkcs7VerifyCommon.c
+  Pk/CryptPkcs7VerifyEku.c
+  Pk/CryptPkcs7VerifyRuntime.c
+  Pk/CryptRsaBasic.c
+  Pk/CryptRsaExt.c
+  Pk/CryptRsaPss.c
+  Pk/CryptRsaPssSign.c
+  Pk/CryptTs.c
+  Pk/CryptX509.c
   
   # TLS API - Commented out due to networking dependencies not available in UEFI
-  # Implementations/Tls/TlsConfig.c
-  # Implementations/Tls/TlsInit.c
-  # Implementations/Tls/TlsProcess.c
+  # Tls/TlsConfig.c
+  # Tls/TlsInit.c
+  # Tls/TlsProcess.c
 [BuildOptions]
   MSFT:*_*_*_CC_FLAGS = $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_CONFIG) /wd4090 /wd4244 /wd4245 /wd4267 /wd4389 /wd4702 /wd4706
   GCC:*_*_*_CC_FLAGS = $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_CONFIG)
