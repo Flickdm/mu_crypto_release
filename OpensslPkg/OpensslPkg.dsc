@@ -89,8 +89,8 @@
 #
 ###################################################################################################
 [Components]
-  OpensslPkg/SharedCryptoBin/SharedCryptoMmBin.inf
   OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
+  OpensslPkg/Library/TlsLib/TlsLib.inf
 
 [BuildOptions]
   *_*_*_CC_FLAGS = -D DISABLE_NEW_DEPRECATED_INTERFACES
