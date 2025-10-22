@@ -26,7 +26,7 @@
   BaseLib                        | OneCryptoPkg/Library/MinimalBaseLib/MinimalBaseLib.inf # Minimal BaseLib to satisfy dependencies
   BaseMemoryLib                  | OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
   PrintLib                       | OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
-  MmServicesTableLib             | Features/MM_SUPV/MmSupervisorPkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf
+  MmServicesTableLib             | MdePkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf
   StandaloneMmDriverEntryPoint   | OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   PcdLib                         | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
   DebugLib                       | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
