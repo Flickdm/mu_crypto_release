@@ -12,7 +12,7 @@
 #include <openssl/objects.h>
 #include <openssl/rsa.h>
 #include <openssl/x509.h>
-#include <Library/MemoryAllocationLib.h>
+#include "Rand/CryptRand.h"
 
 /**
   Retrieve a pointer to EVP message digest object.
