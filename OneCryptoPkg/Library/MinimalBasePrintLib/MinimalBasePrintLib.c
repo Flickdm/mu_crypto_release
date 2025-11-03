@@ -4,6 +4,15 @@
   This library provides minimal BasePrintLib functionality for OneCryptoPkg.
   Functions will be implemented as needed.
 
+  This is a simplified custom implementation optimized for minimal dependencies.
+  Unlike MU_BASECORE/MdePkg/Library/BasePrintLib which uses the complex
+  BasePrintLibSPrintMarker internal engine, this implementation provides basic
+  format string parsing for common use cases (%s, %d, %u, %x, %X, %%).
+
+  Function signatures match those in MU_BASECORE/MdePkg/Library/BasePrintLib/PrintLib.c:
+  - AsciiSPrint: Wrapper function (matches BasePrintLib pattern)
+  - AsciiVSPrint: Simplified custom implementation (not based on BasePrintLibSPrintMarker)
+
   Copyright (c) Microsoft Corporation.
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
@@ -22,6 +31,8 @@ STATIC CONST CHAR8 mHexStr[] = {'0','1','2','3','4','5','6','7','8','9','A','B',
 
 /**
   Convert a value to an ASCII string.
+
+  This is a custom implementation for the minimal library.
 
   @param  Buffer      The output buffer.
   @param  BufferSize  The size of the buffer.
@@ -45,6 +56,8 @@ AsciiValueToString (
   Divides a 64-bit unsigned integer by a 32-bit unsigned integer and generates 
   a 64-bit unsigned result.
 
+  This is a simple wrapper around the division operator.
+
   @param  Dividend  A 64-bit unsigned value.
   @param  Divisor   A 32-bit unsigned value.
 
@@ -60,6 +73,9 @@ DivU64x32 (
 /**
   Produces a Null-terminated ASCII string in an output buffer based on a Null-terminated
   ASCII format string and variable argument list.
+
+  Function signature matches MU_BASECORE/MdePkg/Library/BasePrintLib/PrintLib.c.
+  This is a standard wrapper that calls AsciiVSPrint.
 
   @param  StartOfBuffer   A pointer to the output buffer for the produced Null-terminated 
                           ASCII string.
@@ -93,6 +109,10 @@ AsciiSPrint (
 /**
   Produces a Null-terminated ASCII string in an output buffer based on a Null-terminated
   ASCII format string and a VA_LIST argument list.
+
+  Function signature matches MU_BASECORE/MdePkg/Library/BasePrintLib/PrintLib.c.
+  This is a simplified custom implementation that provides basic format specifier support
+  (%s, %d, %u, %x, %X, %%) without the full complexity of BasePrintLibSPrintMarker.
 
   @param  StartOfBuffer   A pointer to the output buffer for the produced Null-terminated 
                           ASCII string.
@@ -240,9 +260,12 @@ AsciiVSPrint (
 /**
   Convert a value to an ASCII string.
 
+  This is a custom implementation for the minimal library.
+  Supports decimal (radix 10) and hexadecimal (radix 16) conversion.
+
   @param  Buffer      The output buffer.
   @param  BufferSize  The size of the buffer.
-  @param  Flags       The conversion flags.
+  @param  Flags       The conversion flags (bit 0: 0=decimal, 1=hexadecimal).
   @param  Value       The value to convert.
   @param  Width       The field width.
 
@@ -307,6 +330,8 @@ AsciiValueToString (
 /**
   Divides a 64-bit unsigned integer by a 32-bit unsigned integer and generates 
   a 64-bit unsigned result.
+
+  This is a simple wrapper around the division operator for compatibility.
 
   @param  Dividend  A 64-bit unsigned value.
   @param  Divisor   A 32-bit unsigned value.
