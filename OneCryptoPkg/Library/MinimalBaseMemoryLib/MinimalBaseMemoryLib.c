@@ -4,6 +4,12 @@
   This library provides minimal BaseMemoryLib functionality for OneCryptoPkg.
   Functions will be implemented as needed.
 
+  Function implementations are based on MU_BASECORE/MdePkg/Library/BaseMemoryLib:
+  - CopyMem: Based on InternalMemCopyMem from CopyMem.c
+  - CompareMem: Based on InternalMemCompareMem from CompareMemWrapper.c
+  - SetMem: Based on InternalMemSetMem from SetMem.c
+  - ScanMem8: Based on InternalMemScanMem8 from ScanMem8Wrapper.c
+
   Copyright (c) Microsoft Corporation.
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
@@ -15,6 +21,9 @@
 
 /**
   Copies a source buffer to a destination buffer, and returns the destination buffer.
+
+  This implementation is based on InternalMemCopyMem from
+  MU_BASECORE/MdePkg/Library/BaseMemoryLib/CopyMem.c
 
   @param  DestinationBuffer   A pointer to the destination buffer of the memory copy.
   @param  SourceBuffer        A pointer to the source buffer of the memory copy.
@@ -149,6 +158,9 @@ CopyMem (
 /**
   Compares the contents of two buffers.
 
+  This implementation is based on InternalMemCompareMem from
+  MU_BASECORE/MdePkg/Library/BaseMemoryLib/CompareMemWrapper.c
+
   @param  DestinationBuffer A pointer to the destination buffer to compare.
   @param  SourceBuffer      A pointer to the source buffer to compare.
   @param  Length            The number of bytes to compare.
@@ -192,6 +204,9 @@ CompareMem (
 
 /**
   Fills a target buffer with a byte value, and returns the target buffer.
+
+  This implementation is based on InternalMemSetMem from
+  MU_BASECORE/MdePkg/Library/BaseMemoryLib/SetMem.c
 
   @param  Buffer    A pointer to the target buffer to fill.
   @param  Length    The number of bytes in Buffer to fill.
@@ -258,6 +273,9 @@ SetMem (
 /**
   Scans a target buffer for an 8-bit value, and returns a pointer to the matching 8-bit value
   in the target buffer.
+
+  This implementation is based on InternalMemScanMem8 from
+  MU_BASECORE/MdePkg/Library/BaseMemoryLib/ScanMem8Wrapper.c
 
   @param  Buffer    A pointer to the target buffer to scan.
   @param  Length    The number of bytes in Buffer to scan.
