@@ -233,7 +233,7 @@ typedef struct  _ONE_CRYPTO_DEPENDENCIES {
   WRITE_UNALIGNED_32      WriteUnaligned32;     ///< Write unaligned 32-bit function
 } ONE_CRYPTO_DEPENDENCIES;
 
-ONE_CRYPTO_DEPENDENCIES  *mOneCryptoDepends;
+ONE_CRYPTO_DEPENDENCIES  *gOneCryptoDepends;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Exported Functions
