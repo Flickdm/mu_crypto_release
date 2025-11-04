@@ -8,13 +8,20 @@ This repository provides cryptographic functionality for UEFI firmware through a
 
 ## Architecture Documentation
 
-### [OneCrypto Architecture](PlatformIntegration.md)
-Platform integration guide for the OneCrypto binary architecture, including:
-- Architecture overview and benefits
-- Integration steps for platforms
-- Library class mappings
-- Protocol usage
-- Build configuration
+### [OneCrypto Architecture](Architecture.md)
+Comprehensive explanation of the OneCrypto system architecture and design:
+- Relationship between drivers and OneCrypto binary
+- Binary loading mechanism and PE/COFF format
+- Protocol interface and dependency injection
+- DXE and MM/SMM phase flow
+- Benefits and design rationale
+
+### [Platform Integration Guide](PlatformIntegration.md)
+Step-by-step guide for integrating OneCrypto into platforms:
+- Required components and firmware volume placement
+- DSC and FDF integration examples
+- QemuQ35 platform example
+- Troubleshooting common issues
 
 ## Package Documentation
 
@@ -139,6 +146,7 @@ Important security information about random number generation:
 mu_crypto_release/
 ├── Docs/                           # Centralized documentation (this directory)
 │   ├── README.md                   # Documentation hub (you are here)
+│   ├── Architecture.md            # OneCrypto architecture and design
 │   ├── CreateCryptoProtocol.md    # CreateCryptoProtocol.py tool guide
 │   ├── PlatformIntegration.md     # Platform integration guide
 │   └── RngSecurityModel.md        # RNG security considerations
@@ -159,7 +167,8 @@ mu_crypto_release/
 ## Quick Links
 
 ### Primary Documentation
-- 📖 [OneCrypto Platform Integration](PlatformIntegration.md) - Start here for platform integration
+- 🏛️ [OneCrypto Architecture](Architecture.md) - Understand the system design
+- 📖 [Platform Integration](PlatformIntegration.md) - Start here for platform integration
 - 🔧 [Driver Architecture](../CryptoBinPkg/Driver/readme.md) - Understand the loader drivers
 - 🐍 [CreateCryptoProtocol Script](CreateCryptoProtocol.md) - Tool for developers
 
