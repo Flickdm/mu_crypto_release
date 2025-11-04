@@ -10,6 +10,8 @@ These releases will be tagged and tracked in this repo, but published to the Mu 
 
 This repository is part of Project Mu. Please see Project Mu for details https://microsoft.github.io/mu
 
+📚 **Documentation Hub:** For comprehensive documentation, see [Docs/README.md](Docs/README.md)
+
 
 Using Shared Crypto
 ===================
