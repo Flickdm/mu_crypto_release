@@ -1,14 +1,14 @@
 #ifndef SHARED_DEBUG_LIB
 #define SHARED_DEBUG_LIB
 
-#include <Private/SharedCrtLibSupport.h>
+#include <Private/OneCryptoCrtLibSupport.h>
 
-extern SHARED_DEPENDENCIES  *gSharedDepends;
+extern ONE_CRYPTO_DEPENDENCIES  *gOneCryptoDepends;
 
 #define ASSERT(Expression) \
   do { \
-    if (gSharedDepends != NULL && gSharedDepends->ASSERT != NULL) { \
-      gSharedDepends->ASSERT(Expression); \
+    if (gOneCryptoDepends != NULL && gOneCryptoDepends->ASSERT != NULL) { \
+      gOneCryptoDepends->ASSERT(Expression); \
     } else { \
       /* Fallback: minimal self-contained assert - spin loop on failure */ \
       while (!(Expression)) { \
@@ -19,8 +19,8 @@ extern SHARED_DEPENDENCIES  *gSharedDepends;
 
 #define ASSERT_EFI_ERROR(StatusParameter) \
   do { \
-    if (gSharedDepends != NULL && gSharedDepends->ASSERT != NULL) { \
-      gSharedDepends->ASSERT(!EFI_ERROR(StatusParameter)); \
+    if (gOneCryptoDepends != NULL && gOneCryptoDepends->ASSERT != NULL) { \
+      gOneCryptoDepends->ASSERT(!EFI_ERROR(StatusParameter)); \
     } else { \
       /* Fallback: minimal self-contained EFI error assert */ \
       while (EFI_ERROR(StatusParameter)) { \
@@ -44,18 +44,18 @@ extern SHARED_DEPENDENCIES  *gSharedDepends;
 
   @param[in] Args  The arguments to pass to the DebugPrint function.
 
-  @note This macro does nothing if gSharedDepends or gSharedDepends->DebugPrint is NULL.
+  @note This macro does nothing if gOneCryptoDepends or gOneCryptoDepends->DebugPrint is NULL.
 
   @since 1.0.0
   @ingroup External
 **/
-#define DEBUG(Args)                                                   \
-  do                                                                  \
-  {                                                                   \
-    if (gSharedDepends != NULL && gSharedDepends->DebugPrint != NULL) \
-    {                                                                 \
-      gSharedDepends->DebugPrint Args;                                \
-    }                                                                 \
+#define DEBUG(Args)                                                       \
+  do                                                                      \
+  {                                                                       \
+    if (gOneCryptoDepends != NULL && gOneCryptoDepends->DebugPrint != NULL) \
+    {                                                                     \
+      gOneCryptoDepends->DebugPrint Args;                                 \
+    }                                                                     \
   } while (0)
 
 /**

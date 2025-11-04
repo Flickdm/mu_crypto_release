@@ -30,7 +30,7 @@
 
 #include <Protocol/OneCryptoProtocol.h>
 #include <Library/OneCryptoDependencySupport.h>
-#include "SharedLoaderShim.h"
+#include "OneCryptoLoaderShim.h"
 
 #define EFI_SECTION_PE32  0x10
 
@@ -42,7 +42,7 @@ DRIVER_DEPENDENCIES  *gDriverDependencies = NULL;
 // The dependencies of the shared library, must live as long
 // as the shared code is used
 //
-SHARED_DEPENDENCIES  *mSharedDepends = NULL;
+ONE_CRYPTO_DEPENDENCIES  *mOneCryptoDepends = NULL;
 //
 // Crypto protocol for the shared library
 // Using VOID* to be agnostic about protocol structure size/layout
@@ -159,35 +159,35 @@ AssertEfiError (
  */
 VOID
 InstallSharedDependencies (
-  OUT SHARED_DEPENDENCIES  *SharedDepends
+  OUT ONE_CRYPTO_DEPENDENCIES  *OneCryptoDepends
   )
 {
   //
   // Set version information for compatibility checking
   //
-  SharedDepends->Major             = SHARED_DEPENDENCIES_VERSION_MAJOR;
-  SharedDepends->Minor             = SHARED_DEPENDENCIES_VERSION_MINOR;
-  SharedDepends->Revision          = SHARED_DEPENDENCIES_VERSION_REVISION;
-  SharedDepends->Reserved          = 0;
-  SharedDepends->AllocatePool      = AllocatePool;
-  SharedDepends->FreePool          = FreePool;
-  SharedDepends->ASSERT            = AssertEfiError;
-  SharedDepends->DebugPrint        = DebugPrint;
-  SharedDepends->GetTime           = NULL;
+  OneCryptoDepends->Major             = ONE_CRYPTO_DEPENDENCIES_VERSION_MAJOR;
+  OneCryptoDepends->Minor             = ONE_CRYPTO_DEPENDENCIES_VERSION_MINOR;
+  OneCryptoDepends->Revision          = ONE_CRYPTO_DEPENDENCIES_VERSION_REVISION;
+  OneCryptoDepends->Reserved          = 0;
+  OneCryptoDepends->AllocatePool      = AllocatePool;
+  OneCryptoDepends->FreePool          = FreePool;
+  OneCryptoDepends->ASSERT            = AssertEfiError;
+  OneCryptoDepends->DebugPrint        = DebugPrint;
+  OneCryptoDepends->GetTime           = NULL;
   //
   // Use lazy RNG initialization for MM environment - will assert if protocol unavailable
   //
-  SharedDepends->GetRandomNumber64 = LazyMmGetRandomNumber64;
+  OneCryptoDepends->GetRandomNumber64 = LazyMmGetRandomNumber64;
   //
   // Safe integer operations
   //
-  SharedDepends->SafeUintnAdd      = SafeUintnAdd;
-  SharedDepends->SafeUintnMult     = SafeUintnMult;
+  OneCryptoDepends->SafeUintnAdd      = SafeUintnAdd;
+  OneCryptoDepends->SafeUintnMult     = SafeUintnMult;
   //
   // Memory and utility functions
   //
-  SharedDepends->ZeroMem           = ZeroMem;
-  SharedDepends->WriteUnaligned32  = WriteUnaligned32;
+  OneCryptoDepends->ZeroMem           = ZeroMem;
+  OneCryptoDepends->WriteUnaligned32  = WriteUnaligned32;
   DEBUG ((DEBUG_INFO, "InstallSharedDependencies: Using lazy MM RNG initialization with assertion\n"));
 }
 
@@ -281,13 +281,13 @@ MmEntry (
   // Initialize the Shared dependencies
   //
 
-  if (mSharedDepends == NULL) {
-    mSharedDepends = AllocatePool (sizeof (*mSharedDepends));
-    if (mSharedDepends == NULL) {
+  if (mOneCryptoDepends == NULL) {
+    mOneCryptoDepends = AllocatePool (sizeof (*mOneCryptoDepends));
+    if (mOneCryptoDepends == NULL) {
       return EFI_OUT_OF_RESOURCES;
     }
 
-    InstallSharedDependencies (mSharedDepends);
+    InstallSharedDependencies (mOneCryptoDepends);
   }
 
   //
@@ -295,7 +295,7 @@ MmEntry (
   // Constructor will allocate memory and assign it to OneCryptoProtocol
   // Using VOID** to be agnostic about the actual protocol structure
   //
-  Status = ConstructorProtocol->Constructor (mSharedDepends, &OneCryptoProtocol);
+  Status = ConstructorProtocol->Constructor (mOneCryptoDepends, &OneCryptoProtocol);
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to call LibConstructor: %r\n", Status));
     goto Exit;
@@ -332,8 +332,8 @@ Exit:
   // The dependendencies that the shared library needs may not be freed unless
   // there was an error. If there is no Error then the memory must live long past this driver.
   //
-  if ((Status != EFI_SUCCESS) && (gSharedDepends != NULL)) {
-    FreePool (gSharedDepends);
+  if ((Status != EFI_SUCCESS) && (mOneCryptoDepends != NULL)) {
+    FreePool (mOneCryptoDepends);
   }
 
   return Status;

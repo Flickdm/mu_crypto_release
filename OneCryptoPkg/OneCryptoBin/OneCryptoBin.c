@@ -10,7 +10,7 @@
 // #include <Library/StandaloneMmDriverEntryPoint.h> # Intentionally not included
 #include <Library/MmServicesTableLib.h>
 #include <Library/DebugLib.h>
-#include <Private/SharedCrtLibSupport.h>
+#include <Private/OneCryptoCrtLibSupport.h>
 #include <Library/OneCryptoDependencySupport.h>
 #include <Library/BaseCryptLib.h>
 #include <Private/OneCryptoLibrary.h>
@@ -357,14 +357,14 @@ COMMON_EXPORT_API
 EFI_STATUS
 EFIAPI
 Constructor (
-  IN SHARED_DEPENDENCIES  *Depends,
-  OUT VOID                **Crypto
+  IN ONE_CRYPTO_DEPENDENCIES  *Depends,
+  OUT VOID                    **Crypto
   )
 {
   //
   // Map the provided depencencies to our global instance
   //
-  gSharedDepends = Depends;
+  gOneCryptoDepends = Depends;
 
   DEBUG ((DEBUG_ERROR, "OneCryptoBin: Constructor entry called\n"));
 

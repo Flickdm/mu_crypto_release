@@ -1,8 +1,8 @@
 #ifndef __CRT_LIB_SUPPORT_H__
 #define __CRT_LIB_SUPPORT_H__
 
-#include <Private/SharedCrtLibSupport.h>
-#include <Private/SharedBaseDebugLib.h>
+#include <Private/OneCryptoCrtLibSupport.h>
+#include <Private/OneCryptoBaseDebugLib.h>
 
 
 #define OPENSSLDIR  ""

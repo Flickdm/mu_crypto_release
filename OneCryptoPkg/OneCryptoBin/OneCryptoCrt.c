@@ -20,7 +20,7 @@
 
   @param[in]  AllocationSize  The number of bytes to allocate.
 
-  @retval  NULL    If gSharedDepends or gSharedDepends->AllocatePool is NULL.
+  @retval  NULL    If gOneCryptoDepends or gOneCryptoDepends->AllocatePool is NULL.
   @retval  Others  A pointer to the allocated buffer.
 **/
 VOID *
@@ -29,13 +29,13 @@ AllocatePool (
   IN UINTN  AllocationSize
   )
 {
-  if ((gSharedDepends == NULL) || (gSharedDepends->AllocatePool == NULL)) {
-    ASSERT (gSharedDepends != NULL);
-    ASSERT (gSharedDepends->AllocatePool != NULL);
+  if ((gOneCryptoDepends == NULL) || (gOneCryptoDepends->AllocatePool == NULL)) {
+    ASSERT (gOneCryptoDepends != NULL);
+    ASSERT (gOneCryptoDepends->AllocatePool != NULL);
     return NULL;
   }
 
-  return gSharedDepends->AllocatePool (AllocationSize);
+  return gOneCryptoDepends->AllocatePool (AllocationSize);
 }
 
 /**
@@ -80,13 +80,13 @@ FreePool (
   IN VOID  *Buffer
   )
 {
-  if ((gSharedDepends == NULL) || (gSharedDepends->FreePool == NULL)) {
-    ASSERT (gSharedDepends != NULL);
-    ASSERT (gSharedDepends->FreePool != NULL);
+  if ((gOneCryptoDepends == NULL) || (gOneCryptoDepends->FreePool == NULL)) {
+    ASSERT (gOneCryptoDepends != NULL);
+    ASSERT (gOneCryptoDepends->FreePool != NULL);
     return;
   }
 
-  gSharedDepends->FreePool (Buffer);
+  gOneCryptoDepends->FreePool (Buffer);
 }
 
 
@@ -106,13 +106,13 @@ GetTime (
   OUT  EFI_TIME_CAPABILITIES  *Capabilities OPTIONAL
   )
 {
-  if ((gSharedDepends == NULL) || (gSharedDepends->GetTime == NULL)) {
-    ASSERT (gSharedDepends != NULL);
-    ASSERT (gSharedDepends->GetTime != NULL);
+  if ((gOneCryptoDepends == NULL) || (gOneCryptoDepends->GetTime == NULL)) {
+    ASSERT (gOneCryptoDepends != NULL);
+    ASSERT (gOneCryptoDepends->GetTime != NULL);
     return EFI_UNSUPPORTED;
   }
 
-  return gSharedDepends->GetTime (Time, Capabilities);
+  return gOneCryptoDepends->GetTime (Time, Capabilities);
 }
 
 /**
@@ -134,13 +134,13 @@ GetRandomNumber64 (
   OUT UINT64  *Rand
   )
 {
-  if ((gSharedDepends == NULL) || (gSharedDepends->GetRandomNumber64 == NULL)) {
-    ASSERT (gSharedDepends != NULL);
-    ASSERT (gSharedDepends->GetRandomNumber64 != NULL);
+  if ((gOneCryptoDepends == NULL) || (gOneCryptoDepends->GetRandomNumber64 == NULL)) {
+    ASSERT (gOneCryptoDepends != NULL);
+    ASSERT (gOneCryptoDepends->GetRandomNumber64 != NULL);
     return FALSE;
   }
 
-  return gSharedDepends->GetRandomNumber64 (Rand);
+  return gOneCryptoDepends->GetRandomNumber64 (Rand);
 }
 
 /**
@@ -158,13 +158,13 @@ ZeroMem (
   IN  UINTN Length
   )
 {
-  if ((gSharedDepends == NULL) || (gSharedDepends->ZeroMem == NULL)) {
-    ASSERT (gSharedDepends != NULL);
-    ASSERT (gSharedDepends->ZeroMem != NULL);
+  if ((gOneCryptoDepends == NULL) || (gOneCryptoDepends->ZeroMem == NULL)) {
+    ASSERT (gOneCryptoDepends != NULL);
+    ASSERT (gOneCryptoDepends->ZeroMem != NULL);
     return Buffer;
   }
 
-  return gSharedDepends->ZeroMem (Buffer, Length);
+  return gOneCryptoDepends->ZeroMem (Buffer, Length);
 }
 
 /**
@@ -182,11 +182,11 @@ WriteUnaligned32 (
   IN  UINT32  Value
   )
 {
-  if ((gSharedDepends == NULL) || (gSharedDepends->WriteUnaligned32 == NULL)) {
-    ASSERT (gSharedDepends != NULL);
-    ASSERT (gSharedDepends->WriteUnaligned32 != NULL);
+  if ((gOneCryptoDepends == NULL) || (gOneCryptoDepends->WriteUnaligned32 == NULL)) {
+    ASSERT (gOneCryptoDepends != NULL);
+    ASSERT (gOneCryptoDepends->WriteUnaligned32 != NULL);
     return Value;
   }
 
-  return gSharedDepends->WriteUnaligned32 (Buffer, Value);
+  return gOneCryptoDepends->WriteUnaligned32 (Buffer, Value);
 }

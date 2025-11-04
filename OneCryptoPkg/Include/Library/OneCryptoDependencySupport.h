@@ -21,12 +21,12 @@
 #define SHARED_FILE_GUID  { 0x76ABA88D, 0x9D16, 0x49A2, { 0xAA, 0x3A, 0xDB, 0x61, 0x12, 0xFA, 0xC5, 0xCC } }
 
 //
-// Version of the SHARED_DEPENDENCIES interface
+// Version of the ONE_CRYPTO_DEPENDENCIES interface
 // Major.Minor.Revision versioning scheme matching OneCryptoProtocol
 //
-#define SHARED_DEPENDENCIES_VERSION_MAJOR     1
-#define SHARED_DEPENDENCIES_VERSION_MINOR     0
-#define SHARED_DEPENDENCIES_VERSION_REVISION  0
+#define ONE_CRYPTO_DEPENDENCIES_VERSION_MAJOR     1
+#define ONE_CRYPTO_DEPENDENCIES_VERSION_MINOR     0
+#define ONE_CRYPTO_DEPENDENCIES_VERSION_REVISION  0
 
 //
 // The names of the exproted functions.
@@ -209,7 +209,7 @@ UINT32
   implementation needs from the host environment. The versioning fields allow
   for compatibility checking and future evolution of this interface.
 **/
-typedef struct  _SHARED_DEPENDENCIES {
+typedef struct  _ONE_CRYPTO_DEPENDENCIES {
   //
   // Versioning
   // Major.Minor.Revision
@@ -233,7 +233,7 @@ typedef struct  _SHARED_DEPENDENCIES {
   WRITE_UNALIGNED_32      WriteUnaligned32;     ///< Write unaligned 32-bit function
 } ONE_CRYPTO_DEPENDENCIES;
 
-SHARED_DEPENDENCIES  *gSharedDepends;
+ONE_CRYPTO_DEPENDENCIES  *mOneCryptoDepends;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Exported Functions
@@ -244,7 +244,7 @@ SHARED_DEPENDENCIES  *gSharedDepends;
 /**
   Defines a function pointer type for a constructor function.
 
-  @param[in]  Depends          Pointer to a SHARED_DEPENDENCIES structure containing
+  @param[in]  Depends          Pointer to a ONE_CRYPTO_DEPENDENCIES structure containing
                                function pointers for crypto dependencies.
   @param[out] Crypto           Output pointer to the constructed crypto protocol
                                interface.
@@ -253,7 +253,7 @@ SHARED_DEPENDENCIES  *gSharedDepends;
   @retval Others       Constructor function failed.
 **/
 typedef EFI_STATUS (EFIAPI *CONSTRUCTOR)(
-  IN SHARED_DEPENDENCIES *Depends,
+  IN ONE_CRYPTO_DEPENDENCIES *Depends,
   OUT VOID **Crypto
   );
 
