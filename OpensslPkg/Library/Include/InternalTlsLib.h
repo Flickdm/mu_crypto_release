@@ -19,24 +19,6 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
 #include <openssl/err.h>
-#include <Library/BaseCryptLib.h>
-
-//
-// Include the specific crypto headers for functions used by TLS
-//
-BOOLEAN
-EFIAPI
-RandomSeed (
-  IN  CONST UINT8  *Seed  OPTIONAL,
-  IN  UINTN        SeedSize
-  );
-
-BOOLEAN
-EFIAPI
-RandomBytes (
-  OUT  UINT8  *Output,
-  IN   UINTN  Size
-  );
 
 typedef struct {
   //
@@ -53,38 +35,5 @@ typedef struct {
   //
   BIO    *OutBio;
 } TLS_CONNECTION;
-
-//
-// Simple safe math functions to avoid external dependencies
-//
-STATIC
-RETURN_STATUS
-SafeUintnAdd (
-  IN  UINTN  Augend,
-  IN  UINTN  Addend,
-  OUT UINTN  *Result
-  )
-{
-  if (((UINTN)(~0)) - Augend < Addend) {
-    return RETURN_BUFFER_TOO_SMALL;
-  }
-  *Result = Augend + Addend;
-  return RETURN_SUCCESS;
-}
-
-STATIC
-RETURN_STATUS
-SafeUintnMult (
-  IN  UINTN  Multiplicand,
-  IN  UINTN  Multiplier,
-  OUT UINTN  *Result
-  )
-{
-  if (Multiplicand > 0 && (((UINTN)(~0)) / Multiplicand) < Multiplier) {
-    return RETURN_BUFFER_TOO_SMALL;
-  }
-  *Result = Multiplicand * Multiplier;
-  return RETURN_SUCCESS;
-}
 
 #endif
