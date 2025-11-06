@@ -30,6 +30,7 @@
   MinimalBaseMemoryLib
   OpensslLib
   BaseCryptLib
+  SafeIntLib
   
 
 [Packages]
