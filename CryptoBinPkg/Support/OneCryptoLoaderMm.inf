@@ -1,0 +1,26 @@
+## @file
+#  This module provides OneCrypto MM Loader Binary implementation.
+# TODO [ONE_CRYPTO] Generate this from the INF that builds the binary
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = OneCryptoLoaderMm
+  FILE_GUID                      = FBF68669-8C12-43CA-B2A6-66C8C5CEFDA1
+  MODULE_TYPE                    = MM_STANDALONE
+  VERSION_STRING                 = 1.0
+  PI_SPECIFICATION_VERSION       = 0x00010032
+  ENTRY_POINT                    = MmEntry
+
+[Packages]
+  MdePkg/MdePkg.dec
+  CryptoPkg/OneCryptoPkg.dec
+
+[Binaries.X64]
+  PE32|OneCryptoLoaderMm.efi
+  SMM_DEPEX|OneCryptoLoaderMm.depex
+
+[Protocols]
+  gOneCryptoMmProtocolGuid         ## PRODUCES
+  gOneCryptoPrivateProtocolGuid    ## CONSUMES
+
