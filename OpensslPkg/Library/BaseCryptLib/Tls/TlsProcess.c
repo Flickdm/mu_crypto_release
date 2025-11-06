@@ -2,13 +2,13 @@
   SSL/TLS Process Library Wrapper Implementation over OpenSSL.
   The process includes the TLS handshake and packet I/O.
 
-Copyright (c) 2016 - 2017, Intel Corporation. All rights reserved.<BR>
+Copyright (c) 2016 - 2018, Intel Corporation. All rights reserved.<BR>
 (C) Copyright 2016 Hewlett Packard Enterprise Development LP<BR>
 SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 
-#include "InternalTlsLib.h"
+#include <InternalTlsLib.h>
 
 #define MAX_BUFFER_SIZE  32768
 
