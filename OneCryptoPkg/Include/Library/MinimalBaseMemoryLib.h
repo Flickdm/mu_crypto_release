@@ -2,7 +2,7 @@
   Minimal BaseMemoryLib Header
 
   This header provides minimal BaseMemoryLib functionality for OneCryptoPkg.
-  Only the functions implemented by MinimalBaseMemoryLib are declared here.
+  Functions will be defined as needed.
 
   Copyright (c) Microsoft Corporation.
   SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -119,4 +119,3 @@ ScanMem8 (
   );
 
 #endif
-

@@ -2,6 +2,13 @@
   Intrinsic Memory Routines Wrapper Implementation for OpenSSL-based
   Cryptographic Library.
 
+  This file wraps memset() and memcmp() to call UEFI's SetMem() and CompareMem() functions.
+  
+  Note: While this includes <Library/BaseMemoryLib.h> from MdePkg, the actual
+  implementations of SetMem() and CompareMem() are provided by MinimalBaseMemoryLib
+  as configured in the DSC file's LibraryClasses section. This ensures IntrinsicLib
+  only links the minimal memory functions required for OpenSSL.
+
 Copyright (c) 2010 - 2019, Intel Corporation. All rights reserved.<BR>
 SPDX-License-Identifier: BSD-2-Clause-Patent
 
