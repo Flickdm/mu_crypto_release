@@ -10,7 +10,7 @@
 **/
 
 #include <Base.h>
-#include <Library/BaseMemoryLib.h>
+#include <Library/MinimalBaseMemoryLib.h>
 #include <Library/DebugLib.h>
 
 /**
