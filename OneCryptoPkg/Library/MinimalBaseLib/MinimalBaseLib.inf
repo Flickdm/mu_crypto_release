@@ -19,6 +19,7 @@
 
 [Sources]
   MinimalBaseLib.c
+  Math64.c
 
 [Packages]
   MdePkg/MdePkg.dec
