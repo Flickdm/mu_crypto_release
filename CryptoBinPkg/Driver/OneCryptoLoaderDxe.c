@@ -24,7 +24,7 @@
 #include <Protocol/Rng.h>
 
 #include <Library/OneCryptoDependencySupport.h>
-#include "OneCryptoLoaderShim.h"
+#include "OneCryptoLoaderDriverSupport.h"
 #include "PeCoffLib.h"
 
 #define EFI_SECTION_PE32  0x10

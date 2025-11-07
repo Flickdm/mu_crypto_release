@@ -1,5 +1,10 @@
-#ifndef SHAREDLOADER_SHIM_H
-#define SHAREDLOADER_SHIM_H
+/** @file  
+  Copyright (c) Microsoft Corporation.
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+**/
+
+#ifndef ONE_CRYPTO_LOADER_DRIVER_SUPPORT_H
+#define ONE_CRYPTO_LOADER_DRIVER_SUPPORT_H
 
 #include <Uefi.h>
 #include "Library/OneCryptoDependencySupport.h"
@@ -22,4 +27,4 @@ typedef struct _DRIVER_DEPENDENCIES {
 //
 extern DRIVER_DEPENDENCIES  *gDriverDependencies;
 
-#endif // SHAREDLOADER_SHIM_H
+#endif // ONE_CRYPTO_LOADER_DRIVER_SUPPORT_H

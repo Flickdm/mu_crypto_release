@@ -21,7 +21,7 @@
 
 [Sources]
   OneCryptoLoaderDxe.c
-  OneCryptoLoaderShim.h
+  OneCryptoLoaderDriverSupport.h
   PeCoffLib.h
   PeCoffLib.c
 

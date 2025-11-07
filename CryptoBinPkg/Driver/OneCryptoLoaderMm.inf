@@ -20,7 +20,7 @@
 
 [Sources]
   OneCryptoLoaderMm.c
-  OneCryptoLoaderShim.h
+  OneCryptoLoaderDriverSupport.h
 
 
 [Packages]
