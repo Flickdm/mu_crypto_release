@@ -714,6 +714,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   OpensslPkg/OpensslPkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
 
 [LibraryClasses]
 
