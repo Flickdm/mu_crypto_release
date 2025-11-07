@@ -12,8 +12,8 @@
 
 #include <Uefi.h>
 #include <Library/RngLib.h>
-#include <Library/BaseMemoryLib.h>
-#include <Library/DebugLib.h>
+#include <Private/OneCryptoBaseDebugLib.h>
+#include <Private/OneCryptoLibrary.h>
 
 /**
   Calls RandomNumber64 to fill
