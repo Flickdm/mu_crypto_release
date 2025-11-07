@@ -1,0 +1,33 @@
+## @file
+#  Implements the BaseCryptLib using the services of the EDK II Crypto
+#  Protocol/PPI.
+#
+#  Copyright (C) Microsoft Corporation. All rights reserved.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = OneCryptoLib
+  FILE_GUID                      = D263C512-780C-4298-9FC6-8B5D99C80F20
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BaseCryptLib
+  LIBRARY_CLASS                  = OneCryptoLib
+
+[Sources]
+  OneCryptoLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
+  OpensslPkg/OpensslPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+
+[Protocols]
+  gOneCryptoMmProtocolGuid       ## CONSUMES
+  gOneCryptoDxeProtocolGuid      ## CONSUMES
