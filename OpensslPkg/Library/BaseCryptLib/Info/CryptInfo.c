@@ -10,7 +10,7 @@
 
 #include <openssl/opensslv.h>
 #include <openssl/crypto.h>
-#include <Library/BaseCryptLib.h>
+#include "InternalCryptLib.h"
 
 /**
   Gets the OpenSSL version information.
