@@ -8,8 +8,8 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
-#ifndef SHARED_CRYPT_LIB_DEFS_H_
-#define SHARED_CRYPT_LIB_DEFS_H_
+#ifndef ONE_CRYPTO_DEFINITIONS_H_
+#define ONE_CRYPTO_DEFINITIONS_H_
 
 #include <Uefi.h>
 
@@ -117,4 +117,4 @@ typedef struct {
 
 #pragma pack()
 
-#endif // SHARED_CRYPT_LIB_DEFS_H_
+#endif // ONE_CRYPTO_DEFINITIONS_H_
