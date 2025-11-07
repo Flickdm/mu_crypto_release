@@ -2,13 +2,6 @@
   Intrinsic Memory Routines Wrapper Implementation for OpenSSL-based
   Cryptographic Library.
 
-  This file wraps memcpy() to call UEFI's CopyMem() function.
-  
-  Note: While this includes <Library/BaseMemoryLib.h> from MdePkg, the actual
-  implementation of CopyMem() is provided by MinimalBaseMemoryLib as configured
-  in the DSC file's LibraryClasses section. This ensures IntrinsicLib only links
-  the minimal memory functions required for OpenSSL.
-
 Copyright (c) 2010, Intel Corporation. All rights reserved.<BR>
 SPDX-License-Identifier: BSD-2-Clause-Patent
 

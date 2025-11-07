@@ -1,0 +1,251 @@
+110d71b fixup! Add OpensslPkg updates for OneCrypto support
+ OpensslPkg/Library/OpensslLib/OpensslStub/rand_pool.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+4018b88 Add documentation comments to IntrinsicLib and update MinimalBaseMemoryLib header
+ OneCryptoPkg/Include/Library/MinimalBaseMemoryLib.h | 3 +--
+ OpensslPkg/Library/IntrinsicLib/CopyMem.c           | 7 +++++++
+ OpensslPkg/Library/IntrinsicLib/MemoryIntrinsics.c  | 7 +++++++
+ 3 files changed, 15 insertions(+), 2 deletions(-)
+2d680ff Complete MinimalBaseMemoryLib header implementation
+ .../Include/Library/MinimalBaseMemoryLib.h         | 109 ++++++++++++++++++++-
+ .../MinimalBaseMemoryLib/MinimalBaseMemoryLib.c    |   2 +-
+ 2 files changed, 106 insertions(+), 5 deletions(-)
+53919b3 Add Doxygen configuration and documentation build instructions
+ .../OneCryptoBin/OneCryptoPkgDoxygen.config        | 2930 ++++++++++++++++++++
+ OneCryptoPkg/OneCryptoBin/README_DOCS.md           |   85 +
+ 2 files changed, 3015 insertions(+)
+9e619ee Add SafeIntLib dependency to OneCryptoMmBin
+ OneCryptoPkg/OneCryptoBin/OneCryptoMmBin.inf | 1 +
+ 1 file changed, 1 insertion(+)
+f2fa016 Fix MinimalSafeIntLib LIBRARY_CLASS declaration
+ OneCryptoPkg/Library/MinimalSafeIntLib/MinimalSafeIntLib.inf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ab64094 Update CryptoBinPkg.dsc for OneCrypto architecture
+ CryptoBinPkg/CryptoBinPkg.dsc | 268 ++++++++----------------------------------
+ 1 file changed, 47 insertions(+), 221 deletions(-)
+7d40422 Add SafeIntLib dependency to BaseCryptLib
+ OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+7a0fcfd Fix directory case sensitivity for BaseCryptLib
+ .../Library/BaseCryptLib/{Bn => BN}/CryptBn.c      |   0
+ OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf   | 171 ++++++++++-----------
+ .../{SysCall => Syscall}/BaseMemAllocation.c       |   0
+ .../{SysCall => Syscall}/ConstantTimeClock.c       |   0
+ .../BaseCryptLib/{SysCall => Syscall}/CrtWrapper.c |   0
+ .../{SysCall => Syscall}/RuntimeMemAllocation.c    |   0
+ .../{SysCall => Syscall}/TimerWrapper.c            |   0
+ .../BaseCryptLib/{SysCall => Syscall}/inet_pton.c  |   0
+ 8 files changed, 78 insertions(+), 93 deletions(-)
+8ad0bac Use MinimalSafeIntLib in OneCryptoPkg.dsc
+ OneCryptoPkg/OneCryptoPkg.dsc | 2 ++
+ 1 file changed, 2 insertions(+)
+be43542 Add MinimalSafeIntLib and update InternalTlsLib.h dependencies
+ OneCryptoPkg/Include/Library/MinimalSafeIntLib.h   | 53 ++++++++++++++++++
+ .../Library/MinimalSafeIntLib/MinimalSafeIntLib.c  | 64 ++++++++++++++++++++++
+ .../MinimalSafeIntLib/MinimalSafeIntLib.inf        | 17 ++++++
+ OpensslPkg/Library/Include/InternalTlsLib.h        |  2 +
+ 4 files changed, 136 insertions(+)
+1bcf073 Remove incorrect dependencies from InternalTlsLib.h
+ OpensslPkg/Library/Include/InternalTlsLib.h | 51 -----------------------------
+ 1 file changed, 51 deletions(-)
+457b3b0 Add CryptInfo.c for version and build information
+ OpensslPkg/Library/BaseCryptLib/Info/CryptInfo.c | 48 ++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+3ddd5ae Add comprehensive OneCrypto architecture documentation with ASCII diagrams
+ Docs/Architecture.md | 852 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ Docs/README.md       |  25 +-
+ 2 files changed, 869 insertions(+), 8 deletions(-)
+e0f3904 Add centralized documentation in Docs/ directory
+ Docs/CreateCryptoProtocol.md                       | 311 +++++++++++++++++++++
+ .../README.md => Docs/PlatformIntegration.md       |   0
+ Docs/README.md                                     | 206 ++++++++++++++
+ Docs/RngSecurityModel.md                           | 309 ++++++++++++++++++++
+ Readme.rst                                         |   2 +
+ 5 files changed, 828 insertions(+)
+00dbe5e Add OneCrypto platform integration documentation
+ OneCryptoPkg/OneCryptoBin/Support/README.md | 137 ++++++++++++++++++++++++++++
+ 1 file changed, 137 insertions(+)
+b05d58b Document MinimalBaseMemoryLib and MinimalBasePrintLib origins
+ .../MinimalBaseMemoryLib/MinimalBaseMemoryLib.c    | 18 +++++++++++++++
+ .../MinimalBasePrintLib/MinimalBasePrintLib.c      | 27 +++++++++++++++++++++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+a61921f Add gitattributes to preserve CRLF for yaml file
+ .gitattributes                |   1 +
+ OpensslPkg/OpensslPkg.ci.yaml | 224 +++++++++++++++++++++---------------------
+ 2 files changed, 113 insertions(+), 112 deletions(-)
+24b8ebc Update build scripts for new architecture
+ CommonBuildSettings.py                             |  27 +-
+ MultiFlavorBuild.py                                | 120 +++++----
+ .../Library/BaseCryptLib/Hash/CryptCShake256.c     | 282 ---------------------
+ .../Library/BaseCryptLib/Hash/CryptDispatchApDxe.c |  49 ----
+ .../Library/BaseCryptLib/Hash/CryptDispatchApMm.c  |  35 ---
+ .../Library/BaseCryptLib/Hash/CryptDispatchApPei.c |  54 ----
+ .../Library/BaseCryptLib/Hash/CryptParallelHash.c  | 254 -------------------
+ .../Library/BaseCryptLib/Hash/CryptParallelHash.h  | 226 -----------------
+ OpensslPkg/Library/BaseCryptLib/Hash/CryptSha3.c   | 166 ------------
+ OpensslPkg/Library/BaseCryptLib/Hash/CryptXkcp.c   | 107 --------
+ .../BaseCryptLib/Pk/CryptPkcs7VerifyEkuRuntime.c   |  56 ----
+ .../Library/BaseCryptLib/Rand/CryptRandTsc.c       | 112 --------
+ SingleFlavorBuild.py                               |  35 ++-
+ 13 files changed, 101 insertions(+), 1422 deletions(-)
+9f93107 Add OneCrypto loader infrastructure
+ CryptoBinPkg/Driver/PeCoffLib.c             | 205 ++++++++++++++++++++++++++++
+ CryptoBinPkg/Driver/PeCoffLib.h             |  75 ++++++++++
+ CryptoBinPkg/Driver/SharedLoaderShim.h      |  25 ++++
+ CryptoBinPkg/Support/OneCryptoDxeLoader.inf |  28 ++++
+ CryptoBinPkg/Support/OneCryptoLoaderMm.inf  |  26 ++++
+ 5 files changed, 359 insertions(+)
+b840310 Add OpensslPkg updates for OneCrypto support
+ OneCryptoPkg/Library/MinimalBaseLib/Math64.c       |  80 ++
+ .../Library/MinimalBaseLib/MinimalBaseLib.inf      |   1 +
+ OpensslPkg/Library/Include/CrtLibSupport.h         |  18 +-
+ OpensslPkg/Library/Library/Include/CrtLibSupport.h | 408 +++++++++++
+ OpensslPkg/Library/Library/Include/arpa/inet.h     |   9 +
+ OpensslPkg/Library/Library/Include/arpa/nameser.h  |   9 +
+ OpensslPkg/Library/Library/Include/assert.h        |   9 +
+ OpensslPkg/Library/Library/Include/ctype.h         |   9 +
+ OpensslPkg/Library/Library/Include/errno.h         |   9 +
+ OpensslPkg/Library/Library/Include/fcntl.h         |   9 +
+ OpensslPkg/Library/Library/Include/intrin.h        |  26 +
+ OpensslPkg/Library/Library/Include/limits.h        |   9 +
+ OpensslPkg/Library/Library/Include/memory.h        |   9 +
+ OpensslPkg/Library/Library/Include/netinet/in.h    |   9 +
+ .../Library/Library/Include/openssl/opensslconf.h  |  17 +
+ OpensslPkg/Library/Library/Include/stdarg.h        |   9 +
+ OpensslPkg/Library/Library/Include/stddef.h        |   9 +
+ OpensslPkg/Library/Library/Include/stdio.h         |   9 +
+ OpensslPkg/Library/Library/Include/stdlib.h        |   9 +
+ OpensslPkg/Library/Library/Include/string.h        |   9 +
+ OpensslPkg/Library/Library/Include/strings.h       |   9 +
+ OpensslPkg/Library/Library/Include/sys/param.h     |   9 +
+ OpensslPkg/Library/Library/Include/sys/shm.h       |   9 +
+ OpensslPkg/Library/Library/Include/sys/socket.h    |   9 +
+ OpensslPkg/Library/Library/Include/sys/syscall.h   |  10 +
+ OpensslPkg/Library/Library/Include/sys/time.h      |   9 +
+ OpensslPkg/Library/Library/Include/sys/types.h     |   9 +
+ OpensslPkg/Library/Library/Include/sys/utsname.h   |   9 +
+ OpensslPkg/Library/Library/Include/syslog.h        |   9 +
+ OpensslPkg/Library/Library/Include/time.h          |   9 +
+ OpensslPkg/Library/Library/Include/unistd.h        |   9 +
+ .../MemoryIntrinsicLib/MemoryIntrinsicLib.inf      |  36 +
+ .../Library/MemoryIntrinsicLib/MemoryIntrinsics.c  |  61 ++
+ OpensslPkg/Library/OpensslLib/OpenssLibShared.inf  | 803 +++++++++++++++++++++
+ OpensslPkg/Library/OpensslLib/OpensslLib.inf       |   1 -
+ OpensslPkg/Library/OpensslLib/OpensslLibAccel.inf  |   1 -
+ OpensslPkg/Library/OpensslLib/OpensslLibCrypto.inf |   1 -
+ .../Library/OpensslLib/OpensslLibOneCrypto.inf     | 803 +++++++++++++++++++++
+ .../Library/OpensslLib/OpensslStub/rand_pool.c     |   4 +-
+ OpensslPkg/OneCryptoBin/OneCryptoBin.c             | 106 +++
+ OpensslPkg/OneCryptoBin/OneCryptoMmBin.inf         | 110 +++
+ .../OneCryptoBin/Scripts/Templates/License.txt     |  13 +
+ 42 files changed, 2695 insertions(+), 20 deletions(-)
+9642c84 Add OneCrypto loader drivers to CryptoBinPkg
+ CryptoBinPkg/Driver/OneCryptoLoaderDxe.c   | 500 +++++++++++++++++++++++++++++
+ CryptoBinPkg/Driver/OneCryptoLoaderDxe.inf |  57 ++++
+ CryptoBinPkg/Driver/OneCryptoLoaderMm.c    | 340 ++++++++++++++++++++
+ CryptoBinPkg/Driver/OneCryptoLoaderMm.inf  |  54 ++++
+ CryptoBinPkg/Driver/OneCryptoLoaderShim.h  |  25 ++
+ 5 files changed, 976 insertions(+)
+54d129a Add OneCryptoBin protocol implementation
+ OneCryptoPkg/OneCryptoBin/InternalTlsLib.h         |  41 ++
+ OneCryptoPkg/OneCryptoBin/OneCryptoBin.c           | 450 ++++++++++++++
+ OneCryptoPkg/OneCryptoBin/OneCryptoCrt.c           | 192 ++++++
+ OneCryptoPkg/OneCryptoBin/OneCryptoMmBin.inf       |  57 ++
+ .../OneCryptoBin/Scripts/CreateCryptoProtocol.py   | 680 +++++++++++++++++++++
+ .../OneCryptoBin/Scripts/Templates/License.txt     |  13 +
+ .../Scripts/Templates/OneCrypto.template.c         |  63 ++
+ .../Scripts/Templates/OneCrypto.template.h         |  48 ++
+ .../Scripts/Templates/OneCryptoLib.template.c      | 134 ++++
+ OneCryptoPkg/OneCryptoBin/Support/OneCryptoMm.inf  |  24 +
+ 10 files changed, 1702 insertions(+)
+cfc3212 Add OneCryptoLib consumer library
+ OneCryptoPkg/Library/OneCryptoLib/OneCryptoLib.c   | 6351 ++++++++++++++++++++
+ OneCryptoPkg/Library/OneCryptoLib/OneCryptoLib.inf |   34 +
+ 2 files changed, 6385 insertions(+)
+033efb7 Add minimal library implementations for standalone MM
+ .../Library/MinimalBaseLib/MinimalBaseLib.c        | 641 +++++++++++++++++++++
+ .../Library/MinimalBaseLib/MinimalBaseLib.inf      |  28 +
+ .../MinimalBaseMemoryLib/MinimalBaseMemoryLib.c    | 290 ++++++++++
+ .../MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf  |  25 +
+ .../MinimalBasePrintLib/MinimalBasePrintLib.c      | 324 +++++++++++
+ .../MinimalBasePrintLib/MinimalBasePrintLib.inf    |  29 +
+ .../AsmMinimalStandaloneMmDriverEntryPoint.nasm    |  37 ++
+ .../MinimalStandaloneMmDriverEntryPoint.c          |  65 +++
+ .../MinimalStandaloneMmDriverEntryPoint.inf        |  40 ++
+ .../MinimalStandaloneMmDriverEntryPoint.uni        |  16 +
+ 10 files changed, 1495 insertions(+)
+65d1584 Add OneCrypto protocol definitions and headers
+ OneCryptoPkg/Include/CrtLibSupport.h               |  415 ++
+ OneCryptoPkg/Include/Library/BaseCryptLib.h        |  199 +
+ OneCryptoPkg/Include/Library/MinimalBaseLib.h      |   21 +
+ .../Include/Library/MinimalBaseMemoryLib.h         |   21 +
+ OneCryptoPkg/Include/Library/MinimalBasePrintLib.h |   21 +
+ .../Include/Library/OneCryptoDefinitions.h         |  120 +
+ .../Include/Library/OneCryptoDependencySupport.h   |  269 +
+ OneCryptoPkg/Include/Library/OneCryptoLib.h        | 4110 ++++++++++++++
+ OneCryptoPkg/Include/Protocol/OneCryptoProtocol.h  | 5229 +++++++++++++++++
+ OpensslPkg/Include/InternalCryptLib.h              |   43 +
+ OpensslPkg/Include/Library/HmacLib.h               |  283 +
+ OpensslPkg/Include/Library/OneCryptoDefinitions.h  |  120 +
+ .../Include/Library/OneCryptoDependencySupport.h   |  269 +
+ OpensslPkg/Include/Library/TlsLib.h                | 1026 ++++
+ OpensslPkg/Include/Private/OneCryptoBaseDebugLib.h |   99 +
+ .../Include/Private/OneCryptoCrtLibSupport.h       |   43 +
+ OpensslPkg/Include/Private/OneCryptoLibrary.h      | 5912 ++++++++++++++++++++
+ OpensslPkg/Include/Private/SharedBaseDebugLib.h    |   99 +
+ OpensslPkg/Include/Private/readme.md               |    3 +
+ OpensslPkg/Include/Protocol/OneCryptoProtocol.h    | 5229 +++++++++++++++++
+ 20 files changed, 23531 insertions(+)
+7dc4497 Add OneCryptoPkg package structure
+ OneCryptoPkg/OneCryptoPkg.dec | 42 +++++++++++++++++++++++++++++++
+ OneCryptoPkg/OneCryptoPkg.dsc | 57 +++++++++++++++++++++++++++++++++++++++++++
+ OneCryptoPkg/README.md        | 54 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 153 insertions(+)
+bb2c77b Update BaseCryptLib implementations
+ OpensslPkg/Library/BaseCryptLib/Cipher/CryptAes.c  |   1 +
+ OpensslPkg/Library/BaseCryptLib/Hash/CryptSha256.c |   2 +-
+ OpensslPkg/Library/BaseCryptLib/Hash/CryptSm3.c    |  16 +--
+ OpensslPkg/Library/BaseCryptLib/Hmac/CryptHmac.c   |   2 +-
+ OpensslPkg/Library/BaseCryptLib/InternalCryptLib.h |  65 -------------
+ OpensslPkg/Library/BaseCryptLib/Kdf/CryptHkdf.c    |   2 +-
+ OpensslPkg/Library/BaseCryptLib/Pem/CryptPem.c     |   1 -
+ .../Library/BaseCryptLib/Pk/CryptAuthenticode.c    |   1 -
+ .../Library/BaseCryptLib/Pk/CryptPkcs1Oaep.c       |   2 +-
+ .../Library/BaseCryptLib/Pk/CryptPkcs7Sign.c       |   1 -
+ OpensslPkg/Library/BaseCryptLib/Rand/CryptRand.c   |  27 ++++--
+ .../BaseCryptLib/SysCall/BaseMemAllocation.c       |   2 -
+ .../Library/BaseCryptLib/SysCall/TimerWrapper.c    |   4 +-
+ .../BaseCryptLib/SysCall/UnitTestHostCrtWrapper.c  | 107 ---------------------
+ 14 files changed, 36 insertions(+), 197 deletions(-)
+4d71e47 Add new implementations and update BaseCryptLib configuration
+ OpensslPkg/Library/BaseCryptLib/BaseCryptLib.c     |  92 +++++++
+ OpensslPkg/Library/BaseCryptLib/Hash/Readme.md     |   8 +
+ .../Library/BaseCryptLib/Math/DivS64x64Remainder.c |  41 +++
+ .../Library/BaseCryptLib/Pk/CryptPkcs7Encrypt.c    | 151 +++++++++++
+ OpensslPkg/Library/BaseCryptLib/Rand/CryptRand.h   |  48 ++++
+ .../Library/BaseCryptLib/SysCall/inet_pton.c       | 300 +++++++++++++++++++++
+ 6 files changed, 640 insertions(+)
+8597a6f Consolidate TLS into BaseCryptLib and add shared header
+ OpensslPkg/Library/BaseCryptLib/Tls/TlsConfig.c  |   2 +-
+ OpensslPkg/Library/BaseCryptLib/Tls/TlsInit.c    |   2 +-
+ OpensslPkg/Library/BaseCryptLib/Tls/TlsProcess.c |   4 +-
+ OpensslPkg/Library/Include/InternalTlsLib.h      |  90 +++++++++++++++
+ OpensslPkg/OpensslPkg.dec                        |  38 ++++++-
+ OpensslPkg/OpensslPkg.dsc                        | 137 +++++++----------------
+ 6 files changed, 168 insertions(+), 105 deletions(-)
+5453583 Move TLS implementation files to BaseCryptLib/Tls/
+ OpensslPkg/Library/{TlsLib => BaseCryptLib/Tls}/TlsConfig.c  | 0
+ OpensslPkg/Library/{TlsLib => BaseCryptLib/Tls}/TlsInit.c    | 0
+ OpensslPkg/Library/{TlsLib => BaseCryptLib/Tls}/TlsProcess.c | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+e606a17 Update OpensslLib to remove flavor references
+ OpensslPkg/Library/OpensslLib/OpensslLibFull.inf      | 1 -
+ OpensslPkg/Library/OpensslLib/OpensslLibFullAccel.inf | 1 -
+ 2 files changed, 2 deletions(-)
+617714d Infrastructure and configuration updates
+ .gitignore                    |   1 +
+ .gitmodules                   |   4 +
+ Common/MU_TIANO               |   1 +
+ OpensslPkg/OpensslPkg.ci.yaml | 224 +++++++++++++++++++++---------------------
+ pip-requirements.txt          |   1 +
+ 5 files changed, 119 insertions(+), 112 deletions(-)
