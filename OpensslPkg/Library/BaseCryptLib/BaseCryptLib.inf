@@ -56,11 +56,11 @@
   Math/DivS64x64Remainder.c
   
   # System Call Wrappers
-  Syscall/BaseMemAllocation.c
-  Syscall/ConstantTimeClock.c
-  Syscall/CrtWrapper.c
-  Syscall/inet_pton.c
-  Syscall/TimerWrapper.c
+  SysCall/BaseMemAllocation.c
+  SysCall/ConstantTimeClock.c
+  SysCall/CrtWrapper.c
+  SysCall/inet_pton.c
+  SysCall/TimerWrapper.c
   
   # BigNum Crypto API
   Bn/CryptBn.c
