@@ -35,8 +35,20 @@
 
 [Protocols]
   ## OneCrypto Private Protocol
+  ##
+  ## The "Private" protocol is meant for the driver to communicate through the Binary entry point in 
+  ## the OneCryptoBin to the Driver in the same phase. It's a simple protocol that exposes the crypto entrypoint.
+  ##
   gOneCryptoPrivateProtocolGuid = { 0x854bce61, 0x8d35, 0x4ff5, { 0x9d, 0xb7, 0x30, 0x3a, 0xfb, 0x79, 0x80, 0xe2 }}
+  
   ## OneCrypto MM Protocol
+  ##
+  ## The actual OneCryptoProtocol that provides the cryptographic interfaces for MM
+  ##
   gOneCryptoMmProtocolGuid =  { 0x2C2275C9, 0x3A7B, 0x426F, { 0xBE, 0x54, 0x2D, 0x22, 0xBD, 0x9D, 0x10, 0x93 }}
+
   ## OneCrypto DXE Protocol
+  ##
+  ## The actual OneCryptoProtocol that provides the cryptographic interfaces for DXE
+  ##
   gOneCryptoDxeProtocolGuid =   { 0x2C2275C9, 0x3A7B, 0x426F, { 0xBE, 0x54, 0x2D, 0x22, 0xBD, 0x9D, 0x10, 0x94 }}
