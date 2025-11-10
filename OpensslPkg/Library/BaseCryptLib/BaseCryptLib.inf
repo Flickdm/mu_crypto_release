@@ -63,7 +63,7 @@
   SysCall/TimerWrapper.c
   
   # BigNum Crypto API
-  Bn/CryptBn.c
+  BN/CryptBn.c
   
   # Cipher Crypto API
   Cipher/CryptAeadAesGcm.c
