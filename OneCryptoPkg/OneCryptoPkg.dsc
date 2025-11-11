@@ -27,7 +27,7 @@
   BaseMemoryLib                  | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
   PrintLib                       | MdePkg/Library/BasePrintLib/BasePrintLib.inf
   MmServicesTableLib             | MdePkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf
-  StandaloneMmDriverEntryPoint   | OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
+  StandaloneMmDriverEntryPoint   | Features/MM_SUPV/MmSupervisorPkg/Library/StandaloneMmDriverEntryPoint/StandaloneMmDriverEntryPoint.inf
   PcdLib                         | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
   DebugLib                       | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
   RngLib                         | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # OpensslLib needs this, but actual RNG comes through dependency injection
@@ -37,10 +37,8 @@
   BaseCryptLib                   | OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OpensslLib                     | OpensslPkg/Library/OpensslLib/OpenssLibShared.inf
   IntrinsicLib                   | OpensslPkg/Library/IntrinsicLib/IntrinsicLib.inf
-  MinimalStandaloneMmDriverEntryPoint | OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
 
 [Components]
-  OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OneCryptoPkg/OneCryptoBin/OneCryptoMmBin.inf
 
