@@ -25,9 +25,9 @@
   MinimalStandaloneMmDriverEntryPoint
   MmServicesTableLib
   IntrinsicLib
-  MinimalBaseLib
-  MinimalBasePrintLib
-  MinimalBaseMemoryLib
+  BaseLib
+  PrintLib
+  BaseMemoryLib
   OpensslLib
   BaseCryptLib
   SafeIntLib

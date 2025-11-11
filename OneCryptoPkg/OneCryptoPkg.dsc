@@ -23,28 +23,23 @@
   # Library mappings as specified
   #
   UefiBootServicesTableLib       | MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
-  BaseLib                        | OneCryptoPkg/Library/MinimalBaseLib/MinimalBaseLib.inf # Minimal BaseLib to satisfy dependencies
-  BaseMemoryLib                  | OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
-  PrintLib                       | OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
+  BaseLib                        | MdePkg/Library/BaseLib/BaseLib.inf
+  BaseMemoryLib                  | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
+  PrintLib                       | MdePkg/Library/BasePrintLib/BasePrintLib.inf
   MmServicesTableLib             | MdePkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf
   StandaloneMmDriverEntryPoint   | OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   PcdLib                         | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
   DebugLib                       | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
   RngLib                         | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # OpensslLib needs this, but actual RNG comes through dependency injection
+  RegisterFilterLib              | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
   SafeIntLib                     | OneCryptoPkg/Library/MinimalSafeIntLib/MinimalSafeIntLib.inf
   FltUsedLib                     | MdePkg/Library/FltUsedLib/FltUsedLib.inf
   BaseCryptLib                   | OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OpensslLib                     | OpensslPkg/Library/OpensslLib/OpenssLibShared.inf
   IntrinsicLib                   | OpensslPkg/Library/IntrinsicLib/IntrinsicLib.inf
-  MinimalBaseLib                 | OneCryptoPkg/Library/MinimalBaseLib/MinimalBaseLib.inf
-  MinimalBaseMemoryLib           | OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
-  MinimalBasePrintLib            | OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
   MinimalStandaloneMmDriverEntryPoint | OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
 
 [Components]
-  OneCryptoPkg/Library/MinimalBaseLib/MinimalBaseLib.inf
-  OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
-  OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
   OneCryptoPkg/Library/MinimalSafeIntLib/MinimalSafeIntLib.inf
   OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
