@@ -27,9 +27,6 @@
   ## @libraryclass  Provides minimal BasePrintLib functionality
   MinimalBasePrintLib|Include/Library/MinimalBasePrintLib.h
 
-  ## @libraryclass  Provides OneCrypto library interface on top of protocol
-  OneCryptoLib|Include/Library/OneCryptoLib.h
-
 [Guids]
   gOneCryptoPkgTokenSpaceGuid = { 0x36470E80, 0x36F2, 0x4BA0, { 0x8C, 0xC8, 0x93, 0x7C, 0x7D, 0x9F, 0xF8, 0x88 } }
 

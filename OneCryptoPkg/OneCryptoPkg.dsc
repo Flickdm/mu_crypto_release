@@ -40,7 +40,6 @@
   MinimalBaseMemoryLib           | OneCryptoPkg/Library/MinimalBaseMemoryLib/MinimalBaseMemoryLib.inf
   MinimalBasePrintLib            | OneCryptoPkg/Library/MinimalBasePrintLib/MinimalBasePrintLib.inf
   MinimalStandaloneMmDriverEntryPoint | OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
-  OneCryptoLib                | OneCryptoPkg/Library/OneCryptoLib/OneCryptoLib.inf
 
 [Components]
   OneCryptoPkg/Library/MinimalBaseLib/MinimalBaseLib.inf
@@ -50,7 +49,6 @@
   OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OneCryptoPkg/OneCryptoBin/OneCryptoMmBin.inf
-  OneCryptoPkg/Library/OneCryptoLib/OneCryptoLib.inf
 
 [BuildOptions]
   *_*_*_CC_FLAGS = -D DISABLE_NEW_DEPRECATED_INTERFACES
