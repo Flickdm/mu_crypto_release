@@ -62,7 +62,6 @@ CryptoInit (
   //
   CryptoProtocol->Major    = VERSION_MAJOR;
   CryptoProtocol->Minor    = VERSION_MINOR;
-  CryptoProtocol->Revision = VERSION_REVISION;
 
   //
   // Begin filling out the crypto protocol

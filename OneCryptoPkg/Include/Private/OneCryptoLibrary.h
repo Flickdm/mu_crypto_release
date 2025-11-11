@@ -21,7 +21,6 @@
 
 #define VERSION_MAJOR     1ULL
 #define VERSION_MINOR     0ULL
-#define VERSION_REVISION  0ULL
 
 
 /**
@@ -36,7 +35,7 @@
 
   @return  Pointer to the new HMAC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID *
@@ -50,7 +49,7 @@ HmacSha256New (
 
   @param[in]  HmacCtx  Pointer to the HMAC context to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID
@@ -69,7 +68,7 @@ HmacSha256Free (
   @retval TRUE   Key was set successfully.
   @retval FALSE  Failed to set the key.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -89,7 +88,7 @@ HmacSha256SetKey (
   @retval TRUE   Context was duplicated successfully.
   @retval FALSE  Failed to duplicate the context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -109,7 +108,7 @@ HmacSha256Duplicate (
   @retval TRUE   Data was updated successfully.
   @retval FALSE  Failed to update the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -129,7 +128,7 @@ HmacSha256Update (
   @retval TRUE   HMAC value was produced successfully.
   @retval FALSE  Failed to produce the HMAC value.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -151,7 +150,7 @@ HmacSha256Final (
   @retval TRUE   HMAC operation was performed successfully.
   @retval FALSE  Failed to perform the HMAC operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -169,7 +168,7 @@ HmacSha256All (
 
   @return  Pointer to the new HMAC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID *
@@ -183,7 +182,7 @@ HmacSha384New (
 
   @param[in]  HmacCtx  Pointer to the HMAC context to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID
@@ -202,7 +201,7 @@ HmacSha384Free (
   @retval TRUE   Key was set successfully.
   @retval FALSE  Failed to set the key.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -222,7 +221,7 @@ HmacSha384SetKey (
   @retval TRUE   Context was duplicated successfully.
   @retval FALSE  Failed to duplicate the context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -242,7 +241,7 @@ HmacSha384Duplicate (
   @retval TRUE   Data was updated successfully.
   @retval FALSE  Failed to update the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -262,7 +261,7 @@ HmacSha384Update (
   @retval TRUE   HMAC value was produced successfully.
   @retval FALSE  Failed to produce the HMAC value.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -284,7 +283,7 @@ HmacSha384Final (
   @retval TRUE   HMAC operation was performed successfully.
   @retval FALSE  Failed to perform the HMAC operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -314,7 +313,7 @@ HmacSha384All (
   @return  The size, in bytes, of the context buffer required for MD5 hash operations.
   @retval  0   This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 UINTN
@@ -336,7 +335,7 @@ Md5GetContextSize (
   @retval FALSE  MD5 context initialization failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -364,7 +363,7 @@ Md5Init (
   @retval FALSE  MD5 data digest failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -396,7 +395,7 @@ Md5Update (
   @retval FALSE  MD5 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -423,7 +422,7 @@ Md5Final (
   @retval FALSE  MD5 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -448,7 +447,7 @@ Md5HashAll (
   @retval FALSE  MD5 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -466,7 +465,7 @@ Md5Duplicate (
   @return  The size, in bytes, of the context buffer required for SHA-1 hash operations.
   @retval  0   This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 UINTN
@@ -488,7 +487,7 @@ Sha1GetContextSize (
   @retval FALSE  SHA-1 context initialization failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -516,7 +515,7 @@ Sha1Init (
   @retval FALSE  SHA-1 data digest failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -548,7 +547,7 @@ Sha1Update (
   @retval FALSE  SHA-1 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -575,7 +574,7 @@ Sha1Final (
   @retval FALSE  SHA-1 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -600,7 +599,7 @@ Sha1HashAll (
   @retval FALSE  SHA-1 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -615,7 +614,7 @@ Sha1Duplicate (
 
   @return  The size, in bytes, of the context buffer required for SHA-256 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 UINTN
@@ -635,7 +634,7 @@ Sha256GetContextSize (
   @retval TRUE   SHA-256 context initialization succeeded.
   @retval FALSE  SHA-256 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -661,7 +660,7 @@ Sha256Init (
   @retval TRUE   SHA-256 data digest succeeded.
   @retval FALSE  SHA-256 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -691,7 +690,7 @@ Sha256Update (
   @retval TRUE   SHA-256 digest computation succeeded.
   @retval FALSE  SHA-256 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -718,7 +717,7 @@ Sha256Final (
   @retval FALSE  SHA-256 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -743,7 +742,7 @@ Sha256HashAll (
   @retval FALSE  SHA-256 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -758,7 +757,7 @@ Sha256Duplicate (
 
   @return  The size, in bytes, of the context buffer required for SHA-384 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 UINTN
@@ -778,7 +777,7 @@ Sha384GetContextSize (
   @retval TRUE   SHA-384 context initialization succeeded.
   @retval FALSE  SHA-384 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -801,7 +800,7 @@ Sha384Init (
   @retval FALSE  SHA-384 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -828,7 +827,7 @@ Sha384Duplicate (
   @retval TRUE   SHA-384 data digest succeeded.
   @retval FALSE  SHA-384 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -858,7 +857,7 @@ Sha384Update (
   @retval TRUE   SHA-384 digest computation succeeded.
   @retval FALSE  SHA-384 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -885,7 +884,7 @@ Sha384Final (
   @retval FALSE  SHA-384 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -901,7 +900,7 @@ Sha384HashAll (
 
   @return  The size, in bytes, of the context buffer required for SHA-512 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 UINTN
@@ -921,7 +920,7 @@ Sha512GetContextSize (
   @retval TRUE   SHA-512 context initialization succeeded.
   @retval FALSE  SHA-512 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -944,7 +943,7 @@ Sha512Init (
   @retval FALSE  SHA-512 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -971,7 +970,7 @@ Sha512Duplicate (
   @retval TRUE   SHA-512 data digest succeeded.
   @retval FALSE  SHA-512 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1001,7 +1000,7 @@ Sha512Update (
   @retval TRUE   SHA-512 digest computation succeeded.
   @retval FALSE  SHA-512 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1028,7 +1027,7 @@ Sha512Final (
   @retval FALSE  SHA-512 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1044,7 +1043,7 @@ Sha512HashAll (
 
   @return  The size, in bytes, of the context buffer required for SM3 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 UINTN
@@ -1064,7 +1063,7 @@ Sm3GetContextSize (
   @retval TRUE   SM3 context initialization succeeded.
   @retval FALSE  SM3 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1087,7 +1086,7 @@ Sm3Init (
   @retval FALSE  SM3 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1114,7 +1113,7 @@ Sm3Duplicate (
   @retval TRUE   SM3 data digest succeeded.
   @retval FALSE  SM3 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1144,7 +1143,7 @@ Sm3Update (
   @retval TRUE   SM3 digest computation succeeded.
   @retval FALSE  SM3 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1171,7 +1170,7 @@ Sm3Final (
   @retval FALSE  SM3 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 BOOLEAN
@@ -1199,7 +1198,7 @@ Sm3HashAll (
   @return  The size, in bytes, of the context buffer required for AES operations.
   @retval  0   This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 UINTN
@@ -1229,7 +1228,7 @@ AesGetContextSize (
   @retval FALSE  AES context initialization failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 BOOLEAN
@@ -1268,7 +1267,7 @@ AesInit (
   @retval FALSE  AES encryption failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 BOOLEAN
@@ -1309,7 +1308,7 @@ AesCbcEncrypt (
   @retval FALSE  AES decryption failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 BOOLEAN
@@ -1345,7 +1344,7 @@ AesCbcDecrypt (
   @retval TRUE   AEAD AES-GCM authenticated encryption succeeded.
   @retval FALSE  AEAD AES-GCM authenticated encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 BOOLEAN
@@ -1389,7 +1388,7 @@ AeadAesGcmEncrypt (
   @retval TRUE   AEAD AES-GCM authenticated decryption succeeded.
   @retval FALSE  AEAD AES-GCM authenticated decryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 BOOLEAN
@@ -1423,7 +1422,7 @@ AeadAesGcmDecrypt (
 
   @retval New BigNum opaque structure or NULL on failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 VOID *
@@ -1440,7 +1439,7 @@ BigNumInit (
 
   @retval New BigNum opaque structure or NULL on failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 VOID *
@@ -1459,7 +1458,7 @@ BigNumFromBin (
 
   @retval The length of the big-endian number placed at Buf or -1 on error.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 INTN
@@ -1475,7 +1474,7 @@ BigNumToBin (
   @param[in]   Bn      Big number to free.
   @param[in]   Clear   TRUE if the buffer should be cleared.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 VOID
@@ -1497,7 +1496,7 @@ BigNumFree (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1520,7 +1519,7 @@ BigNumAdd (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1543,7 +1542,7 @@ BigNumSub (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1567,7 +1566,7 @@ BigNumMod (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1591,7 +1590,7 @@ BigNumExpMod (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1614,7 +1613,7 @@ BigNumInverseMod (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1638,7 +1637,7 @@ BigNumDiv (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1660,7 +1659,7 @@ BigNumMulMod (
   @retval 1          BnA > BnB.
   @retval -1         BnA < BnB.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 INTN
@@ -1677,7 +1676,7 @@ BigNumCmp (
 
   @retval Number of bits.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 UINTN
@@ -1693,7 +1692,7 @@ BigNumBits (
 
   @retval Number of bytes.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 UINTN
@@ -1711,7 +1710,7 @@ BigNumBytes (
   @retval TRUE   iff Bn == Num.
   @retval FALSE  otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1729,7 +1728,7 @@ BigNumIsWord (
   @retval TRUE   Bn is odd (Bn % 2 == 1).
   @retval FALSE  otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1747,7 +1746,7 @@ BigNumIsOdd (
   @retval BnDst on success.
   @retval NULL otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 VOID *
@@ -1763,7 +1762,7 @@ BigNumCopy (
 
   @retval Big Number with value of 1.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 CONST VOID *
@@ -1784,7 +1783,7 @@ BigNumValueOne (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1802,7 +1801,7 @@ BigNumRShift (
 
   @param[in]   Bn     Big number.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 VOID
@@ -1823,7 +1822,7 @@ BigNumConstTime (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1841,7 +1840,7 @@ BigNumSqrMod (
 
   @retval Big Number context struct or NULL on failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 VOID *
@@ -1855,7 +1854,7 @@ BigNumNewContext (
 
   @param[in]   BnCtx     Big number context to free.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 VOID
@@ -1873,7 +1872,7 @@ BigNumContextFree (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1894,7 +1893,7 @@ BigNumSetUint (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 BOOLEAN
@@ -1930,7 +1929,7 @@ BigNumAddMod (
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 BOOLEAN
@@ -1959,7 +1958,7 @@ HkdfSha256ExtractAndExpand (
   @retval true   Hkdf generated successfully.
   @retval false  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 BOOLEAN
@@ -1986,7 +1985,7 @@ HkdfSha256Extract (
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 BOOLEAN
@@ -2015,7 +2014,7 @@ HkdfSha256Expand (
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 BOOLEAN
@@ -2044,7 +2043,7 @@ HkdfSha384ExtractAndExpand (
   @retval true   Hkdf generated successfully.
   @retval false  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 BOOLEAN
@@ -2071,7 +2070,7 @@ HkdfSha384Extract (
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 BOOLEAN
@@ -2111,7 +2110,7 @@ HkdfSha384Expand (
   @retval  TRUE   The specified Authenticode Signature is valid.
   @retval  FALSE  Invalid Authenticode Signature.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2145,7 +2144,7 @@ AuthenticodeVerify (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2176,7 +2175,7 @@ Pkcs1v2Encrypt (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2215,7 +2214,7 @@ Pkcs1v2Decrypt (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2252,7 +2251,7 @@ RsaOaepEncrypt (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2289,7 +2288,7 @@ RsaOaepDecrypt (
   @retval  FALSE  The key derivation operation failed.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2327,7 +2326,7 @@ Pkcs5HashPassword (
   @retval  FALSE           Error occurs during the operation.
   @retval  FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2346,7 +2345,7 @@ Wrap function to use free() to free allocated memory for certificates.
 If this interface is not supported, then ASSERT().
 @param[in]  Certs        Pointer to the certificates to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 VOID
@@ -2374,7 +2373,7 @@ Pkcs7FreeSigners (
   @retval  TRUE         The operation is finished successfully.
   @retval  FALSE        Error occurs during the operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2412,7 +2411,7 @@ Pkcs7GetCertificatesList (
   @retval     FALSE            PKCS#7 data signing failed.
   @retval     FALSE            This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2454,7 +2453,7 @@ Pkcs7Sign (
   @retval  FALSE Invalid PKCS#7 signed data.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2497,7 +2496,7 @@ Pkcs7Verify (
   @retval     FALSE            PKCS#7 data encryption failed.
   @retval     FALSE            This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2539,7 +2538,7 @@ Pkcs7Encrypt (
   @retval  TRUE   The specified Authenticode Signature is valid.
   @retval  FALSE  Invalid Authenticode Signature.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2573,7 +2572,7 @@ AuthenticodeVerify (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2604,7 +2603,7 @@ Pkcs1v2Encrypt (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2643,7 +2642,7 @@ Pkcs1v2Decrypt (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2680,7 +2679,7 @@ RsaOaepEncrypt (
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2717,7 +2716,7 @@ RsaOaepDecrypt (
   @retval  FALSE  The key derivation operation failed.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2755,7 +2754,7 @@ Pkcs5HashPassword (
   @retval  FALSE           Error occurs during the operation.
   @retval  FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2774,7 +2773,7 @@ Wrap function to use free() to free allocated memory for certificates.
 If this interface is not supported, then ASSERT().
 @param[in]  Certs        Pointer to the certificates to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 VOID
@@ -2802,7 +2801,7 @@ Pkcs7FreeSigners (
   @retval  TRUE         The operation is finished successfully.
   @retval  FALSE        Error occurs during the operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2840,7 +2839,7 @@ Pkcs7GetCertificatesList (
   @retval     FALSE            PKCS#7 data signing failed.
   @retval     FALSE            This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2882,7 +2881,7 @@ Pkcs7Sign (
   @retval  FALSE Invalid PKCS#7 signed data.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2924,7 +2923,7 @@ Pkcs7Verify (
   @retval EFI_INVALID_PARAMETER    A parameter was invalid.
   @retval EFI_NOT_FOUND            One or more EKU's were not found in the signature.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 RETURN_STATUS
@@ -2952,7 +2951,7 @@ VerifyEKUsInPkcs7Signature (
   @retval     TRUE          The P7Data was correctly formatted for processing.
   @retval     FALSE         The P7Data was not correctly formatted for processing.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 BOOLEAN
@@ -2979,7 +2978,7 @@ Pkcs7GetAttachedContent (
            If the allocations fails, DhNew() returns NULL.
            If the interface is not supported, DhNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 VOID *
@@ -2993,7 +2992,7 @@ DhNew (
   If the interface is not supported, then ASSERT().
   @param[in]  DhContext  Pointer to the DH context to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 VOID
@@ -3020,7 +3019,7 @@ DhFree (
   @retval FALSE  PRNG fails to generate random prime number with PrimeLength.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 BOOLEAN
@@ -3050,7 +3049,7 @@ DhGenerateParameter (
   @retval FALSE  Value of Prime is not a safe prime number.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 BOOLEAN
@@ -3086,7 +3085,7 @@ If this interface is not supported, then return FALSE.
 @retval FALSE  This interface is not supported.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 BOOLEAN
@@ -3123,7 +3122,7 @@ DhGenerateKey (
   @retval FALSE  This interface is not supported.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 BOOLEAN
@@ -3160,7 +3159,7 @@ DhComputeKey (
   @retval EcGroup object  On success.
   @retval NULL            On failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 VOID *
@@ -3184,7 +3183,7 @@ EcGroupInit (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3209,7 +3208,7 @@ EcGroupGetCurve (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3224,7 +3223,7 @@ EcGroupGetOrder (
 
   @param[in]  EcGroup   EC group object to free.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 VOID
@@ -3242,7 +3241,7 @@ EcGroupFree (
   @retval EC Point object  On success.
   @retval NULL             On failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 VOID *
@@ -3257,7 +3256,7 @@ EcPointInit (
   @param[in]  EcPoint   EC Point to free.
   @param[in]  Clear     TRUE iff the memory should be cleared.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 VOID
@@ -3282,7 +3281,7 @@ EcPointDeInit (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3307,7 +3306,7 @@ EcPointGetAffineCoordinates (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3333,7 +3332,7 @@ EcPointSetAffineCoordinates (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3359,7 +3358,7 @@ EcPointAdd (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3382,7 +3381,7 @@ EcPointMul (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3403,7 +3402,7 @@ EcPointInvert (
   @retval TRUE          On curve.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3423,7 +3422,7 @@ EcPointIsOnCurve (
   @retval TRUE          At infinity.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3444,7 +3443,7 @@ EcPointIsAtInfinity (
   @retval TRUE          A == B.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3473,7 +3472,7 @@ EcPointEqual (
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3498,7 +3497,7 @@ EcPointSetCompressedCoordinates (
   @return     Pointer to the Elliptic Curve Context that has been initialized.
               If the allocations fails, EcNewByNid() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 VOID *
@@ -3512,7 +3511,7 @@ EcNewByNid (
 
   @param[in]  EcContext  Pointer to the EC context to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 VOID
@@ -3547,7 +3546,7 @@ EcFree (
   @retval FALSE  EC public X,Y generation failed.
   @retval FALSE  PublicKeySize is not large enough.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3572,7 +3571,7 @@ EcGenerateKey (
   @retval  TRUE   EC key component was retrieved successfully.
   @retval  FALSE  Invalid EC key component.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3608,7 +3607,7 @@ EcGetPubKey (
   @retval FALSE  EC exchanged key generation failed.
   @retval FALSE  KeySize is not large enough.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3638,7 +3637,7 @@ EcDhComputeKey (
   @retval  TRUE   EC Private Key was retrieved successfully.
   @retval  FALSE  Invalid PEM key data or incorrect password.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3665,7 +3664,7 @@ EcGetPrivateKeyFromPem (
   @retval  TRUE   EC Public Key was retrieved successfully.
   @retval  FALSE  Fail to retrieve EC public key from X509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3704,7 +3703,7 @@ EcGetPublicKeyFromX509 (
   @retval  FALSE  Signature generation failed.
   @retval  FALSE  SigSize is too small.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3740,7 +3739,7 @@ EcDsaSign (
   @retval  TRUE   Valid signature encoded in EC-DSA.
   @retval  FALSE  Invalid signature or invalid EC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 BOOLEAN
@@ -3773,7 +3772,7 @@ EcDsaVerify (
   @return  Pointer to the RSA context that has been initialized.
            If the allocations fails, RsaNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 VOID *
@@ -3789,7 +3788,7 @@ RsaNew (
 
   @param[in]  RsaContext  Pointer to the RSA context to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 VOID
@@ -3819,7 +3818,7 @@ RsaFree (
   @retval  TRUE   RSA key component was set successfully.
   @retval  FALSE  Invalid RSA key component tag.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -3858,7 +3857,7 @@ RsaSetKey (
   @retval  FALSE  BnSize is too small.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -3892,7 +3891,7 @@ RsaGetKey (
   @retval  FALSE  Invalid RSA key component tag.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -3924,7 +3923,7 @@ RsaGenerateKey (
   @retval  FALSE  RSA key components are not valid.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -3959,7 +3958,7 @@ RsaCheckKey (
   @retval  FALSE  SigSize is too small.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -3990,7 +3989,7 @@ RsaPkcs1Sign (
   @retval  TRUE   Valid signature encoded in PKCS1-v1_5.
   @retval  FALSE  Invalid signature or invalid RSA context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -4034,7 +4033,7 @@ RsaPkcs1Verify (
   @retval  FALSE  SigSize is too small.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -4066,7 +4065,7 @@ RsaPssSign (
   @retval  TRUE   Valid signature encoded in RSASSA-PSS.
   @retval  FALSE  Invalid signature or invalid RSA context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -4099,7 +4098,7 @@ RsaPssVerify (
   @retval  FALSE  Invalid PEM key data or incorrect password.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -4128,7 +4127,7 @@ RsaGetPrivateKeyFromPem (
   @retval  FALSE  Fail to retrieve RSA public key from X509 certificate.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 BOOLEAN
@@ -4166,7 +4165,7 @@ RsaGetPublicKeyFromX509 (
                   The SubjectSize will be updated with the required size.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4203,7 +4202,7 @@ X509GetSubjectName (
                                    CommonNameSize parameter.
   @retval RETURN_UNSUPPORTED       The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 RETURN_STATUS
@@ -4240,7 +4239,7 @@ X509GetCommonName (
                                    CommonNameSize parameter.
   @retval RETURN_UNSUPPORTED       The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 RETURN_STATUS
@@ -4269,7 +4268,7 @@ X509GetOrganizationName (
                   trusted CA.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4296,7 +4295,7 @@ X509VerifyCert (
   @retval     FALSE           The operation failed.
   @retval     FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4325,7 +4324,7 @@ X509ConstructCertificate (
   @retval     FALSE           The construction operation failed.
   @retval     FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4352,7 +4351,7 @@ X509ConstructCertificateStackV (
   @retval     FALSE           The construction operation failed.
   @retval     FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4369,7 +4368,7 @@ X509ConstructCertificateStack (
 
   @param[in]  X509Cert  Pointer to the X509 object to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 VOID
@@ -4385,7 +4384,7 @@ X509Free (
 
   @param[in]  X509Stack  Pointer to the X509 stack object to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 VOID
@@ -4410,7 +4409,7 @@ X509StackFree (
   @retval  TRUE   The TBSCertificate was retrieved successfully.
   @retval  FALSE  Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4437,7 +4436,7 @@ X509GetTBSCert (
   @retval FALSE          If  Cert is NULL or CertSize is Zero.
   @retval FALSE          The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4471,7 +4470,7 @@ X509GetVersion (
                                    SerialNumberSize parameter.
   @retval FALSE                    The operation is not supported
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4501,7 +4500,7 @@ X509GetSerialNumber (
                   The CertIssuerSize will be updated with the required size.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4531,7 +4530,7 @@ X509GetIssuerName (
                                    is returned in the OidSize.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4560,7 +4559,7 @@ X509GetSignatureAlgorithm (
                                    is returned in the UsageSize parameter.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4592,7 +4591,7 @@ X509GetExtendedKeyUsage (
                                    is returned in the ExtensionDataSize parameter.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4627,7 +4626,7 @@ X509GetExtensionData (
   @retval  FALSE  Invalid certificate, or Validity retrieve failed.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4664,7 +4663,7 @@ X509GetValidity (
                                    DateTimeSize parameter.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4686,7 +4685,7 @@ X509FormatDateTime (
   @retval  FALSE  Invalid certificate, or Usage is NULL
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4713,7 +4712,7 @@ X509GetKeyUsage (
   @retval  FALSE  Invalid certificate or the certificate was not issued by the given
                   trusted CA.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4743,7 +4742,7 @@ X509VerifyCertChain (
   @retval  TRUE   Success.
   @retval  FALSE  Failed to get certificate from certificate chain.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 BOOLEAN
@@ -4774,7 +4773,7 @@ X509GetCertFromCertChain (
   @retval FALSE                    If no Extension entry match oid.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
  **/
 BOOLEAN
@@ -4816,7 +4815,7 @@ X509GetExtendedBasicConstraints (
   @retval FALSE  Pseudorandom number generator does not have enough entropy for random generation.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Random
 **/
 BOOLEAN
@@ -4839,7 +4838,7 @@ RandomSeed (
   @retval FALSE  Pseudorandom number generator fails to generate due to lack of entropy.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Random
 **/
 BOOLEAN
@@ -4868,7 +4867,7 @@ RandomBytes (
   @retval TRUE   The OpenSSL library has been initialized.
   @retval FALSE  Failed to initialize the OpenSSL library.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 BOOLEAN
@@ -4882,7 +4881,7 @@ TlsInitialize (
 
   @param[in]  TlsCtx    Pointer to the SSL_CTX object to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -4901,7 +4900,7 @@ TlsCtxFree (
   @return  Pointer to an allocated SSL_CTX object.
            If the creation failed, TlsCtxNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID *
@@ -4919,7 +4918,7 @@ TlsCtxNew (
 
   @param[in]  Tls    Pointer to the TLS object to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -4940,7 +4939,7 @@ TlsFree (
   @return  Pointer to an allocated SSL object.
            If the creation failed, TlsNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID *
@@ -4959,7 +4958,7 @@ TlsNew (
   @retval  TRUE     The TLS handshake was done.
   @retval  FALSE    The TLS handshake was not done.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 BOOLEAN
@@ -4993,7 +4992,7 @@ TlsInHandshake (
   @retval EFI_BUFFER_TOO_SMALL    BufferOutSize is too small to hold the response packet.
   @retval EFI_ABORTED             Something wrong during handshake.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5030,7 +5029,7 @@ TlsDoHandshake (
   @retval EFI_ABORTED             An error occurred.
   @retval EFI_BUFFER_TOO_SMALL    BufferOutSize is too small to hold the response packet.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5060,7 +5059,7 @@ TlsHandleAlert (
                                   Buffer is NULL if *BufferSize is not zero.
   @retval EFI_BUFFER_TOO_SMALL    BufferSize is too small to hold the response packet.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5084,7 +5083,7 @@ TlsCloseNotify (
   @retval  >0    The amount of data successfully read from the TLS object.
   @retval  <=0   No data was successfully read.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -5108,7 +5107,7 @@ TlsCtrlTrafficOut (
   @retval  >0    The amount of data successfully written to the TLS object.
   @retval <=0    No data was successfully written.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -5133,7 +5132,7 @@ TlsCtrlTrafficIn (
                  number of bytes actually read from the TLS connection.
   @retval  <=0   The read operation was not successful.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -5158,7 +5157,7 @@ TlsRead (
                  number of bytes actually written to the TLS connection.
   @retval <=0    The write operation was not successful.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -5182,7 +5181,7 @@ TlsWrite (
   @retval EFI_INVALID_PARAMETER   Tls is NULL.
   @retval EFI_PROTOCOL_ERROR      Some other error occurred.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5204,7 +5203,7 @@ TlsShutdown (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported TLS/SSL method.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5227,7 +5226,7 @@ TlsSetVersion (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported TLS/SSL work mode.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5254,7 +5253,7 @@ TlsSetConnectionEnd (
   @retval  EFI_UNSUPPORTED       No supported TLS cipher was found in CipherId.
   @retval  EFI_OUT_OF_RESOURCES  Memory allocation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5277,7 +5276,7 @@ TlsSetCipherList (
   @retval  EFI_UNSUPPORTED    Unsupported compression method.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5294,7 +5293,7 @@ TlsSetCompressionMethod (
   @param[in]  Tls           Pointer to the TLS object.
   @param[in]  VerifyMode    A set of logically or'ed verification mode flags.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -5315,7 +5314,7 @@ TlsSetVerify (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_ABORTED           Invalid HostName setting.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5340,7 +5339,7 @@ TlsSetVerifyHost (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       No available session for ID setting.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5367,7 +5366,7 @@ TlsSetSessionId (
   @retval  EFI_OUT_OF_RESOURCES    Required resources could not be allocated.
   @retval  EFI_ABORTED             Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5394,7 +5393,7 @@ TlsSetCaCertificate (
   @retval  EFI_OUT_OF_RESOURCES    Required resources could not be allocated.
   @retval  EFI_ABORTED             Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5422,7 +5421,7 @@ TlsSetHostPublicCert (
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid private key data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5449,7 +5448,7 @@ TlsSetHostPrivateKeyEx (
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid private key data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5473,7 +5472,7 @@ TlsSetHostPrivateKey (
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid CRL data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5499,7 +5498,7 @@ TlsSetCertRevocationList (
   @retval  EFI_UNSUPPORTED       No supported TLS signature algorithm was found in SignatureAlgoList
   @retval  EFI_OUT_OF_RESOURCES  Memory allocation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5523,7 +5522,7 @@ TlsSetSignatureAlgoList (
   @retval  EFI_INVALID_PARAMETER The parameters are invalid.
   @retval  EFI_UNSUPPORTED       The requested TLS EC curve is not supported
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5546,7 +5545,7 @@ TlsSetEcCurve (
 
   @return  The protocol version of the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 UINT16
@@ -5567,7 +5566,7 @@ TlsGetVersion (
 
   @return  The connection end used by the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 UINT8
@@ -5589,7 +5588,7 @@ TlsGetConnectionEnd (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported cipher suite.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5614,7 +5613,7 @@ TlsGetCurrentCipher (
   @retval  EFI_ABORTED           Invalid Compression method.
   @retval  EFI_UNSUPPORTED       This function is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5636,7 +5635,7 @@ TlsGetCurrentCompressionId (
 
   @return  The verification mode set in the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 UINT32
@@ -5659,7 +5658,7 @@ TlsGetVerify (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Invalid TLS/SSL session.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5680,7 +5679,7 @@ TlsGetSessionId (
   @param[in,out]  ClientRandom    Buffer to contain the returned client
                                   random data (32 bytes).
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -5700,7 +5699,7 @@ TlsGetClientRandom (
   @param[in,out]  ServerRandom    Buffer to contain the returned server
                                   random data (32 bytes).
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -5723,7 +5722,7 @@ TlsGetServerRandom (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Invalid TLS/SSL session.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5748,7 +5747,7 @@ TlsGetKeyMaterial (
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5775,7 +5774,7 @@ TlsGetCaCertificate (
   @retval  EFI_NOT_FOUND           The certificate is not found.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5801,7 +5800,7 @@ TlsGetHostPublicCert (
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5826,7 +5825,7 @@ TlsGetHostPrivateKey (
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5853,7 +5852,7 @@ TlsGetCertRevocationList (
   @retval  EFI_INVALID_PARAMETER   The TLS object is invalid.
   @retval  EFI_PROTOCOL_ERROR      Some other error occurred.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -5894,7 +5893,7 @@ TlsGetExportKey (
   @retval  TRUE   The specified Authenticode includes a valid RFC3161 Timestamp CounterSignature.
   @retval  FALSE  No valid RFC3161 Timestamp CounterSignature in the specified Authenticode data.
   
-  @since 1.0.0
+  @since 1.0
   @ingroup Timestamp
 **/
 BOOLEAN

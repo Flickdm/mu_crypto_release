@@ -9,7 +9,7 @@
 **/
 
 // -----------------------------------------------------------------------------
-// MANUALLY MAINTAINED MANUALLY - See MANUAL_UPDATE_GUIDE.md
+// MANUALLY MAINTAINED - See MANUAL_UPDATE_GUIDE.md
 // LAST UPDATED: 2025-Nov-11
 // VERSION: 1.0
 // -----------------------------------------------------------------------------
@@ -20,7 +20,7 @@
 #include <Library/OneCryptoDefinitions.h>
 
 // =============================================================================
-// Protocol version: 1.0.0
+// Protocol version: 1.0
 // =============================================================================
 #define VERSION_MAJOR     1ULL
 #define VERSION_MINOR     0ULL
@@ -34,7 +34,7 @@
 
   @return  Pointer to the new HMAC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef VOID * (EFIAPI *SHARED_HMAC_SHA256_NEW)(
@@ -46,7 +46,7 @@ typedef VOID * (EFIAPI *SHARED_HMAC_SHA256_NEW)(
 
   @param[in]  HmacCtx  Pointer to the HMAC context to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef VOID (EFIAPI *SHARED_HMAC_SHA256_FREE)(
@@ -63,7 +63,7 @@ typedef VOID (EFIAPI *SHARED_HMAC_SHA256_FREE)(
   @retval TRUE   Key was set successfully.
   @retval FALSE  Failed to set the key.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_SET_KEY)(
@@ -81,7 +81,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_SET_KEY)(
   @retval TRUE   Context was duplicated successfully.
   @retval FALSE  Failed to duplicate the context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_DUPLICATE)(
@@ -99,7 +99,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_DUPLICATE)(
   @retval TRUE   Data was updated successfully.
   @retval FALSE  Failed to update the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_UPDATE)(
@@ -117,7 +117,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_UPDATE)(
   @retval TRUE   HMAC value was produced successfully.
   @retval FALSE  Failed to produce the HMAC value.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_FINAL)(
@@ -137,7 +137,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_FINAL)(
   @retval TRUE   HMAC operation was performed successfully.
   @retval FALSE  Failed to perform the HMAC operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_ALL)(
@@ -153,7 +153,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA256_ALL)(
 
   @return  Pointer to the new HMAC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef VOID * (EFIAPI *SHARED_HMAC_SHA384_NEW)(
@@ -165,7 +165,7 @@ typedef VOID * (EFIAPI *SHARED_HMAC_SHA384_NEW)(
 
   @param[in]  HmacCtx  Pointer to the HMAC context to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef VOID (EFIAPI *SHARED_HMAC_SHA384_FREE)(
@@ -182,7 +182,7 @@ typedef VOID (EFIAPI *SHARED_HMAC_SHA384_FREE)(
   @retval TRUE   Key was set successfully.
   @retval FALSE  Failed to set the key.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_SET_KEY)(
@@ -200,7 +200,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_SET_KEY)(
   @retval TRUE   Context was duplicated successfully.
   @retval FALSE  Failed to duplicate the context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_DUPLICATE)(
@@ -218,7 +218,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_DUPLICATE)(
   @retval TRUE   Data was updated successfully.
   @retval FALSE  Failed to update the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_UPDATE)(
@@ -236,7 +236,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_UPDATE)(
   @retval TRUE   HMAC value was produced successfully.
   @retval FALSE  Failed to produce the HMAC value.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_FINAL)(
@@ -256,7 +256,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_FINAL)(
   @retval TRUE   HMAC operation was performed successfully.
   @retval FALSE  Failed to perform the HMAC operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_ALL)(
@@ -275,7 +275,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HMAC_SHA384_ALL)(
   @return  The size, in bytes, of the context buffer required for MD5 hash operations.
   @retval  0   This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef UINTN (EFIAPI *SHARED_MD5_GET_CONTEXT_SIZE)(
@@ -295,7 +295,7 @@ typedef UINTN (EFIAPI *SHARED_MD5_GET_CONTEXT_SIZE)(
   @retval FALSE  MD5 context initialization failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_MD5_INIT)(
@@ -321,7 +321,7 @@ typedef BOOLEAN (EFIAPI *SHARED_MD5_INIT)(
   @retval FALSE  MD5 data digest failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_MD5_UPDATE)(
@@ -351,7 +351,7 @@ typedef BOOLEAN (EFIAPI *SHARED_MD5_UPDATE)(
   @retval FALSE  MD5 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_MD5_FINAL)(
@@ -376,7 +376,7 @@ typedef BOOLEAN (EFIAPI *SHARED_MD5_FINAL)(
   @retval FALSE  MD5 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_MD5_HASH_ALL)(
@@ -399,7 +399,7 @@ typedef BOOLEAN (EFIAPI *SHARED_MD5_HASH_ALL)(
   @retval FALSE  MD5 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_MD5_DUPLICATE)(
@@ -415,7 +415,7 @@ typedef BOOLEAN (EFIAPI *SHARED_MD5_DUPLICATE)(
   @return  The size, in bytes, of the context buffer required for SHA-1 hash operations.
   @retval  0   This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef UINTN (EFIAPI *SHARED_SHA1_GET_CONTEXT_SIZE)(
@@ -435,7 +435,7 @@ typedef UINTN (EFIAPI *SHARED_SHA1_GET_CONTEXT_SIZE)(
   @retval FALSE  SHA-1 context initialization failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA1_INIT)(
@@ -461,7 +461,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA1_INIT)(
   @retval FALSE  SHA-1 data digest failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA1_UPDATE)(
@@ -491,7 +491,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA1_UPDATE)(
   @retval FALSE  SHA-1 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA1_FINAL)(
@@ -516,7 +516,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA1_FINAL)(
   @retval FALSE  SHA-1 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA1_HASH_ALL)(
@@ -539,7 +539,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA1_HASH_ALL)(
   @retval FALSE  SHA-1 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA1_DUPLICATE)(
@@ -552,7 +552,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA1_DUPLICATE)(
 
   @return  The size, in bytes, of the context buffer required for SHA-256 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef UINTN (EFIAPI *SHARED_SHA256_GET_CONTEXT_SIZE)(
@@ -570,7 +570,7 @@ typedef UINTN (EFIAPI *SHARED_SHA256_GET_CONTEXT_SIZE)(
   @retval TRUE   SHA-256 context initialization succeeded.
   @retval FALSE  SHA-256 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA256_INIT)(
@@ -594,7 +594,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA256_INIT)(
   @retval TRUE   SHA-256 data digest succeeded.
   @retval FALSE  SHA-256 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA256_UPDATE)(
@@ -622,7 +622,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA256_UPDATE)(
   @retval TRUE   SHA-256 digest computation succeeded.
   @retval FALSE  SHA-256 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA256_FINAL)(
@@ -647,7 +647,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA256_FINAL)(
   @retval FALSE  SHA-256 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA256_HASH_ALL)(
@@ -670,7 +670,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA256_HASH_ALL)(
   @retval FALSE  SHA-256 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA256_DUPLICATE)(
@@ -683,7 +683,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA256_DUPLICATE)(
 
   @return  The size, in bytes, of the context buffer required for SHA-384 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef UINTN (EFIAPI *SHARED_SHA384_GET_CONTEXT_SIZE)(
@@ -701,7 +701,7 @@ typedef UINTN (EFIAPI *SHARED_SHA384_GET_CONTEXT_SIZE)(
   @retval TRUE   SHA-384 context initialization succeeded.
   @retval FALSE  SHA-384 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA384_INIT)(
@@ -722,7 +722,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA384_INIT)(
   @retval FALSE  SHA-384 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA384_DUPLICATE)(
@@ -747,7 +747,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA384_DUPLICATE)(
   @retval TRUE   SHA-384 data digest succeeded.
   @retval FALSE  SHA-384 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA384_UPDATE)(
@@ -775,7 +775,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA384_UPDATE)(
   @retval TRUE   SHA-384 digest computation succeeded.
   @retval FALSE  SHA-384 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA384_FINAL)(
@@ -800,7 +800,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA384_FINAL)(
   @retval FALSE  SHA-384 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA384_HASH_ALL)(
@@ -814,7 +814,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA384_HASH_ALL)(
 
   @return  The size, in bytes, of the context buffer required for SHA-512 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef UINTN (EFIAPI *SHARED_SHA512_GET_CONTEXT_SIZE)(
@@ -832,7 +832,7 @@ typedef UINTN (EFIAPI *SHARED_SHA512_GET_CONTEXT_SIZE)(
   @retval TRUE   SHA-512 context initialization succeeded.
   @retval FALSE  SHA-512 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA512_INIT)(
@@ -853,7 +853,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA512_INIT)(
   @retval FALSE  SHA-512 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA512_DUPLICATE)(
@@ -878,7 +878,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA512_DUPLICATE)(
   @retval TRUE   SHA-512 data digest succeeded.
   @retval FALSE  SHA-512 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA512_UPDATE)(
@@ -906,7 +906,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA512_UPDATE)(
   @retval TRUE   SHA-512 digest computation succeeded.
   @retval FALSE  SHA-512 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA512_FINAL)(
@@ -931,7 +931,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA512_FINAL)(
   @retval FALSE  SHA-512 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SHA512_HASH_ALL)(
@@ -945,7 +945,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SHA512_HASH_ALL)(
 
   @return  The size, in bytes, of the context buffer required for SM3 hash operations.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef UINTN (EFIAPI *SHARED_SM3_GET_CONTEXT_SIZE)(
@@ -963,7 +963,7 @@ typedef UINTN (EFIAPI *SHARED_SM3_GET_CONTEXT_SIZE)(
   @retval TRUE   SM3 context initialization succeeded.
   @retval FALSE  SM3 context initialization failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SM3_INIT)(
@@ -984,7 +984,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SM3_INIT)(
   @retval FALSE  SM3 context copy failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SM3_DUPLICATE)(
@@ -1009,7 +1009,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SM3_DUPLICATE)(
   @retval TRUE   SM3 data digest succeeded.
   @retval FALSE  SM3 data digest failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SM3_UPDATE)(
@@ -1037,7 +1037,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SM3_UPDATE)(
   @retval TRUE   SM3 digest computation succeeded.
   @retval FALSE  SM3 digest computation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SM3_FINAL)(
@@ -1062,7 +1062,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SM3_FINAL)(
   @retval FALSE  SM3 digest computation failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Hash
 **/
 typedef BOOLEAN (EFIAPI *SHARED_SM3_HASH_ALL)(
@@ -1079,7 +1079,7 @@ typedef BOOLEAN (EFIAPI *SHARED_SM3_HASH_ALL)(
   @return  The size, in bytes, of the context buffer required for AES operations.
   @retval  0   This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 typedef UINTN (EFIAPI *SHARED_AES_GET_CONTEXT_SIZE)(
@@ -1107,7 +1107,7 @@ typedef UINTN (EFIAPI *SHARED_AES_GET_CONTEXT_SIZE)(
   @retval FALSE  AES context initialization failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 typedef BOOLEAN (EFIAPI *SHARED_AES_INIT)(
@@ -1144,7 +1144,7 @@ typedef BOOLEAN (EFIAPI *SHARED_AES_INIT)(
   @retval FALSE  AES encryption failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 typedef BOOLEAN (EFIAPI *SHARED_AES_CBC_ENCRYPT)(
@@ -1183,7 +1183,7 @@ typedef BOOLEAN (EFIAPI *SHARED_AES_CBC_ENCRYPT)(
   @retval FALSE  AES decryption failed.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 typedef BOOLEAN (EFIAPI *SHARED_AES_CBC_DECRYPT)(
@@ -1217,7 +1217,7 @@ typedef BOOLEAN (EFIAPI *SHARED_AES_CBC_DECRYPT)(
   @retval TRUE   AEAD AES-GCM authenticated encryption succeeded.
   @retval FALSE  AEAD AES-GCM authenticated encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 typedef BOOLEAN (EFIAPI *SHARED_AEAD_AES_GCM_ENCRYPT)(
@@ -1259,7 +1259,7 @@ typedef BOOLEAN (EFIAPI *SHARED_AEAD_AES_GCM_ENCRYPT)(
   @retval TRUE   AEAD AES-GCM authenticated decryption succeeded.
   @retval FALSE  AEAD AES-GCM authenticated decryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup AES
 **/
 typedef BOOLEAN (EFIAPI *SHARED_AEAD_AES_GCM_DECRYPT)(
@@ -1282,7 +1282,7 @@ typedef BOOLEAN (EFIAPI *SHARED_AEAD_AES_GCM_DECRYPT)(
 
   @retval New BigNum opaque structure or NULL on failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef VOID * (EFIAPI *SHARED_BIG_NUM_INIT)(
@@ -1297,7 +1297,7 @@ typedef VOID * (EFIAPI *SHARED_BIG_NUM_INIT)(
 
   @retval New BigNum opaque structure or NULL on failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef VOID * (EFIAPI *SHARED_BIG_NUM_FROM_BIN)(
@@ -1314,7 +1314,7 @@ typedef VOID * (EFIAPI *SHARED_BIG_NUM_FROM_BIN)(
 
   @retval The length of the big-endian number placed at Buf or -1 on error.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef INTN (EFIAPI *SHARED_BIG_NUM_TO_BIN)(
@@ -1328,7 +1328,7 @@ typedef INTN (EFIAPI *SHARED_BIG_NUM_TO_BIN)(
   @param[in]   Bn      Big number to free.
   @param[in]   Clear   TRUE if the buffer should be cleared.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef VOID (EFIAPI *SHARED_BIG_NUM_FREE)(
@@ -1348,7 +1348,7 @@ typedef VOID (EFIAPI *SHARED_BIG_NUM_FREE)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_ADD)(
@@ -1369,7 +1369,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_ADD)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_SUB)(
@@ -1390,7 +1390,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_SUB)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_MOD)(
@@ -1412,7 +1412,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_MOD)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_EXP_MOD)(
@@ -1434,7 +1434,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_EXP_MOD)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_INVERSE_MOD)(
@@ -1455,7 +1455,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_INVERSE_MOD)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_DIV)(
@@ -1477,7 +1477,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_DIV)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_MUL_MOD)(
@@ -1497,7 +1497,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_MUL_MOD)(
   @retval 1          BnA > BnB.
   @retval -1         BnA < BnB.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef INTN (EFIAPI *SHARED_BIG_NUM_CMP)(
@@ -1512,7 +1512,7 @@ typedef INTN (EFIAPI *SHARED_BIG_NUM_CMP)(
 
   @retval Number of bits.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef UINTN (EFIAPI *SHARED_BIG_NUM_BITS)(
@@ -1526,7 +1526,7 @@ typedef UINTN (EFIAPI *SHARED_BIG_NUM_BITS)(
 
   @retval Number of bytes.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef UINTN (EFIAPI *SHARED_BIG_NUM_BYTES)(
@@ -1542,7 +1542,7 @@ typedef UINTN (EFIAPI *SHARED_BIG_NUM_BYTES)(
   @retval TRUE   iff Bn == Num.
   @retval FALSE  otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_IS_WORD)(
@@ -1558,7 +1558,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_IS_WORD)(
   @retval TRUE   Bn is odd (Bn % 2 == 1).
   @retval FALSE  otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_IS_ODD)(
@@ -1574,7 +1574,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_IS_ODD)(
   @retval BnDst on success.
   @retval NULL otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef VOID * (EFIAPI *SHARED_BIG_NUM_COPY)(
@@ -1588,7 +1588,7 @@ typedef VOID * (EFIAPI *SHARED_BIG_NUM_COPY)(
 
   @retval Big Number with value of 1.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef CONST VOID * (EFIAPI *SHARED_BIG_NUM_VALUE_ONE)(
@@ -1607,7 +1607,7 @@ typedef CONST VOID * (EFIAPI *SHARED_BIG_NUM_VALUE_ONE)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_R_SHIFT)(
@@ -1623,7 +1623,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_R_SHIFT)(
 
   @param[in]   Bn     Big number.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef VOID (EFIAPI *SHARED_BIG_NUM_CONST_TIME)(
@@ -1642,7 +1642,7 @@ typedef VOID (EFIAPI *SHARED_BIG_NUM_CONST_TIME)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_SQR_MOD)(
@@ -1658,7 +1658,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_SQR_MOD)(
 
   @retval Big Number context struct or NULL on failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef VOID * (EFIAPI *SHARED_BIG_NUM_NEW_CONTEXT)(
@@ -1670,7 +1670,7 @@ typedef VOID * (EFIAPI *SHARED_BIG_NUM_NEW_CONTEXT)(
 
   @param[in]   BnCtx     Big number context to free.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef VOID (EFIAPI *SHARED_BIG_NUM_CONTEXT_FREE)(
@@ -1686,7 +1686,7 @@ typedef VOID (EFIAPI *SHARED_BIG_NUM_CONTEXT_FREE)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_SET_UINT)(
@@ -1705,7 +1705,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_SET_UINT)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup BN
 **/
 typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_ADD_MOD)(
@@ -1730,7 +1730,7 @@ typedef BOOLEAN (EFIAPI *SHARED_BIG_NUM_ADD_MOD)(
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA256_EXTRACT_AND_EXPAND)(
@@ -1757,7 +1757,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA256_EXTRACT_AND_EXPAND)(
   @retval true   Hkdf generated successfully.
   @retval false  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA256_EXTRACT)(
@@ -1782,7 +1782,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA256_EXTRACT)(
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA256_EXPAND)(
@@ -1809,7 +1809,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA256_EXPAND)(
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA384_EXTRACT_AND_EXPAND)(
@@ -1836,7 +1836,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA384_EXTRACT_AND_EXPAND)(
   @retval true   Hkdf generated successfully.
   @retval false  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA384_EXTRACT)(
@@ -1861,7 +1861,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA384_EXTRACT)(
   @retval TRUE   Hkdf generated successfully.
   @retval FALSE  Hkdf generation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HKDF
 **/
 typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA384_EXPAND)(
@@ -1890,7 +1890,7 @@ typedef BOOLEAN (EFIAPI *SHARED_HKDF_SHA384_EXPAND)(
   @retval  TRUE   The specified Authenticode Signature is valid.
   @retval  FALSE  Invalid Authenticode Signature.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_AUTHENTICODE_VERIFY)(
@@ -1922,7 +1922,7 @@ typedef BOOLEAN (EFIAPI *SHARED_AUTHENTICODE_VERIFY)(
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS1V2_ENCRYPT)(
@@ -1951,7 +1951,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS1V2_ENCRYPT)(
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS1V2_DECRYPT)(
@@ -1988,7 +1988,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS1V2_DECRYPT)(
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_OAEP_ENCRYPT)(
@@ -2023,7 +2023,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_OAEP_ENCRYPT)(
   @retval     TRUE                Encryption was successful.
   @retval     FALSE               Encryption failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_OAEP_DECRYPT)(
@@ -2058,7 +2058,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_OAEP_DECRYPT)(
   @retval  FALSE  The key derivation operation failed.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS5_HASH_PASSWORD)(
@@ -2094,7 +2094,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS5_HASH_PASSWORD)(
   @retval  FALSE           Error occurs during the operation.
   @retval  FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS7_GET_SIGNERS)(
@@ -2111,7 +2111,7 @@ Wrap function to use free() to free allocated memory for certificates.
 If this interface is not supported, then ASSERT().
 @param[in]  Certs        Pointer to the certificates to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef VOID (EFIAPI *SHARED_PKCS7_FREE_SIGNERS)(
@@ -2137,7 +2137,7 @@ typedef VOID (EFIAPI *SHARED_PKCS7_FREE_SIGNERS)(
   @retval  TRUE         The operation is finished successfully.
   @retval  FALSE        Error occurs during the operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS7_GET_CERTIFICATES_LIST)(
@@ -2173,7 +2173,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS7_GET_CERTIFICATES_LIST)(
   @retval     FALSE            PKCS#7 data signing failed.
   @retval     FALSE            This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS7_SIGN)(
@@ -2213,7 +2213,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS7_SIGN)(
   @retval  FALSE Invalid PKCS#7 signed data.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS7_VERIFY)(
@@ -2254,7 +2254,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS7_VERIFY)(
   @retval     FALSE            PKCS#7 data encryption failed.
   @retval     FALSE            This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS7_ENCRYPT)(
@@ -2295,7 +2295,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS7_ENCRYPT)(
   @retval EFI_INVALID_PARAMETER    A parameter was invalid.
   @retval EFI_NOT_FOUND            One or more EKU's were not found in the signature.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef RETURN_STATUS (EFIAPI *SHARED_VERIFY_EK_US_IN_PKCS7_SIGNATURE)(
@@ -2321,7 +2321,7 @@ typedef RETURN_STATUS (EFIAPI *SHARED_VERIFY_EK_US_IN_PKCS7_SIGNATURE)(
   @retval     TRUE          The P7Data was correctly formatted for processing.
   @retval     FALSE         The P7Data was not correctly formatted for processing.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup PKCS
 **/
 typedef BOOLEAN (EFIAPI *SHARED_PKCS7_GET_ATTACHED_CONTENT)(
@@ -2337,7 +2337,7 @@ typedef BOOLEAN (EFIAPI *SHARED_PKCS7_GET_ATTACHED_CONTENT)(
            If the allocations fails, DhNew() returns NULL.
            If the interface is not supported, DhNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 typedef VOID * (EFIAPI *SHARED_DH_NEW)(
@@ -2349,7 +2349,7 @@ typedef VOID * (EFIAPI *SHARED_DH_NEW)(
   If the interface is not supported, then ASSERT().
   @param[in]  DhContext  Pointer to the DH context to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 typedef VOID (EFIAPI *SHARED_DH_FREE)(
@@ -2374,7 +2374,7 @@ typedef VOID (EFIAPI *SHARED_DH_FREE)(
   @retval FALSE  PRNG fails to generate random prime number with PrimeLength.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 typedef BOOLEAN (EFIAPI *SHARED_DH_GENERATE_PARAMETER)(
@@ -2402,7 +2402,7 @@ typedef BOOLEAN (EFIAPI *SHARED_DH_GENERATE_PARAMETER)(
   @retval FALSE  Value of Prime is not a safe prime number.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 typedef BOOLEAN (EFIAPI *SHARED_DH_SET_PARAMETER)(
@@ -2436,7 +2436,7 @@ If this interface is not supported, then return FALSE.
 @retval FALSE  This interface is not supported.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 typedef BOOLEAN (EFIAPI *SHARED_DH_GENERATE_KEY)(
@@ -2471,7 +2471,7 @@ typedef BOOLEAN (EFIAPI *SHARED_DH_GENERATE_KEY)(
   @retval FALSE  This interface is not supported.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup DH
 **/
 typedef BOOLEAN (EFIAPI *SHARED_DH_COMPUTE_KEY)(
@@ -2493,7 +2493,7 @@ typedef BOOLEAN (EFIAPI *SHARED_DH_COMPUTE_KEY)(
   @retval EcGroup object  On success.
   @retval NULL            On failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef VOID * (EFIAPI *SHARED_EC_GROUP_INIT)(
@@ -2515,7 +2515,7 @@ typedef VOID * (EFIAPI *SHARED_EC_GROUP_INIT)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_GROUP_GET_CURVE)(
@@ -2538,7 +2538,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_GROUP_GET_CURVE)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_GROUP_GET_ORDER)(
@@ -2551,7 +2551,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_GROUP_GET_ORDER)(
 
   @param[in]  EcGroup   EC group object to free.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef VOID (EFIAPI *SHARED_EC_GROUP_FREE)(
@@ -2567,7 +2567,7 @@ typedef VOID (EFIAPI *SHARED_EC_GROUP_FREE)(
   @retval EC Point object  On success.
   @retval NULL             On failure.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef VOID * (EFIAPI *SHARED_EC_POINT_INIT)(
@@ -2580,7 +2580,7 @@ typedef VOID * (EFIAPI *SHARED_EC_POINT_INIT)(
   @param[in]  EcPoint   EC Point to free.
   @param[in]  Clear     TRUE iff the memory should be cleared.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef VOID (EFIAPI *SHARED_EC_POINT_DE_INIT)(
@@ -2603,7 +2603,7 @@ typedef VOID (EFIAPI *SHARED_EC_POINT_DE_INIT)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_GET_AFFINE_COORDINATES)(
@@ -2626,7 +2626,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_GET_AFFINE_COORDINATES)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_SET_AFFINE_COORDINATES)(
@@ -2650,7 +2650,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_SET_AFFINE_COORDINATES)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_ADD)(
@@ -2674,7 +2674,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_ADD)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_MUL)(
@@ -2695,7 +2695,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_MUL)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_INVERT)(
@@ -2714,7 +2714,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_INVERT)(
   @retval TRUE          On curve.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_IS_ON_CURVE)(
@@ -2732,7 +2732,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_IS_ON_CURVE)(
   @retval TRUE          At infinity.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_IS_AT_INFINITY)(
@@ -2751,7 +2751,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_IS_AT_INFINITY)(
   @retval TRUE          A == B.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_EQUAL)(
@@ -2778,7 +2778,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_EQUAL)(
   @retval TRUE          On success.
   @retval FALSE         Otherwise.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_SET_COMPRESSED_COORDINATES)(
@@ -2797,7 +2797,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_POINT_SET_COMPRESSED_COORDINATES)(
   @return     Pointer to the Elliptic Curve Context that has been initialized.
               If the allocations fails, EcNewByNid() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef VOID * (EFIAPI *SHARED_EC_NEW_BY_NID)(
@@ -2809,7 +2809,7 @@ typedef VOID * (EFIAPI *SHARED_EC_NEW_BY_NID)(
 
   @param[in]  EcContext  Pointer to the EC context to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef VOID (EFIAPI *SHARED_EC_FREE)(
@@ -2842,7 +2842,7 @@ typedef VOID (EFIAPI *SHARED_EC_FREE)(
   @retval FALSE  EC public X,Y generation failed.
   @retval FALSE  PublicKeySize is not large enough.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_GENERATE_KEY)(
@@ -2865,7 +2865,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_GENERATE_KEY)(
   @retval  TRUE   EC key component was retrieved successfully.
   @retval  FALSE  Invalid EC key component.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_GET_PUB_KEY)(
@@ -2899,7 +2899,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_GET_PUB_KEY)(
   @retval FALSE  EC exchanged key generation failed.
   @retval FALSE  KeySize is not large enough.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_DH_COMPUTE_KEY)(
@@ -2927,7 +2927,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_DH_COMPUTE_KEY)(
   @retval  TRUE   EC Private Key was retrieved successfully.
   @retval  FALSE  Invalid PEM key data or incorrect password.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_GET_PRIVATE_KEY_FROM_PEM)(
@@ -2952,7 +2952,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_GET_PRIVATE_KEY_FROM_PEM)(
   @retval  TRUE   EC Public Key was retrieved successfully.
   @retval  FALSE  Fail to retrieve EC public key from X509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_GET_PUBLIC_KEY_FROM_X509)(
@@ -2989,7 +2989,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_GET_PUBLIC_KEY_FROM_X509)(
   @retval  FALSE  Signature generation failed.
   @retval  FALSE  SigSize is too small.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_DSA_SIGN)(
@@ -3023,7 +3023,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_DSA_SIGN)(
   @retval  TRUE   Valid signature encoded in EC-DSA.
   @retval  FALSE  Invalid signature or invalid EC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup EC
 **/
 typedef BOOLEAN (EFIAPI *SHARED_EC_DSA_VERIFY)(
@@ -3041,7 +3041,7 @@ typedef BOOLEAN (EFIAPI *SHARED_EC_DSA_VERIFY)(
   @return  Pointer to the RSA context that has been initialized.
            If the allocations fails, RsaNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef VOID * (EFIAPI *SHARED_RSA_NEW)(
@@ -3055,7 +3055,7 @@ typedef VOID * (EFIAPI *SHARED_RSA_NEW)(
 
   @param[in]  RsaContext  Pointer to the RSA context to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef VOID (EFIAPI *SHARED_RSA_FREE)(
@@ -3083,7 +3083,7 @@ typedef VOID (EFIAPI *SHARED_RSA_FREE)(
   @retval  TRUE   RSA key component was set successfully.
   @retval  FALSE  Invalid RSA key component tag.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_SET_KEY)(
@@ -3120,7 +3120,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_SET_KEY)(
   @retval  FALSE  BnSize is too small.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_GET_KEY)(
@@ -3152,7 +3152,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_GET_KEY)(
   @retval  FALSE  Invalid RSA key component tag.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_GENERATE_KEY)(
@@ -3182,7 +3182,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_GENERATE_KEY)(
   @retval  FALSE  RSA key components are not valid.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_CHECK_KEY)(
@@ -3215,7 +3215,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_CHECK_KEY)(
   @retval  FALSE  SigSize is too small.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_PKCS1_SIGN)(
@@ -3244,7 +3244,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_PKCS1_SIGN)(
   @retval  TRUE   Valid signature encoded in PKCS1-v1_5.
   @retval  FALSE  Invalid signature or invalid RSA context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_PKCS1_VERIFY)(
@@ -3286,7 +3286,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_PKCS1_VERIFY)(
   @retval  FALSE  SigSize is too small.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_PSS_SIGN)(
@@ -3316,7 +3316,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_PSS_SIGN)(
   @retval  TRUE   Valid signature encoded in RSASSA-PSS.
   @retval  FALSE  Invalid signature or invalid RSA context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_PSS_VERIFY)(
@@ -3347,7 +3347,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_PSS_VERIFY)(
   @retval  FALSE  Invalid PEM key data or incorrect password.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_GET_PRIVATE_KEY_FROM_PEM)(
@@ -3374,7 +3374,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_GET_PRIVATE_KEY_FROM_PEM)(
   @retval  FALSE  Fail to retrieve RSA public key from X509 certificate.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup RSA
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RSA_GET_PUBLIC_KEY_FROM_X509)(
@@ -3401,7 +3401,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RSA_GET_PUBLIC_KEY_FROM_X509)(
                   The SubjectSize will be updated with the required size.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_SUBJECT_NAME)(
@@ -3436,7 +3436,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_SUBJECT_NAME)(
                                    CommonNameSize parameter.
   @retval RETURN_UNSUPPORTED       The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef RETURN_STATUS (EFIAPI *SHARED_X509_GET_COMMON_NAME)(
@@ -3471,7 +3471,7 @@ typedef RETURN_STATUS (EFIAPI *SHARED_X509_GET_COMMON_NAME)(
                                    CommonNameSize parameter.
   @retval RETURN_UNSUPPORTED       The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef RETURN_STATUS (EFIAPI *SHARED_X509_GET_ORGANIZATION_NAME)(
@@ -3498,7 +3498,7 @@ typedef RETURN_STATUS (EFIAPI *SHARED_X509_GET_ORGANIZATION_NAME)(
                   trusted CA.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_VERIFY_CERT)(
@@ -3523,7 +3523,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_VERIFY_CERT)(
   @retval     FALSE           The operation failed.
   @retval     FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_CONSTRUCT_CERTIFICATE)(
@@ -3550,7 +3550,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_CONSTRUCT_CERTIFICATE)(
   @retval     FALSE           The construction operation failed.
   @retval     FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_CONSTRUCT_CERTIFICATE_STACK_V)(
@@ -3575,7 +3575,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_CONSTRUCT_CERTIFICATE_STACK_V)(
   @retval     FALSE           The construction operation failed.
   @retval     FALSE           This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_CONSTRUCT_CERTIFICATE_STACK)(
@@ -3590,7 +3590,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_CONSTRUCT_CERTIFICATE_STACK)(
 
   @param[in]  X509Cert  Pointer to the X509 object to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef VOID (EFIAPI *SHARED_X509_FREE)(
@@ -3604,7 +3604,7 @@ typedef VOID (EFIAPI *SHARED_X509_FREE)(
 
   @param[in]  X509Stack  Pointer to the X509 stack object to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef VOID (EFIAPI *SHARED_X509_STACK_FREE)(
@@ -3627,7 +3627,7 @@ typedef VOID (EFIAPI *SHARED_X509_STACK_FREE)(
   @retval  TRUE   The TBSCertificate was retrieved successfully.
   @retval  FALSE  Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_TBS_CERT)(
@@ -3652,7 +3652,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_TBS_CERT)(
   @retval FALSE          If  Cert is NULL or CertSize is Zero.
   @retval FALSE          The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_VERSION)(
@@ -3684,7 +3684,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_VERSION)(
                                    SerialNumberSize parameter.
   @retval FALSE                    The operation is not supported
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_SERIAL_NUMBER)(
@@ -3712,7 +3712,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_SERIAL_NUMBER)(
                   The CertIssuerSize will be updated with the required size.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_ISSUER_NAME)(
@@ -3740,7 +3740,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_ISSUER_NAME)(
                                    is returned in the OidSize.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_SIGNATURE_ALGORITHM)(
@@ -3767,7 +3767,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_SIGNATURE_ALGORITHM)(
                                    is returned in the UsageSize parameter.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_EXTENDED_KEY_USAGE)(
@@ -3797,7 +3797,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_EXTENDED_KEY_USAGE)(
                                    is returned in the ExtensionDataSize parameter.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_EXTENSION_DATA)(
@@ -3830,7 +3830,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_EXTENSION_DATA)(
   @retval  FALSE  Invalid certificate, or Validity retrieve failed.
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_VALIDITY)(
@@ -3865,7 +3865,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_VALIDITY)(
                                    DateTimeSize parameter.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_FORMAT_DATE_TIME)(
@@ -3885,7 +3885,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_FORMAT_DATE_TIME)(
   @retval  FALSE  Invalid certificate, or Usage is NULL
   @retval  FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_KEY_USAGE)(
@@ -3910,7 +3910,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_KEY_USAGE)(
   @retval  FALSE  Invalid certificate or the certificate was not issued by the given
                   trusted CA.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_VERIFY_CERT_CHAIN)(
@@ -3938,7 +3938,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_VERIFY_CERT_CHAIN)(
   @retval  TRUE   Success.
   @retval  FALSE  Failed to get certificate from certificate chain.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
 **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_CERT_FROM_CERT_CHAIN)(
@@ -3967,7 +3967,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_CERT_FROM_CERT_CHAIN)(
   @retval FALSE                    If no Extension entry match oid.
   @retval FALSE                    The operation is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup X509
  **/
 typedef BOOLEAN (EFIAPI *SHARED_X509_GET_EXTENDED_BASIC_CONSTRAINTS)(
@@ -3994,7 +3994,7 @@ typedef BOOLEAN (EFIAPI *SHARED_X509_GET_EXTENDED_BASIC_CONSTRAINTS)(
   @retval FALSE  Pseudorandom number generator does not have enough entropy for random generation.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Random
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RANDOM_SEED)(
@@ -4015,7 +4015,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RANDOM_SEED)(
   @retval FALSE  Pseudorandom number generator fails to generate due to lack of entropy.
   @retval FALSE  This interface is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Random
 **/
 typedef BOOLEAN (EFIAPI *SHARED_RANDOM_BYTES)(
@@ -4033,7 +4033,7 @@ typedef BOOLEAN (EFIAPI *SHARED_RANDOM_BYTES)(
   @retval TRUE   The OpenSSL library has been initialized.
   @retval FALSE  Failed to initialize the OpenSSL library.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef BOOLEAN (EFIAPI *SHARED_TLS_INITIALIZE)(
@@ -4045,7 +4045,7 @@ typedef BOOLEAN (EFIAPI *SHARED_TLS_INITIALIZE)(
 
   @param[in]  TlsCtx    Pointer to the SSL_CTX object to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef VOID (EFIAPI *SHARED_TLS_CTX_FREE)(
@@ -4062,7 +4062,7 @@ typedef VOID (EFIAPI *SHARED_TLS_CTX_FREE)(
   @return  Pointer to an allocated SSL_CTX object.
            If the creation failed, TlsCtxNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef VOID * (EFIAPI *SHARED_TLS_CTX_NEW)(
@@ -4078,7 +4078,7 @@ typedef VOID * (EFIAPI *SHARED_TLS_CTX_NEW)(
 
   @param[in]  Tls    Pointer to the TLS object to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef VOID (EFIAPI *SHARED_TLS_FREE)(
@@ -4097,7 +4097,7 @@ typedef VOID (EFIAPI *SHARED_TLS_FREE)(
   @return  Pointer to an allocated SSL object.
            If the creation failed, TlsNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef VOID * (EFIAPI *SHARED_TLS_NEW)(
@@ -4114,7 +4114,7 @@ typedef VOID * (EFIAPI *SHARED_TLS_NEW)(
   @retval  TRUE     The TLS handshake was done.
   @retval  FALSE    The TLS handshake was not done.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef BOOLEAN (EFIAPI *SHARED_TLS_IN_HANDSHAKE)(
@@ -4146,7 +4146,7 @@ typedef BOOLEAN (EFIAPI *SHARED_TLS_IN_HANDSHAKE)(
   @retval EFI_BUFFER_TOO_SMALL    BufferOutSize is too small to hold the response packet.
   @retval EFI_ABORTED             Something wrong during handshake.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_DO_HANDSHAKE)(
@@ -4181,7 +4181,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_DO_HANDSHAKE)(
   @retval EFI_ABORTED             An error occurred.
   @retval EFI_BUFFER_TOO_SMALL    BufferOutSize is too small to hold the response packet.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_HANDLE_ALERT)(
@@ -4209,7 +4209,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_HANDLE_ALERT)(
                                   Buffer is NULL if *BufferSize is not zero.
   @retval EFI_BUFFER_TOO_SMALL    BufferSize is too small to hold the response packet.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_CLOSE_NOTIFY)(
@@ -4231,7 +4231,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_CLOSE_NOTIFY)(
   @retval  >0    The amount of data successfully read from the TLS object.
   @retval  <=0   No data was successfully read.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef INTN (EFIAPI *SHARED_TLS_CTRL_TRAFFIC_OUT)(
@@ -4253,7 +4253,7 @@ typedef INTN (EFIAPI *SHARED_TLS_CTRL_TRAFFIC_OUT)(
   @retval  >0    The amount of data successfully written to the TLS object.
   @retval <=0    No data was successfully written.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef INTN (EFIAPI *SHARED_TLS_CTRL_TRAFFIC_IN)(
@@ -4276,7 +4276,7 @@ typedef INTN (EFIAPI *SHARED_TLS_CTRL_TRAFFIC_IN)(
                  number of bytes actually read from the TLS connection.
   @retval  <=0   The read operation was not successful.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef INTN (EFIAPI *SHARED_TLS_READ)(
@@ -4299,7 +4299,7 @@ typedef INTN (EFIAPI *SHARED_TLS_READ)(
                  number of bytes actually written to the TLS connection.
   @retval <=0    The write operation was not successful.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef INTN (EFIAPI *SHARED_TLS_WRITE)(
@@ -4321,7 +4321,7 @@ typedef INTN (EFIAPI *SHARED_TLS_WRITE)(
   @retval EFI_INVALID_PARAMETER   Tls is NULL.
   @retval EFI_PROTOCOL_ERROR      Some other error occurred.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SHUTDOWN)(
@@ -4341,7 +4341,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SHUTDOWN)(
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported TLS/SSL method.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_VERSION)(
@@ -4362,7 +4362,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_VERSION)(
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported TLS/SSL work mode.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CONNECTION_END)(
@@ -4387,7 +4387,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CONNECTION_END)(
   @retval  EFI_UNSUPPORTED       No supported TLS cipher was found in CipherId.
   @retval  EFI_OUT_OF_RESOURCES  Memory allocation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CIPHER_LIST)(
@@ -4408,7 +4408,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CIPHER_LIST)(
   @retval  EFI_UNSUPPORTED    Unsupported compression method.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_COMPRESSION_METHOD)(
@@ -4423,7 +4423,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_COMPRESSION_METHOD)(
   @param[in]  Tls           Pointer to the TLS object.
   @param[in]  VerifyMode    A set of logically or'ed verification mode flags.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef VOID (EFIAPI *SHARED_TLS_SET_VERIFY)(
@@ -4442,7 +4442,7 @@ typedef VOID (EFIAPI *SHARED_TLS_SET_VERIFY)(
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_ABORTED           Invalid HostName setting.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_VERIFY_HOST)(
@@ -4465,7 +4465,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_VERIFY_HOST)(
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       No available session for ID setting.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_SESSION_ID)(
@@ -4490,7 +4490,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_SESSION_ID)(
   @retval  EFI_OUT_OF_RESOURCES    Required resources could not be allocated.
   @retval  EFI_ABORTED             Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CA_CERTIFICATE)(
@@ -4515,7 +4515,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CA_CERTIFICATE)(
   @retval  EFI_OUT_OF_RESOURCES    Required resources could not be allocated.
   @retval  EFI_ABORTED             Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_HOST_PUBLIC_CERT)(
@@ -4541,7 +4541,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_HOST_PUBLIC_CERT)(
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid private key data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_HOST_PRIVATE_KEY_EX)(
@@ -4566,7 +4566,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_HOST_PRIVATE_KEY_EX)(
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid private key data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_HOST_PRIVATE_KEY)(
@@ -4588,7 +4588,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_HOST_PRIVATE_KEY)(
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid CRL data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CERT_REVOCATION_LIST)(
@@ -4612,7 +4612,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_CERT_REVOCATION_LIST)(
   @retval  EFI_UNSUPPORTED       No supported TLS signature algorithm was found in SignatureAlgoList
   @retval  EFI_OUT_OF_RESOURCES  Memory allocation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_SIGNATURE_ALGO_LIST)(
@@ -4634,7 +4634,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_SIGNATURE_ALGO_LIST)(
   @retval  EFI_INVALID_PARAMETER The parameters are invalid.
   @retval  EFI_UNSUPPORTED       The requested TLS EC curve is not supported
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_EC_CURVE)(
@@ -4655,7 +4655,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_SET_EC_CURVE)(
 
   @return  The protocol version of the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef UINT16 (EFIAPI *SHARED_TLS_GET_VERSION)(
@@ -4674,7 +4674,7 @@ typedef UINT16 (EFIAPI *SHARED_TLS_GET_VERSION)(
 
   @return  The connection end used by the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef UINT8 (EFIAPI *SHARED_TLS_GET_CONNECTION_END)(
@@ -4694,7 +4694,7 @@ typedef UINT8 (EFIAPI *SHARED_TLS_GET_CONNECTION_END)(
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported cipher suite.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CURRENT_CIPHER)(
@@ -4717,7 +4717,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CURRENT_CIPHER)(
   @retval  EFI_ABORTED           Invalid Compression method.
   @retval  EFI_UNSUPPORTED       This function is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CURRENT_COMPRESSION_ID)(
@@ -4737,7 +4737,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CURRENT_COMPRESSION_ID)(
 
   @return  The verification mode set in the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef UINT32 (EFIAPI *SHARED_TLS_GET_VERIFY)(
@@ -4758,7 +4758,7 @@ typedef UINT32 (EFIAPI *SHARED_TLS_GET_VERIFY)(
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Invalid TLS/SSL session.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_SESSION_ID)(
@@ -4777,7 +4777,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_SESSION_ID)(
   @param[in,out]  ClientRandom    Buffer to contain the returned client
                                   random data (32 bytes).
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef VOID (EFIAPI *SHARED_TLS_GET_CLIENT_RANDOM)(
@@ -4795,7 +4795,7 @@ typedef VOID (EFIAPI *SHARED_TLS_GET_CLIENT_RANDOM)(
   @param[in,out]  ServerRandom    Buffer to contain the returned server
                                   random data (32 bytes).
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef VOID (EFIAPI *SHARED_TLS_GET_SERVER_RANDOM)(
@@ -4816,7 +4816,7 @@ typedef VOID (EFIAPI *SHARED_TLS_GET_SERVER_RANDOM)(
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Invalid TLS/SSL session.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_KEY_MATERIAL)(
@@ -4839,7 +4839,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_KEY_MATERIAL)(
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CA_CERTIFICATE)(
@@ -4864,7 +4864,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CA_CERTIFICATE)(
   @retval  EFI_NOT_FOUND           The certificate is not found.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_HOST_PUBLIC_CERT)(
@@ -4888,7 +4888,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_HOST_PUBLIC_CERT)(
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_HOST_PRIVATE_KEY)(
@@ -4911,7 +4911,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_HOST_PRIVATE_KEY)(
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CERT_REVOCATION_LIST)(
@@ -4936,7 +4936,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_CERT_REVOCATION_LIST)(
   @retval  EFI_INVALID_PARAMETER   The TLS object is invalid.
   @retval  EFI_PROTOCOL_ERROR      Some other error occurred.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_EXPORT_KEY)(
@@ -4966,7 +4966,7 @@ typedef EFI_STATUS (EFIAPI *SHARED_TLS_GET_EXPORT_KEY)(
   @retval  TRUE   The specified Authenticode includes a valid RFC3161 Timestamp CounterSignature.
   @retval  FALSE  No valid RFC3161 Timestamp CounterSignature in the specified Authenticode data.
   
-  @since 1.0.0
+  @since 1.0
   @ingroup Timestamp
 **/
 typedef BOOLEAN (EFIAPI *SHARED_IMAGE_TIMESTAMP_VERIFY)(
@@ -4992,7 +4992,7 @@ typedef BOOLEAN (EFIAPI *SHARED_IMAGE_TIMESTAMP_VERIFY)(
   Supports functions from versions:
    - 1.0.0
 
-  @since 1.0.0
+  @since 1.0
   @ingroup OneCryptoProtocol
 **/
 typedef struct _ONE_CRYPTO_PROTOCOL
@@ -5002,13 +5002,10 @@ typedef struct _ONE_CRYPTO_PROTOCOL
   // Major.Minor.Revision
   // Major - Breaking change to this structure
   // Minor - Functions added to the end of this structure
-  // Revision - Some non breaking change
   //
   // ---------------------------------------------------------------------------
   UINT16 Major;
   UINT16 Minor;
-  UINT16 Revision;
-  UINT16 Reserved;
 
   /// v1.0.0 HMAC --------------------------------------------------------------
   SHARED_HMAC_SHA256_NEW HmacSha256New;

@@ -53,7 +53,7 @@ extern ONE_CRYPTO_DEPENDENCIES  *gOneCryptoDepends;
 
   @note This macro does nothing if gOneCryptoDepends or gOneCryptoDepends->DebugPrint is NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup External
 **/
 #define DEBUG(Args)                                                       \

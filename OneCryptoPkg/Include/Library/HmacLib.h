@@ -7,7 +7,7 @@
 **/
 
 // -----------------------------------------------------------------------------
-// MANUALLY MAINTAINED MANUALLY - See MANUAL_UPDATE_GUIDE.md
+// MANUALLY MAINTAINED - See MANUAL_UPDATE_GUIDE.md
 // LAST UPDATED: 2025-Nov-11
 // VERSION: 1.0
 // -----------------------------------------------------------------------------
@@ -26,7 +26,7 @@
 
   @return  Pointer to the new HMAC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID *
@@ -40,7 +40,7 @@ HmacSha256New (
 
   @param[in]  HmacCtx  Pointer to the HMAC context to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID
@@ -59,7 +59,7 @@ HmacSha256Free (
   @retval TRUE   Key was set successfully.
   @retval FALSE  Failed to set the key.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -79,7 +79,7 @@ HmacSha256SetKey (
   @retval TRUE   Context was duplicated successfully.
   @retval FALSE  Failed to duplicate the context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -99,7 +99,7 @@ HmacSha256Duplicate (
   @retval TRUE   Data was updated successfully.
   @retval FALSE  Failed to update the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -119,7 +119,7 @@ HmacSha256Update (
   @retval TRUE   HMAC value was produced successfully.
   @retval FALSE  Failed to produce the HMAC value.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -141,7 +141,7 @@ HmacSha256Final (
   @retval TRUE   HMAC operation was performed successfully.
   @retval FALSE  Failed to perform the HMAC operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -159,7 +159,7 @@ HmacSha256All (
 
   @return  Pointer to the new HMAC context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID *
@@ -173,7 +173,7 @@ HmacSha384New (
 
   @param[in]  HmacCtx  Pointer to the HMAC context to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 VOID
@@ -192,7 +192,7 @@ HmacSha384Free (
   @retval TRUE   Key was set successfully.
   @retval FALSE  Failed to set the key.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -212,7 +212,7 @@ HmacSha384SetKey (
   @retval TRUE   Context was duplicated successfully.
   @retval FALSE  Failed to duplicate the context.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -232,7 +232,7 @@ HmacSha384Duplicate (
   @retval TRUE   Data was updated successfully.
   @retval FALSE  Failed to update the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -252,7 +252,7 @@ HmacSha384Update (
   @retval TRUE   HMAC value was produced successfully.
   @retval FALSE  Failed to produce the HMAC value.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN
@@ -274,7 +274,7 @@ HmacSha384Final (
   @retval TRUE   HMAC operation was performed successfully.
   @retval FALSE  Failed to perform the HMAC operation.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup HMAC
 **/
 BOOLEAN

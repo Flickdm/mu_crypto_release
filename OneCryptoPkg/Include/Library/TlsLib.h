@@ -7,7 +7,7 @@
 **/
 
 // -----------------------------------------------------------------------------
-// MANUALLY MAINTAINED MANUALLY - See MANUAL_UPDATE_GUIDE.md
+// MANUALLY MAINTAINED - See MANUAL_UPDATE_GUIDE.md
 // LAST UPDATED: 2025-Nov-11
 // VERSION: 1.0
 // -----------------------------------------------------------------------------
@@ -31,7 +31,7 @@
   @retval TRUE   The OpenSSL library has been initialized.
   @retval FALSE  Failed to initialize the OpenSSL library.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 BOOLEAN
@@ -45,7 +45,7 @@ TlsInitialize (
 
   @param[in]  TlsCtx    Pointer to the SSL_CTX object to be released.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -64,7 +64,7 @@ TlsCtxFree (
   @return  Pointer to an allocated SSL_CTX object.
            If the creation failed, TlsCtxNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID *
@@ -82,7 +82,7 @@ TlsCtxNew (
 
   @param[in]  Tls    Pointer to the TLS object to be freed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -103,7 +103,7 @@ TlsFree (
   @return  Pointer to an allocated SSL object.
            If the creation failed, TlsNew() returns NULL.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID *
@@ -122,7 +122,7 @@ TlsNew (
   @retval  TRUE     The TLS handshake was done.
   @retval  FALSE    The TLS handshake was not done.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 BOOLEAN
@@ -156,7 +156,7 @@ TlsInHandshake (
   @retval EFI_BUFFER_TOO_SMALL    BufferOutSize is too small to hold the response packet.
   @retval EFI_ABORTED             Something wrong during handshake.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -193,7 +193,7 @@ TlsDoHandshake (
   @retval EFI_ABORTED             An error occurred.
   @retval EFI_BUFFER_TOO_SMALL    BufferOutSize is too small to hold the response packet.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -223,7 +223,7 @@ TlsHandleAlert (
                                   Buffer is NULL if *BufferSize is not zero.
   @retval EFI_BUFFER_TOO_SMALL    BufferSize is too small to hold the response packet.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -247,7 +247,7 @@ TlsCloseNotify (
   @retval  >0    The amount of data successfully read from the TLS object.
   @retval  <=0   No data was successfully read.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -271,7 +271,7 @@ TlsCtrlTrafficOut (
   @retval  >0    The amount of data successfully written to the TLS object.
   @retval <=0    No data was successfully written.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -296,7 +296,7 @@ TlsCtrlTrafficIn (
                  number of bytes actually read from the TLS connection.
   @retval  <=0   The read operation was not successful.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -321,7 +321,7 @@ TlsRead (
                  number of bytes actually written to the TLS connection.
   @retval <=0    The write operation was not successful.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 INTN
@@ -345,7 +345,7 @@ TlsWrite (
   @retval EFI_INVALID_PARAMETER   Tls is NULL.
   @retval EFI_PROTOCOL_ERROR      Some other error occurred.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -367,7 +367,7 @@ TlsShutdown (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported TLS/SSL method.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -390,7 +390,7 @@ TlsSetVersion (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported TLS/SSL work mode.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -417,7 +417,7 @@ TlsSetConnectionEnd (
   @retval  EFI_UNSUPPORTED       No supported TLS cipher was found in CipherId.
   @retval  EFI_OUT_OF_RESOURCES  Memory allocation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -440,7 +440,7 @@ TlsSetCipherList (
   @retval  EFI_UNSUPPORTED    Unsupported compression method.
 
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -457,7 +457,7 @@ TlsSetCompressionMethod (
   @param[in]  Tls           Pointer to the TLS object.
   @param[in]  VerifyMode    A set of logically or'ed verification mode flags.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -478,7 +478,7 @@ TlsSetVerify (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_ABORTED           Invalid HostName setting.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -503,7 +503,7 @@ TlsSetVerifyHost (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       No available session for ID setting.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -530,7 +530,7 @@ TlsSetSessionId (
   @retval  EFI_OUT_OF_RESOURCES    Required resources could not be allocated.
   @retval  EFI_ABORTED             Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -557,7 +557,7 @@ TlsSetCaCertificate (
   @retval  EFI_OUT_OF_RESOURCES    Required resources could not be allocated.
   @retval  EFI_ABORTED             Invalid X.509 certificate.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -585,7 +585,7 @@ TlsSetHostPublicCert (
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid private key data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -612,7 +612,7 @@ TlsSetHostPrivateKeyEx (
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid private key data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -636,7 +636,7 @@ TlsSetHostPrivateKey (
   @retval  EFI_UNSUPPORTED This function is not supported.
   @retval  EFI_ABORTED     Invalid CRL data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -662,7 +662,7 @@ TlsSetCertRevocationList (
   @retval  EFI_UNSUPPORTED       No supported TLS signature algorithm was found in SignatureAlgoList
   @retval  EFI_OUT_OF_RESOURCES  Memory allocation failed.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -686,7 +686,7 @@ TlsSetSignatureAlgoList (
   @retval  EFI_INVALID_PARAMETER The parameters are invalid.
   @retval  EFI_UNSUPPORTED       The requested TLS EC curve is not supported
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -709,7 +709,7 @@ TlsSetEcCurve (
 
   @return  The protocol version of the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 UINT16
@@ -730,7 +730,7 @@ TlsGetVersion (
 
   @return  The connection end used by the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 UINT8
@@ -752,7 +752,7 @@ TlsGetConnectionEnd (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Unsupported cipher suite.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -777,7 +777,7 @@ TlsGetCurrentCipher (
   @retval  EFI_ABORTED           Invalid Compression method.
   @retval  EFI_UNSUPPORTED       This function is not supported.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -799,7 +799,7 @@ TlsGetCurrentCompressionId (
 
   @return  The verification mode set in the specified TLS connection.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 UINT32
@@ -822,7 +822,7 @@ TlsGetVerify (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Invalid TLS/SSL session.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -843,7 +843,7 @@ TlsGetSessionId (
   @param[in,out]  ClientRandom    Buffer to contain the returned client
                                   random data (32 bytes).
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -863,7 +863,7 @@ TlsGetClientRandom (
   @param[in,out]  ServerRandom    Buffer to contain the returned server
                                   random data (32 bytes).
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 VOID
@@ -886,7 +886,7 @@ TlsGetServerRandom (
   @retval  EFI_INVALID_PARAMETER The parameter is invalid.
   @retval  EFI_UNSUPPORTED       Invalid TLS/SSL session.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -911,7 +911,7 @@ TlsGetKeyMaterial (
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -938,7 +938,7 @@ TlsGetCaCertificate (
   @retval  EFI_NOT_FOUND           The certificate is not found.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -964,7 +964,7 @@ TlsGetHostPublicCert (
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -989,7 +989,7 @@ TlsGetHostPrivateKey (
   @retval  EFI_UNSUPPORTED         This function is not supported.
   @retval  EFI_BUFFER_TOO_SMALL    The Data is too small to hold the data.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS
@@ -1016,7 +1016,7 @@ TlsGetCertRevocationList (
   @retval  EFI_INVALID_PARAMETER   The TLS object is invalid.
   @retval  EFI_PROTOCOL_ERROR      Some other error occurred.
 
-  @since 1.0.0
+  @since 1.0
   @ingroup Tls
 **/
 EFI_STATUS

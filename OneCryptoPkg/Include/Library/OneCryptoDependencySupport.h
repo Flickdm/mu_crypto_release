@@ -215,12 +215,9 @@ typedef struct  _ONE_CRYPTO_DEPENDENCIES {
   // Major.Minor.Revision
   // Major - Breaking change to this structure
   // Minor - Functions added to the end of this structure
-  // Revision - Some non breaking change
   //
   UINT16                  Major;                ///< Version Major
   UINT16                  Minor;                ///< Version Minor
-  UINT16                  Revision;             ///< Version Revision
-  UINT16                  Reserved;             ///< Reserved for future use
   ALLOCATE_POOL           AllocatePool;         ///< Memory allocation function
   FREE_POOL               FreePool;             ///< Memory deallocation function
   ASSERT_T                ASSERT;               ///< Assertion checking function
