@@ -17,6 +17,7 @@
 #define ONE_CRYPTO_LIBRARY_H_
 
 #include <Uefi.h>
+#include <Library/OneCryptoDefinitions.h>
 
 #define VERSION_MAJOR     1ULL
 #define VERSION_MINOR     0ULL
