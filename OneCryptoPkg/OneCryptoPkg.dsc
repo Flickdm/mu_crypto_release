@@ -32,7 +32,7 @@
   DebugLib                       | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
   RngLib                         | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # OpensslLib needs this, but actual RNG comes through dependency injection
   RegisterFilterLib              | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
-  SafeIntLib                     | OneCryptoPkg/Library/MinimalSafeIntLib/MinimalSafeIntLib.inf
+  SafeIntLib                     | MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   FltUsedLib                     | MdePkg/Library/FltUsedLib/FltUsedLib.inf
   BaseCryptLib                   | OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OpensslLib                     | OpensslPkg/Library/OpensslLib/OpenssLibShared.inf
@@ -40,7 +40,6 @@
   MinimalStandaloneMmDriverEntryPoint | OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
 
 [Components]
-  OneCryptoPkg/Library/MinimalSafeIntLib/MinimalSafeIntLib.inf
   OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OneCryptoPkg/OneCryptoBin/OneCryptoMmBin.inf
