@@ -22,7 +22,7 @@
 #
 
 [LibraryClasses]
-  MinimalStandaloneMmDriverEntryPoint
+  StandaloneMmDriverEntryPoint
   MmServicesTableLib
   IntrinsicLib
   BaseLib
