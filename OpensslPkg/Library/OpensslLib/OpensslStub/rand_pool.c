@@ -13,7 +13,7 @@
 #include <Uefi.h>
 #include <Library/RngLib.h>
 #include <Private/OneCryptoBaseDebugLib.h>
-#include <Library/OneCryptoLibrary.h>
+#include <Library/BaseCryptLib.h>
 
 /**
   Calls RandomNumber64 to fill
