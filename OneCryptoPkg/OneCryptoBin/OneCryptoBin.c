@@ -13,7 +13,7 @@
 #include <Library/DebugLib.h>
 #include <Private/OneCryptoCrtLibSupport.h>
 #include <Library/OneCryptoDependencySupport.h>
-#include <Library/OneCryptoLibrary.h>
+#include <Library/BaseCryptLib.h>
 #include <Protocol/OneCryptoProtocol.h>
 
 //
