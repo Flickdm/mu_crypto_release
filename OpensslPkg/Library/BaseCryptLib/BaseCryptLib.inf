@@ -14,7 +14,7 @@
   FILE_GUID                      = A3BC9A4E-5F5C-4E8B-9C3D-8E2F3A1B9C5D
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = BaseCryptLib
+  LIBRARY_CLASS                  = BaseCryptLib | DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SMM_DRIVER UEFI_DRIVER UEFI_APPLICATION MM_STANDALONE
 
   DEFINE OPENSSL_PATH            = openssl
   DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
@@ -53,12 +53,12 @@
   # Random Number Generation API
   Rand/CryptRand.c
   
-  # Math functions
-  Math/DivS64x64Remainder.c
+  # Math functions - Commented out to avoid conflict with BaseLib
+  # Math/DivS64x64Remainder.c
   
-  # System Call Wrappers
+  # System Call Wrappers - Use only one clock implementation
   SysCall/BaseMemAllocation.c
-  SysCall/ConstantTimeClock.c
+  # SysCall/ConstantTimeClock.c  # Commented out - conflicts with TimerWrapper
   SysCall/CrtWrapper.c
   SysCall/inet_pton.c
   SysCall/TimerWrapper.c
@@ -84,10 +84,11 @@
   Pk/CryptPkcs5Pbkdf2.c
   Pk/CryptPkcs7Encrypt.c
   Pk/CryptPkcs7Sign.c
+  # Use Base versions for MM_STANDALONE compatibility - no Runtime services
   Pk/CryptPkcs7VerifyBase.c
   Pk/CryptPkcs7VerifyCommon.c
   Pk/CryptPkcs7VerifyEku.c
-  Pk/CryptPkcs7VerifyRuntime.c
+  # Pk/CryptPkcs7VerifyRuntime.c  # REMOVED - Runtime-specific, uses EFI Runtime Services
   Pk/CryptRsaBasic.c
   Pk/CryptRsaExt.c
   Pk/CryptRsaPss.c

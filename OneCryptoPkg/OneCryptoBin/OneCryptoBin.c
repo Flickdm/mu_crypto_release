@@ -14,22 +14,7 @@
 #include <Private/OneCryptoCrtLibSupport.h>
 #include <Library/OneCryptoDependencySupport.h>
 #include <Library/BaseCryptLib.h>
-#include <Protocol/OneCryptoProtocol.h>
-
-//
-// Function declarations from BaseCryptLib
-//
-CONST CHAR8 *
-EFIAPI
-GetOpenSslVersionText (
-  VOID
-  );
-
-UINTN
-EFIAPI
-GetOpenSslVersionNumber (
-  VOID
-  );
+#include <Protocol/OneCrypto.h>
 
 // #if defined(_MSC_VER)
 #define COMMON_EXPORT_API  __declspec(dllexport)
@@ -348,6 +333,13 @@ CryptoInit (
   // ========================================================================================================
 
   CryptoProtocol->ImageTimestampVerify = ImageTimestampVerify;
+
+  // ========================================================================================================
+  // Info
+  // ========================================================================================================
+
+  CryptoProtocol->GetOpenSslVersionText   = GetOpenSslVersionText;
+  CryptoProtocol->GetOpenSslVersionNumber = GetOpenSslVersionNumber;
 
   DEBUG ((DEBUG_INFO, "OneCryptoBin: CryptoInit completed - comprehensive protocol populated\n"));
 }
