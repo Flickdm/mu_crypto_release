@@ -4,7 +4,7 @@ This guide documents how to manually update the OneCrypto protocol and library f
 
 ## Overview
 
-Previously, `CreateCryptoProtocol.py` would parse `OneCryptoDefinitions.h` and automatically generate:
+Previously, `CreateCryptoProtocol.py` would parse `BaseCryptDefs.h` and automatically generate:
 - Protocol definitions
 - Library headers  
 - Library implementation wrappers
@@ -13,7 +13,7 @@ These files are now maintained manually. When adding, modifying, or removing cry
 
 ## Source of Truth
 
-**`OneCryptoPkg/Include/Library/OneCryptoDefinitions.h`**
+**`MU_BASECORE/CryptoPkg/Include/Library/BaseCryptDefs.h`**
 
 This file contains the canonical definitions of all crypto functions, including:
 - Function signatures
@@ -58,7 +58,7 @@ typedef struct {
 
 **What to update:**
 - Add/remove function declarations
-- Keep function signatures in sync with OneCryptoDefinitions.h
+- Keep function signatures in sync with BaseCryptDefs.h
 - Update comments/documentation
 
 #### Specialized Library Headers
@@ -70,7 +70,7 @@ typedef struct {
 
 **What to update:**
 - Add/remove function declarations within the appropriate group
-- Maintain consistency with OneCryptoDefinitions.h
+- Maintain consistency with BaseCryptDefs.h
 
 ### 3. Library Implementation (Protocol Consumer)
 
@@ -125,7 +125,7 @@ HmacSha256Free (
 
 When adding a new crypto function:
 
-1. **Define in OneCryptoDefinitions.h**
+1. **Define in BaseCryptDefs.h**
    - Add complete function signature
    - Include full documentation (description, parameters, return values)
    - Add `@since` version tag (e.g., `@since 1.0`)
@@ -138,7 +138,7 @@ When adding a new crypto function:
 
 3. **Update Library Header**
    - Add function declaration to `OneCryptoLib.h` (or specialized header if grouped)
-   - Copy documentation from OneCryptoDefinitions.h
+   - Copy documentation from BaseCryptDefs.h
    - Ensure EFIAPI calling convention is specified
 
 4. **Implement Wrapper (OneCryptoLib.c)**
@@ -167,11 +167,11 @@ Version numbers are defined in `OneCryptoProtocol.h`:
 - **MINOR**: New functions added (backward compatible)
 - **REVISION**: Bug fixes, documentation updates (no interface changes)
 
-Update `@since` tags in OneCryptoDefinitions.h when adding functions to reflect the version they were introduced.
+Update `@since` tags in BaseCryptDefs.h when adding functions to reflect the version they were introduced.
 
 ## Common Mistakes to Avoid
 
-1. **Mismatched signatures** - Function signature in library header must exactly match OneCryptoDefinitions.h
+1. **Mismatched signatures** - Function signature in library header must exactly match BaseCryptDefs.h
 2. **Missing EFIAPI** - All functions must use EFIAPI calling convention
 3. **Wrong macro** - Use `CALL_VOID_CRYPTO_SERVICE` for void functions, `CALL_CRYPTO_SERVICE` for others
 4. **Incorrect error returns** - Ensure default error return values are appropriate for the function's return type
