@@ -154,8 +154,6 @@ typedef struct  _ONE_CRYPTO_DEPENDENCIES {
   GET_RANDOM_NUMBER_64    GetRandomNumber64;    ///< 64-bit random number generation function
 } ONE_CRYPTO_DEPENDENCIES;
 
-ONE_CRYPTO_DEPENDENCIES  *gOneCryptoDepends;
-
 ///////////////////////////////////////////////////////////////////////////////
 /// Exported Functions
 ///////////////////////////////////////////////////////////////////////////////

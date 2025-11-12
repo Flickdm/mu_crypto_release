@@ -8,7 +8,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #ifndef ONE_CRYPTO_DEBUG_LIBRARY_H_
 #define ONE_CRYPTO_DEBUG_LIBRARY_H_
 
-#include <Private/OneCryptoCrtLibSupport.h>
+#include <Private/OneCryptoDependencySupport.h>
 
 extern ONE_CRYPTO_DEPENDENCIES  *gOneCryptoDepends;
 

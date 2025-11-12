@@ -27,9 +27,9 @@
   BaseMemoryLib                  | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
   PrintLib                       | MdePkg/Library/BasePrintLib/BasePrintLib.inf
   MmServicesTableLib             | MdePkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf
-  StandaloneMmDriverEntryPoint   | Features/MM_SUPV/MmSupervisorPkg/Library/StandaloneMmDriverEntryPoint/StandaloneMmDriverEntryPoint.inf
+  StandaloneMmDriverEntryPoint   | MmSupervisorPkg/Library/StandaloneMmDriverEntryPoint/StandaloneMmDriverEntryPoint.inf
   PcdLib                         | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
-  DebugLib                       | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
+  DebugLib                       | OneCryptoPkg/Library/BaseDebugLibOneCrypto/BaseDebugLibOneCrypto.inf # OneCrypto-specific DebugLib using dependency injection
   RngLib                         | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # OpensslLib needs this, but actual RNG comes through dependency injection
   RegisterFilterLib              | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
   SafeIntLib                     | MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
@@ -37,9 +37,9 @@
   BaseCryptLib                   | OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OpensslLib                     | OpensslPkg/Library/OpensslLib/OpenssLibShared.inf
   IntrinsicLib                   | OpensslPkg/Library/IntrinsicLib/IntrinsicLib.inf
+  BaseCryptCrtLib                | OneCryptoPkg/Library/BaseCryptCrtLibOneCrypto/BaseCryptCrtLib.inf
 
 [Components]
-  OpensslPkg/Library/BaseCryptLib/BaseCryptLib.inf
   OneCryptoPkg/OneCryptoBin/OneCryptoMmBin.inf
 
 [BuildOptions]

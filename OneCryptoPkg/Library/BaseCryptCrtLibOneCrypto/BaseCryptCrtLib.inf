@@ -1,0 +1,38 @@
+## @file
+#  BaseCryptCrtLib.inf
+#
+#  OneCrypto implementation of BaseCryptCrtLib library class.
+#  This implementation uses dependency injection to provide CRT functions
+#  for cryptographic operations requiring memory allocation, time services,
+#  random number generation, and debugging.
+#
+#  Copyright (c) Microsoft Corporation.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BaseCryptCrtLibOneCrypto
+  FILE_GUID                      = A1B2C3D4-E5F6-7890-ABCD-EF1234567890
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BaseCryptCrtLib
+
+[Sources]
+  BaseCryptCrtLib.c
+  OneCryptoCrt.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
+  OpensslPkg/OpensslPkg.dec
+
+[LibraryClasses]
+  BaseMemoryLib
+
+[Guids]
+
+[Protocols]
+
+[Pcd]

@@ -31,6 +31,7 @@
   OpensslLib
   BaseCryptLib
   SafeIntLib
+  BaseCryptCrtLib
   
 
 [Packages]
@@ -43,7 +44,6 @@
 
 [Sources]
   OneCryptoBin.c
-  OneCryptoCrt.c
 
 [BuildOptions]
   MSFT:*_*_*_CC_FLAGS = $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_CONFIG) /wd4090 /wd4244 /wd4245 /wd4267 /wd4389 /wd4702 /wd4706

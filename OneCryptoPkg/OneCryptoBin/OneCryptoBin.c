@@ -11,7 +11,7 @@
 // #include <Library/StandaloneMmDriverEntryPoint.h> # Intentionally not included
 #include <Library/MmServicesTableLib.h>
 #include <Library/DebugLib.h>
-#include <Private/OneCryptoCrtLibSupport.h>
+#include <Library/BaseCryptCrtLib.h>
 #include <Private/OneCryptoDependencySupport.h>
 #include <Library/BaseCryptLib.h>
 #include <Protocol/OneCrypto.h>
@@ -352,10 +352,16 @@ Constructor (
   OUT VOID                    **Crypto
   )
 {
+  EFI_STATUS  Status;
+
   //
-  // Map the provided depencencies to our global instance
+  // Initialize the CRT library with the dependencies
   //
-  gOneCryptoDepends = Depends;
+  Status = BaseCryptCrtSetup (Depends);
+  if (EFI_ERROR (Status)) {
+    // If this fails we cannot print
+    return Status;
+  }
 
   DEBUG ((DEBUG_ERROR, "OneCryptoBin: Constructor entry called\n"));
 
