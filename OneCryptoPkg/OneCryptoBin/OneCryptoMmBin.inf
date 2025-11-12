@@ -42,7 +42,6 @@
   StandaloneMmPkg/StandaloneMmPkg.dec
 
 [Sources]
-  InternalTlsLib.h
   OneCryptoBin.c
   OneCryptoCrt.c
 
