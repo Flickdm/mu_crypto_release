@@ -13,16 +13,16 @@
 #include "InternalCryptLib.h"
 
 /**
-  Gets the OpenSSL version information.
+  Gets the cryptographic provider version information.
   
-  This function returns the OpenSSL version string that was used to compile
-  the cryptographic library.
+  This function returns the version string of the cryptographic provider.
+  For this OpenSSL implementation, it returns the OpenSSL version string.
   
-  @return  Pointer to OpenSSL version string.
+  @return  Pointer to cryptographic provider version string.
 **/
 CONST CHAR8 *
 EFIAPI
-GetOpenSslVersionText (
+GetCryptoProviderVersionText (
   VOID
   )
 {
@@ -31,16 +31,16 @@ GetOpenSslVersionText (
 }
 
 /**
-  Gets the OpenSSL version number.
+  Gets the cryptographic provider version number.
   
-  This function returns the OpenSSL version number that was used to compile
-  the cryptographic library.
+  This function returns the version number of the cryptographic provider.
+  For this OpenSSL implementation, it returns the OpenSSL version number.
   
-  @return  OpenSSL version number.
+  @return  Cryptographic provider version number.
 **/
 UINTN
 EFIAPI
-GetOpenSslVersionNumber (
+GetCryptoProviderVersionNumber (
   VOID
   )
 {

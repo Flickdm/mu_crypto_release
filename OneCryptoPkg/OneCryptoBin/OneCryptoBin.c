@@ -338,8 +338,8 @@ CryptoInit (
   // Info
   // ========================================================================================================
 
-  CryptoProtocol->GetOpenSslVersionText   = GetOpenSslVersionText;
-  CryptoProtocol->GetOpenSslVersionNumber = GetOpenSslVersionNumber;
+  CryptoProtocol->GetCryptoProviderVersionText   = GetCryptoProviderVersionText;
+  CryptoProtocol->GetCryptoProviderVersionNumber = GetCryptoProviderVersionNumber;
 
   DEBUG ((DEBUG_INFO, "OneCryptoBin: CryptoInit completed - comprehensive protocol populated\n"));
 }
@@ -371,7 +371,7 @@ Constructor (
     return EFI_OUT_OF_RESOURCES;
   }
 
-  DEBUG ((DEBUG_ERROR, "OpenSSL Version: %a (0x%lx)\n", GetOpenSslVersionText(), (UINT64)GetOpenSslVersionNumber()));
+  DEBUG ((DEBUG_ERROR, "OpenSSL Version: %a (0x%lx)\n", GetCryptoProviderVersionText(), (UINT64)GetCryptoProviderVersionNumber()));
 
   //
   // Initialize the Crypto Protocol
