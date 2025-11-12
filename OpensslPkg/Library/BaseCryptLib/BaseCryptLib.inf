@@ -32,6 +32,8 @@
   PrintLib
   IntrinsicLib
   OpensslLib
+  BaseCryptCrtLib
+  DebugLib
 
 [Packages]
   MdePkg/MdePkg.dec

@@ -12,7 +12,7 @@
 
 #include <Uefi.h>
 #include <Library/RngLib.h>
-#include <Private/OneCryptoBaseDebugLib.h>
+#include <Library/DebugLib.h>
 #include <Library/BaseCryptLib.h>
 
 /**

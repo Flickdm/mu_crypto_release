@@ -11,6 +11,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <openssl/evp.h>
 #include "CrtLibSupport.h"
 #include <Library/BaseLib.h>
+#include <Library/PrintLib.h>
 
 /**
   Sets up the seed value for the pseudorandom number generator.

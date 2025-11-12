@@ -2,6 +2,7 @@
 #define INTERNAL_CRYPT_LIB_H
 
 #include <Uefi.h>
+#include <Library/DebugLib.h>
 #include <CrtLibSupport.h>
 #include <Library/BaseCryptLib.h>
 
