@@ -19,7 +19,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
 #include <openssl/err.h>
-#include <Library/OneCryptoLib.h>
+#include <Library/OneCryptoLibrary.h>
 #include <Library/SafeIntLib.h>
 
 typedef struct {
