@@ -14,7 +14,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <Library/BaseMemoryLib.h>
 #include <Library/PrintLib.h>
 
-#include <Library/OneCryptoDependencySupport.h>
+#include <Private/OneCryptoDependencySupport.h>
 
 /**
   Allocates a buffer of type EfiBootServicesData.

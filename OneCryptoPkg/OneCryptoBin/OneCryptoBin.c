@@ -12,7 +12,7 @@
 #include <Library/MmServicesTableLib.h>
 #include <Library/DebugLib.h>
 #include <Private/OneCryptoCrtLibSupport.h>
-#include <Library/OneCryptoDependencySupport.h>
+#include <Private/OneCryptoDependencySupport.h>
 #include <Library/BaseCryptLib.h>
 #include <Protocol/OneCrypto.h>
 

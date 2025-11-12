@@ -8,7 +8,7 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
-#include <Library/OneCryptoDependencySupport.h>
+#include <Private/OneCryptoDependencySupport.h>
 #include <CrtLibSupport.h>
 
 /**
