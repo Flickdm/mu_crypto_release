@@ -17,7 +17,7 @@
 #define ONE_CRYPTO_PROTOCOL_
 
 #include <Uefi.h>
-#include <Library/OneCryptoDefinitions.h>
+#include <Library/BaseCryptDefs.h>
 
 // =============================================================================
 // Protocol version: 1.0
