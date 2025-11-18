@@ -1,0 +1,52 @@
+## @file
+#  OneCrypto MM Loader - Loads OneCryptoBin and installs crypto protocol in MM.
+#
+#  Copyright (C) Microsoft Corporation. All rights reserved.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = OneCryptoLoaderStandaloneMm
+  FILE_GUID                      = 56FDC6F4-8820-40F5-95C1-83E289C4A45C
+  MODULE_TYPE                    = MM_STANDALONE
+  VERSION_STRING                 = 1.0
+  PI_SPECIFICATION_VERSION       = 0x00010032
+  ENTRY_POINT                    = MmEntry
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 ARM AARCH64
+
+[Sources]
+  OneCryptoLoaderMm.c
+  OneCryptoLoaderDriverSupport.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  CryptoPkg/CryptoPkg.dec
+  StandaloneMmPkg/StandaloneMmPkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
+
+[LibraryClasses]
+  StandaloneMmDriverEntryPoint
+  PeCoffGetEntryPointLib
+  MemoryAllocationLib
+  CacheMaintenanceLib
+  MmServicesTableLib
+  BaseMemoryLib
+  PeCoffLib
+  DebugLib
+  SafeIntLib
+  HobLib
+  RngLib
+  FvLib
+
+[Protocols]
+  gOneCryptoMmProtocolGuid         ## PRODUCES
+  gOneCryptoPrivateProtocolGuid    ## CONSUMES
+  gEfiRngProtocolGuid              ## CONSUMES
+
+[Depex]
+  gOneCryptoPrivateProtocolGuid

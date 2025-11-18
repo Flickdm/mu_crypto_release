@@ -340,7 +340,7 @@ CryptoInit (
   // Info
   // ========================================================================================================
 
-  CryptoProtocol->GetCryptoProviderVersionText   = GetCryptoProviderVersionText;
+  CryptoProtocol->GetCryptoProviderVersionString   = GetCryptoProviderVersionString;
 
   DEBUG ((DEBUG_INFO, "OneCryptoBin: CryptoInit completed - comprehensive protocol populated\n"));
 }
@@ -348,7 +348,7 @@ CryptoInit (
 COMMON_EXPORT_API
 EFI_STATUS
 EFIAPI
-Constructor (
+CryptoEntry (
   IN ONE_CRYPTO_DEPENDENCIES  *Depends,
   OUT VOID                    **Crypto
   )
@@ -365,7 +365,7 @@ Constructor (
     return Status;
   }
 
-  DEBUG ((DEBUG_ERROR, "OneCryptoBin: Constructor entry called\n"));
+  DEBUG ((DEBUG_ERROR, "OneCryptoBin: CryptoEntry called\n"));
 
   //
   // Allocate the required space for our ONE_CRYPTO_PROTOCOL
@@ -383,7 +383,7 @@ Constructor (
   // Get and display OpenSSL version
   //
   VersionBufferSize = sizeof (VersionBuffer);
-  Status = GetCryptoProviderVersionText (VersionBuffer, &VersionBufferSize);
+  Status = GetCryptoProviderVersionString (VersionBuffer, &VersionBufferSize);
   if (!EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "OpenSSL Version: %a\n", VersionBuffer));
   }
@@ -434,7 +434,7 @@ MmEntry (
 
   ProtocolInstance->Signature   = ONE_CRYPTO_MM_CONSTRUCTOR_PROTOCOL_SIGNATURE;
   ProtocolInstance->Version     = 1;
-  ProtocolInstance->Constructor = Constructor;
+  ProtocolInstance->Entry       = CryptoEntry;
 
   Status = MmSystemTable->MmInstallProtocolInterface (
                             &Handle,

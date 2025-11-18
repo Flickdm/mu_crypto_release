@@ -21,7 +21,6 @@
 
 [Sources]
   BaseCryptCrtLib.c
-  OneCryptoCrt.c
 
 [Packages]
   MdePkg/MdePkg.dec
@@ -30,9 +29,3 @@
 
 [LibraryClasses]
   BaseMemoryLib
-
-[Guids]
-
-[Protocols]
-
-[Pcd]

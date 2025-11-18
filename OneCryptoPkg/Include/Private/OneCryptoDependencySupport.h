@@ -8,10 +8,11 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
-#ifndef SHARED_DEPENDENCY_SUPPORT_H
-#define SHARED_DEPENDENCY_SUPPORT_H
+#ifndef DEPENDENCY_SUPPORT_H
+#define DEPENDENCY_SUPPORT_H
 
-#include <Uefi.h>
+#include <Uefi/UefiBaseType.h>
+#include <Uefi/UefiSpec.h>
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
 
@@ -24,16 +25,13 @@
 // Version of the ONE_CRYPTO_DEPENDENCIES interface
 // Major.Minor.Revision versioning scheme matching OneCryptoProtocol
 //
-#define ONE_CRYPTO_DEPENDENCIES_VERSION_MAJOR     1
-#define ONE_CRYPTO_DEPENDENCIES_VERSION_MINOR     0
-#define ONE_CRYPTO_DEPENDENCIES_VERSION_REVISION  0
+#define ONE_CRYPTO_DEPENDENCIES_VERSION_MAJOR  1
+#define ONE_CRYPTO_DEPENDENCIES_VERSION_MINOR  0
 
 //
-// The names of the exproted functions.
+// The names of the exported functions.
 //
-#define EXPORTED_CONSTRUCTOR_NAME               "Constructor"
-
-
+#define EXPORTED_ENTRY_NAME  "CryptoEntry"
 
 /**
   Function pointer type for memory allocation.
@@ -169,10 +167,10 @@ typedef struct  _ONE_CRYPTO_DEPENDENCIES {
   @param[out] Crypto           Output pointer to the constructed crypto protocol
                                interface.
 
-  @retval EFI_SUCCESS  The constructor function completed successfully.
-  @retval Others       Constructor function failed.
+  @retval EFI_SUCCESS  The crypto entry function completed successfully.
+  @retval Others       CryptoEntry function failed.
 **/
-typedef EFI_STATUS (EFIAPI *CONSTRUCTOR)(
+typedef EFI_STATUS (EFIAPI *CRYPTO_ENTRY)(
   IN ONE_CRYPTO_DEPENDENCIES *Depends,
   OUT VOID **Crypto
   );
@@ -181,9 +179,9 @@ typedef EFI_STATUS (EFIAPI *CONSTRUCTOR)(
 // Protocol Definition
 //
 typedef struct _ONE_CRYPTO_MM_CONSTRUCTOR_PROTOCOL {
-  UINT32                      Signature;
-  UINT32                      Version;
-  CONSTRUCTOR                 Constructor;
+  UINT32          Signature;
+  UINT32          Version;
+  CRYPTO_ENTRY    Entry;
 } ONE_CRYPTO_MM_CONSTRUCTOR_PROTOCOL;
 
-#endif // SHARED_DEPENDENCY_SUPPORT_H
+#endif // DEPENDENCY_SUPPORT_H

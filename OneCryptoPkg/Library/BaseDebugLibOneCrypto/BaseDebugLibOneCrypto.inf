@@ -20,9 +20,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   OneCryptoPkg/OneCryptoPkg.dec
+  OpensslPkg/OpensslPkg.dec
 
 [LibraryClasses]
   BaseCryptCrtLib
-
-[Pcd]
-

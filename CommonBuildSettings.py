@@ -14,10 +14,6 @@ from edk2toolext.invocables.edk2_update import UpdateSettingsManager
 from edk2toollib.utility_functions import RunCmd
 
 crypto_platforms = {
-    "CryptoBinPkg": {
-        "PRODUCT_NAME": "CryptoBin",
-        "ACTIVE_PLATFORM": "CryptoBinPkg/CryptoBinPkg.dsc",
-    },
     "OneCryptoPkg": {
         "PRODUCT_NAME": "OneCrypto",
         "ACTIVE_PLATFORM": "OneCryptoPkg/OneCryptoPkg.dsc",
