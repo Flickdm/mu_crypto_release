@@ -9,7 +9,6 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 #include <CrtLibSupport.h>
 #include <Library/MemoryAllocationLib.h>
-
 //
 // Extra header to record the memory buffer size from malloc routine.
 //

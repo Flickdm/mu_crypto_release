@@ -7,10 +7,10 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include "InternalCryptLib.h"
-
 #include <openssl/objects.h>
 #include <openssl/x509.h>
 #include <openssl/pkcs7.h>
+#include <Library/MemoryAllocationLib.h>
 
 /**
   Creates a PKCS#7 signedData as described in "PKCS #7: Cryptographic Message

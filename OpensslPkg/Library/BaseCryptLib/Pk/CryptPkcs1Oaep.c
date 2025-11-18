@@ -12,7 +12,9 @@
 #include <openssl/objects.h>
 #include <openssl/rsa.h>
 #include <openssl/x509.h>
+#include "Rand/CryptRand.h"
 #include <Library/MemoryAllocationLib.h>
+#include <Library/DebugLib.h>
 
 /**
   Retrieve a pointer to EVP message digest object.
@@ -492,7 +494,7 @@ InternalPkcs1v2Decrypt (
     //
     // Fail to initialize the context.
     //
-    DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt_init() failed\n", __func__));
+     DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt_init() failed\n", __func__));
     goto _Exit;
   }
 

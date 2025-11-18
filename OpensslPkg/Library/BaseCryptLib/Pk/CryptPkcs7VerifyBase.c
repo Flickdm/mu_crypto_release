@@ -12,6 +12,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 #include <openssl/pkcs7.h>
+#include <Library/MemoryAllocationLib.h>
 
 /**
   Check the contents of PKCS7 is not data.

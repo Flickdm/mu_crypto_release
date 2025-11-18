@@ -8,6 +8,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include "InternalTlsLib.h"
+#include <Library/MemoryAllocationLib.h>
+#include <Library/DebugLib.h>
 
 typedef struct {
   //
@@ -327,7 +329,7 @@ TlsSetCipherList (
     //
     Mapping = TlsGetCipherMapping (CipherId[Index]);
     if (Mapping == NULL) {
-      DEBUG ((
+      DEBUG((
         DEBUG_VERBOSE,
         "%a:%a: skipping CipherId=0x%04x\n",
         gEfiCallerBaseName,
@@ -376,7 +378,7 @@ TlsSetCipherList (
   // terminating NUL character in CipherStringSize; allocate CipherString.
   //
   if (MappedCipherCount == 0) {
-    DEBUG ((
+    DEBUG((
       DEBUG_ERROR,
       "%a:%a: no CipherId could be mapped\n",
       gEfiCallerBaseName,
@@ -437,7 +439,7 @@ TlsSetCipherList (
   UINTN  SegmentLength;
 
   FullLength = CipherStringSize - 1;
-  DEBUG ((
+  DEBUG((
     DEBUG_VERBOSE,
     "%a:%a: CipherString={\n",
     gEfiCallerBaseName,
@@ -452,10 +454,10 @@ TlsSetCipherList (
       SegmentLength = 79;
     }
 
-    DEBUG ((DEBUG_VERBOSE, "%.*a\n", SegmentLength, CipherStringPosition));
+    DEBUG((DEBUG_VERBOSE, "%.*a\n", SegmentLength, CipherStringPosition));
   }
 
-  DEBUG ((DEBUG_VERBOSE, "}\n"));
+  DEBUG((DEBUG_VERBOSE, "}\n"));
   //
   // Restore the pre-debug value of CipherStringPosition by skipping over the
   // trailing NUL.
@@ -605,10 +607,10 @@ TlsSetVerifyHost (
   }
 
   if (BinaryAddressSize > 0) {
-    DEBUG ((
+    DEBUG((
       DEBUG_VERBOSE,
       "%a:%a: parsed \"%a\" as an IPv%c address "
-      "literal\n",
+      "literal\\n",
       gEfiCallerBaseName,
       __FUNCTION__,
       HostName,

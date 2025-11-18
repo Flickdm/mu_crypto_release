@@ -9,6 +9,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include "InternalTlsLib.h"
+#include <Library/DebugLib.h>
 
 #define MAX_BUFFER_SIZE  32768
 
@@ -123,7 +124,7 @@ TlsDoHandshake (
         (Ret == SSL_ERROR_SYSCALL) ||
         (Ret == SSL_ERROR_ZERO_RETURN))
     {
-      DEBUG ((
+      DEBUG((
         DEBUG_ERROR,
         "%a SSL_HANDSHAKE_ERROR State=0x%x SSL_ERROR_%a\n",
         __FUNCTION__,
@@ -139,7 +140,7 @@ TlsDoHandshake (
           break;
         }
 
-        DEBUG ((
+        DEBUG((
           DEBUG_ERROR,
           "%a ERROR 0x%x=L%x:R%x\n",
           __FUNCTION__,

@@ -1,7 +1,7 @@
 /** @file
   Pseudorandom Number Generator Wrapper Implementation over OpenSSL.
 
-Copyright (c) 2010 - 2013, Intel Corporation. All rights reserved.<BR>
+Copyright (c) 2012 - 2018, Intel Corporation. All rights reserved.<BR>
 SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
@@ -9,11 +9,10 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include "InternalCryptLib.h"
 #include <openssl/rand.h>
 #include <openssl/evp.h>
-
-//
-// Default seed for UEFI Crypto Library
-//
-CONST UINT8  DefaultSeed[] = "UEFI Crypto Library default seed";
+#include "CrtLibSupport.h"
+#include <Library/BaseLib.h>
+#include <Library/PrintLib.h>
+#include <Library/RngLib.h>
 
 /**
   Sets up the seed value for the pseudorandom number generator.
@@ -38,6 +37,9 @@ RandomSeed (
   IN  UINTN         SeedSize
   )
 {
+  CHAR8  DefaultSeed[128];
+  UINT64 RandomSeedValue;
+
   if (SeedSize > INT_MAX) {
     return FALSE;
   }
@@ -57,6 +59,21 @@ RandomSeed (
   if (Seed != NULL) {
     RAND_seed (Seed, (UINT32)SeedSize);
   } else {
+    //
+    // Retrieve current time.
+    //
+
+     if (!GetRandomNumber64 (&RandomSeedValue)) {
+      return FALSE;
+     }
+
+    AsciiSPrint (
+      DefaultSeed,
+      sizeof (DefaultSeed),
+      "UEFI Crypto Library default seed (%ld)",
+      RandomSeedValue
+      );
+
     RAND_seed (DefaultSeed, sizeof (DefaultSeed));
   }
 
