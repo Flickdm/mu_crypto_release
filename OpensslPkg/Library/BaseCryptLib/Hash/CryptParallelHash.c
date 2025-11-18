@@ -145,9 +145,9 @@ ParallelHash256HashAll (
   // Allocate buffer for combined input (newX), Block completed flag and SpinLock.
   //
   CombinedInputSize = EncSizeB + EncSizeN + EncSizeL + mBlockNum * mBlockResultSize;
-  CombinedInput     = AllocateZeroPool (CombinedInputSize);
-  mBlockIsCompleted = AllocateZeroPool (mBlockNum * sizeof (BOOLEAN));
-  mSpinLockList     = AllocatePool (mBlockNum * sizeof (SPIN_LOCK));
+  CombinedInput     = BaseCryptAllocateZeroPool(CombinedInputSize);
+  mBlockIsCompleted = BaseCryptAllocateZeroPool(mBlockNum * sizeof (BOOLEAN));
+  mSpinLockList     = BaseCryptAllocatePool(mBlockNum * sizeof (SPIN_LOCK));
   if ((CombinedInput == NULL) || (mBlockIsCompleted == NULL) || (mSpinLockList == NULL)) {
     ReturnValue = FALSE;
     goto Exit;
@@ -239,15 +239,15 @@ Exit:
   ZeroMem (CombinedInput, CombinedInputSize);
 
   if (CombinedInput != NULL) {
-    FreePool (CombinedInput);
+    BaseCryptFreePool(CombinedInput);
   }
 
   if (mSpinLockList != NULL) {
-    FreePool ((VOID *)mSpinLockList);
+    BaseCryptFreePool((VOID *)mSpinLockList);
   }
 
   if (mBlockIsCompleted != NULL) {
-    FreePool (mBlockIsCompleted);
+    BaseCryptFreePool(mBlockIsCompleted);
   }
 
   return ReturnValue;

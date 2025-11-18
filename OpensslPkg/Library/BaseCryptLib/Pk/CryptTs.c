@@ -301,7 +301,7 @@ CheckTSTInfo (
   }
 
   MdSize    = EVP_MD_size (Md);
-  HashedMsg = AllocateZeroPool (MdSize);
+  HashedMsg = BaseCryptAllocateZeroPool(MdSize);
   if (HashedMsg == NULL) {
     goto _Exit;
   }
@@ -348,7 +348,7 @@ _Exit:
   X509_ALGOR_free (HashAlgo);
   EVP_MD_CTX_free (MdCtx);
   if (HashedMsg != NULL) {
-    FreePool (HashedMsg);
+    BaseCryptFreePool(HashedMsg);
   }
 
   return Status;
@@ -484,7 +484,7 @@ TimestampTokenVerify (
   //
   // Read the signed contents detached in timestamp signature.
   //
-  TstData = AllocateZeroPool (2048);
+  TstData = BaseCryptAllocateZeroPool(2048);
   if (TstData == NULL) {
     goto _Exit;
   }
@@ -531,7 +531,7 @@ _Exit:
   TS_TST_INFO_free (TstInfo);
 
   if (TstData != NULL) {
-    FreePool (TstData);
+    BaseCryptFreePool(TstData);
   }
 
   return Status;

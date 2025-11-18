@@ -7,9 +7,11 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 
+#include <Base.h>
+#include <Library/BaseLib.h>
 #include <Uefi.h>
 #include <CrtLibSupport.h>
-#include <Library/UefiRuntimeServicesTableLib.h>
+
 
 //
 // -- Time Management Routines --
@@ -96,7 +98,7 @@ time (
   //
   // Get the current time and date information
   //
-  Status = gRT->GetTime (&Time, NULL);
+  Status = BaseCryptGetTime (&Time, NULL);
   if (EFI_ERROR (Status) || (Time.Year < 1970)) {
     return 0;
   }

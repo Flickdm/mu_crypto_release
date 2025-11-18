@@ -88,7 +88,7 @@ Pkcs7GetOctetString (
   @param[in]   P7Data       Pointer to the PKCS#7 signed data to process.
   @param[in]   P7Length     Length of the PKCS#7 signed data in bytes.
   @param[out]  Content      Pointer to the extracted content from the PKCS#7 signedData.
-                            It's caller's responsibility to free the buffer with FreePool().
+                            It's caller's responsibility to free the buffer with BaseCryptFreePool().
   @param[out]  ContentSize  The size of the extracted content in bytes.
 
   @retval     TRUE          The P7Data was correctly formatted for processing.
@@ -167,7 +167,7 @@ Pkcs7GetAttachedContent (
 
     if ((OctStr->length > 0) && (OctStr->data != NULL)) {
       *ContentSize = OctStr->length;
-      *Content     = AllocatePool (*ContentSize);
+      *Content     = BaseCryptAllocatePool(*ContentSize);
       if (*Content == NULL) {
         *ContentSize = 0;
         goto _Exit;

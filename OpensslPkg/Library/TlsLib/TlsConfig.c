@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include "InternalTlsLib.h"
+#include <Library/BaseCryptCrtLib.h>
 
 typedef struct {
   //
@@ -310,7 +311,7 @@ TlsSetCipherList (
     return EFI_OUT_OF_RESOURCES;
   }
 
-  MappedCipher = AllocatePool (MappedCipherBytes);
+  MappedCipher = BaseCryptAllocatePool (MappedCipherBytes);
   if (MappedCipher == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
@@ -327,7 +328,7 @@ TlsSetCipherList (
     //
     Mapping = TlsGetCipherMapping (CipherId[Index]);
     if (Mapping == NULL) {
-      DEBUG ((
+      BASECRYPT_DEBUG((
         DEBUG_VERBOSE,
         "%a:%a: skipping CipherId=0x%04x\n",
         gEfiCallerBaseName,
@@ -376,7 +377,7 @@ TlsSetCipherList (
   // terminating NUL character in CipherStringSize; allocate CipherString.
   //
   if (MappedCipherCount == 0) {
-    DEBUG ((
+    BASECRYPT_DEBUG((
       DEBUG_ERROR,
       "%a:%a: no CipherId could be mapped\n",
       gEfiCallerBaseName,
@@ -392,7 +393,7 @@ TlsSetCipherList (
     goto FreeMappedCipher;
   }
 
-  CipherString = AllocatePool (CipherStringSize);
+  CipherString = BaseCryptAllocatePool (CipherStringSize);
   if (CipherString == NULL) {
     Status = EFI_OUT_OF_RESOURCES;
     goto FreeMappedCipher;
@@ -437,7 +438,7 @@ TlsSetCipherList (
   UINTN  SegmentLength;
 
   FullLength = CipherStringSize - 1;
-  DEBUG ((
+  BASECRYPT_DEBUG((
     DEBUG_VERBOSE,
     "%a:%a: CipherString={\n",
     gEfiCallerBaseName,
@@ -452,10 +453,10 @@ TlsSetCipherList (
       SegmentLength = 79;
     }
 
-    DEBUG ((DEBUG_VERBOSE, "%.*a\n", SegmentLength, CipherStringPosition));
+    BASECRYPT_DEBUG((DEBUG_VERBOSE, "%.*a\n", SegmentLength, CipherStringPosition));
   }
 
-  DEBUG ((DEBUG_VERBOSE, "}\n"));
+  BASECRYPT_DEBUG((DEBUG_VERBOSE, "}\n"));
   //
   // Restore the pre-debug value of CipherStringPosition by skipping over the
   // trailing NUL.
@@ -475,10 +476,10 @@ TlsSetCipherList (
   Status = EFI_SUCCESS;
 
 FreeCipherString:
-  FreePool (CipherString);
+  BaseCryptFreePool (CipherString);
 
 FreeMappedCipher:
-  FreePool ((VOID *)MappedCipher);
+  BaseCryptFreePool ((VOID *)MappedCipher);
 
   return Status;
 }
@@ -605,7 +606,7 @@ TlsSetVerifyHost (
   }
 
   if (BinaryAddressSize > 0) {
-    DEBUG ((
+    BASECRYPT_DEBUG((
       DEBUG_VERBOSE,
       "%a:%a: parsed \"%a\" as an IPv%c address "
       "literal\n",
@@ -1083,7 +1084,7 @@ TlsSetSignatureAlgoList (
     return EFI_UNSUPPORTED;
   }
 
-  SignAlgoStr = AllocatePool (SignAlgoStrSize);
+  SignAlgoStr = BaseCryptAllocatePool (SignAlgoStrSize);
   if (SignAlgoStr == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
@@ -1111,7 +1112,7 @@ TlsSetSignatureAlgoList (
     Status = EFI_SUCCESS;
   }
 
-  FreePool (SignAlgoStr);
+  BaseCryptFreePool (SignAlgoStr);
   return Status;
 }
 
