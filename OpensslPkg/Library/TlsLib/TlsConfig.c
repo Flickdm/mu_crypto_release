@@ -310,7 +310,7 @@ TlsSetCipherList (
     return EFI_OUT_OF_RESOURCES;
   }
 
-  MappedCipher = AllocatePool (MappedCipherBytes);
+  MappedCipher = BaseCryptAllocatePool (MappedCipherBytes);
   if (MappedCipher == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
@@ -392,7 +392,7 @@ TlsSetCipherList (
     goto FreeMappedCipher;
   }
 
-  CipherString = AllocatePool (CipherStringSize);
+  CipherString = BaseCryptAllocatePool (CipherStringSize);
   if (CipherString == NULL) {
     Status = EFI_OUT_OF_RESOURCES;
     goto FreeMappedCipher;
@@ -475,10 +475,10 @@ TlsSetCipherList (
   Status = EFI_SUCCESS;
 
 FreeCipherString:
-  FreePool (CipherString);
+  BaseCryptFreePool (CipherString);
 
 FreeMappedCipher:
-  FreePool ((VOID *)MappedCipher);
+  BaseCryptFreePool ((VOID *)MappedCipher);
 
   return Status;
 }
@@ -1083,7 +1083,7 @@ TlsSetSignatureAlgoList (
     return EFI_UNSUPPORTED;
   }
 
-  SignAlgoStr = AllocatePool (SignAlgoStrSize);
+  SignAlgoStr = BaseCryptAllocatePool (SignAlgoStrSize);
   if (SignAlgoStr == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
@@ -1111,7 +1111,7 @@ TlsSetSignatureAlgoList (
     Status = EFI_SUCCESS;
   }
 
-  FreePool (SignAlgoStr);
+  BaseCryptFreePool (SignAlgoStr);
   return Status;
 }
 

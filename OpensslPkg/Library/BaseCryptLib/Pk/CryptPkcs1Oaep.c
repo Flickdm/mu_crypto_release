@@ -12,7 +12,7 @@
 #include <openssl/objects.h>
 #include <openssl/rsa.h>
 #include <openssl/x509.h>
-#include <Library/MemoryAllocationLib.h>
+#include "Rand/CryptRand.h"
 
 /**
   Retrieve a pointer to EVP message digest object.
@@ -176,7 +176,7 @@ InternalPkcs1v2Encrypt (
   //
   // Allocate a buffer for the output data.
   //
-  OutData = AllocatePool (OutDataSize);
+  OutData = BaseCryptAllocatePool(OutDataSize);
   if (OutData == NULL) {
     //
     // Fail to allocate the output buffer.
@@ -191,7 +191,7 @@ InternalPkcs1v2Encrypt (
     //
     // Fail to encrypt data, need to free the output buffer.
     //
-    FreePool (OutData);
+    BaseCryptFreePool(OutData);
     OutData     = NULL;
     OutDataSize = 0;
     goto _Exit;
@@ -526,7 +526,7 @@ InternalPkcs1v2Decrypt (
   //
   // Allocate a buffer for the output data.
   //
-  TempData = AllocatePool (TempDataSize);
+  TempData = BaseCryptAllocatePool(TempDataSize);
   if (TempData == NULL) {
     //
     // Fail to allocate the output buffer.
@@ -542,7 +542,7 @@ InternalPkcs1v2Decrypt (
     //
     // Fail to decrypt data, need to free the output buffer.
     //
-    FreePool (TempData);
+    BaseCryptFreePool(TempData);
     TempData     = NULL;
     TempDataSize = 0;
 

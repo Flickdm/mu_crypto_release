@@ -12,6 +12,8 @@
 
 #include <Uefi.h>
 #include <Library/RngLib.h>
+#include <Library/DebugLib.h>
+#include <Library/BaseCryptLib.h>
 
 /**
   Calls RandomNumber64 to fill
@@ -46,7 +48,7 @@ RandGetBytes (
 
   while (Length > 0) {
     // Use RngLib to get random number
-    Ret = GetRandomNumber64 (&TempRand);
+    Ret = BaseCryptGetRandomNumber64 (&TempRand);
 
     if (!Ret) {
       return Ret;
