@@ -336,7 +336,7 @@ DxeEntryPoint (
   LoadedImageHandle = NULL;
   LoadedImage       = NULL;
 
-  DEBUG ((DEBUG_ERROR, "OneCryptoDxeLoader: Entry point called\n"));
+  DEBUG ((DEBUG_ERROR, "OneCryptoLoaderDxe: Entry point called\n"));
 
   //
   // This must match the INF for OneCryptoBin
@@ -345,7 +345,7 @@ DxeEntryPoint (
     0x76ABA88D, 0x9D16, 0x49A2, { 0xAA, 0x3A, 0xDB, 0x61, 0x12, 0xFA, 0xC5, 0xCC }
   };
 
-  DEBUG ((DEBUG_ERROR, "OneCryptoDxeLoader: Initializing driver dependencies\n"));
+  DEBUG ((DEBUG_ERROR, "OneCryptoLoaderDxe: Initializing driver dependencies\n"));
 
   //
   // Initialize the Driver dependencies
@@ -359,7 +359,7 @@ DxeEntryPoint (
     InstallDriverDependencies (*SystemTable);
   }
 
-  DEBUG ((DEBUG_ERROR, "OneCryptoDxeLoader: Setting up shared dependencies\n"));
+  DEBUG ((DEBUG_ERROR, "OneCryptoLoaderDxe: Setting up shared dependencies\n"));
 
   //
   // Initialize the Shared dependencies
@@ -430,7 +430,7 @@ DxeEntryPoint (
     goto Exit;
   }
 
-  DEBUG ((DEBUG_ERROR, "OneCryptoDxeLoader: About to call library constructor at %p\n", Constructor));
+  DEBUG ((DEBUG_ERROR, "OneCryptoLoaderDxe: About to call library constructor at %p\n", Constructor));
 
   //
   // Call library constructor to generate the protocol
@@ -443,7 +443,7 @@ DxeEntryPoint (
     goto Exit;
   }
 
-  DEBUG ((DEBUG_ERROR, "OneCryptoDxeLoader: Constructor completed successfully\n"));
+  DEBUG ((DEBUG_ERROR, "OneCryptoLoaderDxe: Constructor completed successfully\n"));
 
   Status = SystemTable->BootServices->InstallMultipleProtocolInterfaces (
                                         &ImageHandle,

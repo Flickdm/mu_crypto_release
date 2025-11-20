@@ -8,7 +8,7 @@
 
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = OneCryptoLoaderMm
+  BASE_NAME                      = OneCryptoLoaderSupvMm
   FILE_GUID                      = 101024FF-877A-4D5B-A557-5ED44F12341E
   MODULE_TYPE                    = MM_STANDALONE
   VERSION_STRING                 = 1.0
@@ -21,7 +21,6 @@
 [Sources]
   OneCryptoLoaderMm.c
   OneCryptoLoaderDriverSupport.h
-
 
 [Packages]
   MdePkg/MdePkg.dec
@@ -40,7 +39,6 @@
   PeCoffLib
   DebugLib
   SafeIntLib
-  #PrePiLib
   HobLib
   RngLib
   FvLib
@@ -48,8 +46,7 @@
 [Protocols]
   gOneCryptoMmProtocolGuid         ## PRODUCES
   gOneCryptoPrivateProtocolGuid    ## CONSUMES
-  gEfiRngProtocolGuid                 ## CONSUMES
+  gEfiRngProtocolGuid              ## CONSUMES
 
 [Depex]
-  gOneCryptoPrivateProtocolGuid 
-  # AND gEfiMemoryAttributeProtocolGuid
+  gOneCryptoPrivateProtocolGuid

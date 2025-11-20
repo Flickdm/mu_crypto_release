@@ -1,0 +1,60 @@
+## @file
+#  This module builds the OneCryptoStandaloneMm binary thats meant to be used
+#  in conjunction with a StandaloneMm (Non-Supv) environment.
+#
+#  This module must have the GUID `76ABA88D-9D16-49A2-AA3A-DB6112FAC5CC`.
+#  Otherwise, the loaders will not be able to locate it.
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = OneCryptoBinStandaloneMm
+  FILE_GUID                      = 76ABA88D-9D16-49A2-AA3A-DB6112FAC5CC
+  MODULE_TYPE                    = MM_STANDALONE
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MmEntry
+  PI_SPECIFICATION_VERSION       = 0x00010032
+
+  DEFINE OPENSSL_PATH            = openssl
+  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
+  DEFINE OPENSSL_FLAGS_CONFIG    =
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 ARM AARCH64
+#
+
+[LibraryClasses]
+  StandaloneMmDriverEntryPoint
+  MmServicesTableLib
+  IntrinsicLib
+  BaseLib
+  PrintLib
+  BaseMemoryLib
+  BaseCryptLib
+  SafeIntLib
+  BaseCryptCrtLib
+  
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  CryptoPkg/CryptoPkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
+  OpensslPkg/OpensslPkg.dec
+  StandaloneMmPkg/StandaloneMmPkg.dec
+
+[Sources]
+  OneCryptoBin.c
+
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_CONFIG) /wd4090 /wd4244 /wd4245 /wd4267 /wd4389 /wd4702 /wd4706 -DENABLE_MD5_DEPRECATED_INTERFACES
+  GCC:*_*_*_CC_FLAGS = $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_CONFIG) -DENABLE_MD5_DEPRECATED_INTERFACES
+  MSFT:*_*_*_DLINK_FLAGS  = /DLL /SUBSYSTEM:CONSOLE /VERSION:1.0
+  MSFT:*_*_*_GENFW_FLAGS = --keepoptionalheader
+
+[Protocols]
+  gOneCryptoPrivateProtocolGuid
+
+[Depex]
+  TRUE

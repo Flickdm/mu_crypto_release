@@ -36,38 +36,56 @@ DEFAULT_VERSION = "1.0.0"  # Default version for package naming
 # File layout: destination_folder -> list of (source_path, destination_name)
 # Source paths are relative to BUILD_BASE or repo root (for Support files)
 FILE_LAYOUT = {
-    "StandaloneOneCrypto": [
+    "OneCryptoBin": [
         (
-            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoBin/OneCryptoMmBin/OUTPUT/OneCryptoMmBin.efi",
-            "OneCryptoMmBin.efi"
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoBin/OneCryptoBinSupvMm/OUTPUT/OneCryptoBinSupvMm.efi",
+            "OneCryptoBinSupvMm.efi"
         ),
         (
-            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoBin/OneCryptoMmBin/OUTPUT/OneCryptoMmBin.depex",
-            "OneCryptoMmBin.depex"
-        ),
-        # Support INF file from source tree
-        ("../OneCryptoPkg/OneCryptoBin/Support/OneCryptoMmBin.inf", "OneCryptoMmBin.inf"),
-    ],
-    "Driver": [
-        (
-            f"CryptoBinPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/CryptoBinPkg/Driver/OneCryptoLoaderDxe/OUTPUT/OneCryptoDxeLoader.efi",
-            "OneCryptoDxeLoader.efi"
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoBin/OneCryptoBinSupvMm/OUTPUT/OneCryptoBinSupvMm.depex",
+            "OneCryptoBinSupvMm.depex"
         ),
         (
-            f"CryptoBinPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/CryptoBinPkg/Driver/OneCryptoLoaderDxe/OUTPUT/OneCryptoDxeLoader.depex",
-            "OneCryptoDxeLoader.depex"
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoBin/OneCryptoBinStandaloneMm/OUTPUT/OneCryptoBinStandaloneMm.efi",
+            "OneCryptoBinStandaloneMm.efi"
         ),
         (
-            f"CryptoBinPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/CryptoBinPkg/Driver/OneCryptoLoaderMm/OUTPUT/OneCryptoLoaderMm.efi",
-            "OneCryptoLoaderMm.efi"
-        ),
-        (
-            f"CryptoBinPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/CryptoBinPkg/Driver/OneCryptoLoaderMm/OUTPUT/OneCryptoLoaderMm.depex",
-            "OneCryptoLoaderMm.depex"
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoBin/OneCryptoBinStandaloneMm/OUTPUT/OneCryptoBinStandaloneMm.depex",
+            "OneCryptoBinStandaloneMm.depex"
         ),
         # Support INF files from source tree
-        ("../CryptoBinPkg/Support/OneCryptoDxeLoader.inf", "OneCryptoDxeLoader.inf"),
-        ("../CryptoBinPkg/Support/OneCryptoLoaderMm.inf", "OneCryptoLoaderMm.inf"),
+        ("../OneCryptoPkg/OneCryptoBin/Support/OneCryptoBinSupvMm.inf", "OneCryptoBinSupvMm.inf"),
+        ("../OneCryptoPkg/OneCryptoBin/Support/OneCryptoBinStandaloneMm.inf", "OneCryptoBinStandaloneMm.inf"),
+    ],
+    "OneCryptoLoaders": [
+        (
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderDxe/OUTPUT/OneCryptoLoaderDxe.efi",
+            "OneCryptoLoaderDxe.efi"
+        ),
+        (
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderDxe/OUTPUT/OneCryptoLoaderDxe.depex",
+            "OneCryptoLoaderDxe.depex"
+        ),
+        (
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderSupvMm/OUTPUT/OneCryptoLoaderSupvMm.efi",
+            "OneCryptoLoaderSupvMm.efi"
+        ),
+        (
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderSupvMm/OUTPUT/OneCryptoLoaderSupvMm.depex",
+            "OneCryptoLoaderSupvMm.depex"
+        ),
+        (
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderStandaloneMm/OUTPUT/OneCryptoLoaderStandaloneMm.efi",
+            "OneCryptoLoaderStandaloneMm.efi"
+        ),
+        (
+            f"OneCryptoPkg/{DEFAULT_TARGET}_{DEFAULT_TOOLCHAIN}/{DEFAULT_ARCH}/OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderStandaloneMm/OUTPUT/OneCryptoLoaderStandaloneMm.depex",
+            "OneCryptoLoaderStandaloneMm.depex"
+        ),
+        # Support INF files from source tree
+        ("../OneCryptoPkg/OneCryptoLoaders/Support/OneCryptoLoaderDxe.inf", "OneCryptoLoaderDxe.inf"),
+        ("../OneCryptoPkg/OneCryptoLoaders/Support/OneCryptoLoaderSupvMm.inf", "OneCryptoLoaderSupvMm.inf"),
+        ("../OneCryptoPkg/OneCryptoLoaders/Support/OneCryptoLoaderStandaloneMm.inf", "OneCryptoLoaderStandaloneMm.inf"),
     ],
 }
 

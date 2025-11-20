@@ -1,12 +1,15 @@
 ## @file
-#  This module provides OneCrypto MM Loader Binary implementation.
-# TODO [ONE_CRYPTO] Generate this from the INF that builds the binary
+#  OneCrypto SupvMm Loader - Loads OneCryptoBin and installs crypto protocol in SupvMm.
+#
+#  Copyright (C) Microsoft Corporation. All rights reserved.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
 ##
 
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = OneCryptoLoaderMm
-  FILE_GUID                      = FBF68669-8C12-43CA-B2A6-66C8C5CEFDA1
+  BASE_NAME                      = OneCryptoLoaderSupvMm
+  FILE_GUID                      = 101024FF-877A-4D5B-A557-5ED44F12341E
   MODULE_TYPE                    = MM_STANDALONE
   VERSION_STRING                 = 1.0
   PI_SPECIFICATION_VERSION       = 0x00010032
@@ -17,8 +20,8 @@
   CryptoPkg/CryptoPkg.dec
 
 [Binaries.X64]
-  PE32|OneCryptoLoaderMm.efi
-  SMM_DEPEX|OneCryptoLoaderMm.depex
+  PE32|OneCryptoLoaderSupvMm.efi
+  SMM_DEPEX|OneCryptoLoaderSupvMm.depex
 
 [Protocols]
   gOneCryptoMmProtocolGuid         ## PRODUCES

@@ -1,11 +1,14 @@
 ## @file
-#  This module provides OneCrypto DXE Loader Binary implementation.
-# TODO [ONE_CRYPTO] Generate this from the INF that builds the binary
+#  OneCrypto DXE Loader - Loads OneCryptoBin and installs crypto protocol in DXE.
+#
+#  Copyright (C) Microsoft Corporation. All rights reserved.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
 ##
 
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = OneCryptoDxeLoader
+  BASE_NAME                      = OneCryptoLoaderDxe
   FILE_GUID                      = 4F25834D-11D0-4A8F-9860-72B303B9F242
   MODULE_TYPE                    = DXE_DRIVER
   VERSION_STRING                 = 1.0
@@ -18,12 +21,10 @@
 
 
 [Binaries.X64]
-  PE32|OneCryptoDxeLoader.efi
-  DXE_DEPEX|OneCryptoDxeLoader.depex
+  PE32|OneCryptoLoaderDxe.efi
+  DXE_DEPEX|OneCryptoLoaderDxe.depex
 
 [Protocols]
   gEfiMemoryAttributeProtocolGuid     ## CONSUMES
   gOneCryptoDxeProtocolGuid        ## PRODUCES
   gEfiRngProtocolGuid                 ## CONSUMES
-
-

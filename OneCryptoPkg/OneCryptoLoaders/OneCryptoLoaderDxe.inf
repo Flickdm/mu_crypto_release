@@ -8,7 +8,7 @@
 
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = OneCryptoDxeLoader
+  BASE_NAME                      = OneCryptoLoaderDxe
   FILE_GUID                      = 4F25834D-11D0-4A8F-9860-72B303B9F242
   MODULE_TYPE                    = DXE_DRIVER
   VERSION_STRING                 = 1.0
