@@ -35,7 +35,7 @@ class CommonPlatform():
         for the different parts of stuart
     '''
     BaseName = "OneCrypto"
-    PackagesSupported = ("CryptoBinPkg", "OneCryptoPkg", "CryptoPkg")
+    PackagesSupported = ("OneCryptoPkg", "CryptoPkg")
     ArchSupported = ("IA32", "X64", "AARCH64")
     TargetsSupported = ("DEBUG", "RELEASE")
     Scopes = ('OneCrypto', 'edk2-build')
@@ -53,7 +53,6 @@ class CommonPlatform():
                      workingdir=CommonPlatform.WorkspaceRoot, outstream=result)
         # Cmd output is expected to look like:
         # submodule.OpensslPkg/Library/OpensslLib/openssl.path OpensslPkg/Library/OpensslLib/openssl
-        # submodule.SoftFloat.path ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
         if ret == 0:
             for line in result.getvalue().splitlines():
                 _, _, path = line.partition(" ")
