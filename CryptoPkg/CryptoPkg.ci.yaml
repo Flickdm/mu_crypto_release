@@ -87,7 +87,10 @@
     "GuidCheck": {
         "IgnoreGuidName": [],
         "IgnoreGuidValue": [],
-        "IgnoreFoldersAndFiles": []
+        # Since edk2 is currently a dependency in this edk2-crypto repository,
+        # avoid checking for duplicate GUIDs in this CryptoPkg as there will be
+        # many duplicates.
+        "IgnoreFoldersAndFiles": ["*"]
     },
     "LibraryClassCheck": {
         "IgnoreHeaderFile": []
