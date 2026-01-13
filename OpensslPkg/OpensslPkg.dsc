@@ -58,7 +58,7 @@
   StandaloneMmDriverEntryPoint|OneCryptoPkg/Library/MinimalStandaloneMmDriverEntryPoint/MinimalStandaloneMmDriverEntryPoint.inf
   PcdLib                      |MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf # Required for UEFI applications - NULL implementation
   DebugLib                    |MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf # Required for UEFI applications - NULL implementation
-  
+
   # TODO - what to do in an agnostic way
   # NULL                        |MdePkg/Library/StackCheckLib/StackCheckLibStaticInit.inf
   IntrinsicLib                |OpensslPkg/Library/IntrinsicLib/IntrinsicLib.inf

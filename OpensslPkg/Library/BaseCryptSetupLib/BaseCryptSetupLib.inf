@@ -23,6 +23,7 @@
   MdePkg/MdePkg.dec
   CryptoPkg/CryptoPkg.dec
   OpensslPkg/OpensslPkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
 
 [Sources]
   BaseCryptSetupLib.c
