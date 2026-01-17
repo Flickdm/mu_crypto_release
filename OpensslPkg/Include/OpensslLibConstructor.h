@@ -7,8 +7,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 
-#ifndef OPENSSL_LIB_SETUP_H__
-#define OPENSSL_LIB_SETUP_H__
+#ifndef OPENSSL_LIB_CONSTRUCTOR_H__
+#define OPENSSL_LIB_CONSTRUCTOR_H__
 
 #include <uefi.h>
 
@@ -32,7 +32,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 RETURN_STATUS
 EFIAPI
-OpensslLibConstructor(
-    VOID);
+OpensslLibConstructor (
+  VOID
+  );
 
-#endif // OPENSSL_LIB_SETUP_H__
+#endif // OPENSSL_LIB_CONSTRUCTOR_H__

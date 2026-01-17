@@ -9,8 +9,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 
-#include <Library/OpensslLibSetup.h>
-#include <Library/BaseCryptSetupLib.h>
+#include <OpensslLibConstructor.h>
+#include <Library/BaseCryptLib.h>
 
 /**
   Initialize the cryptographic library.
@@ -19,7 +19,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 EFI_STATUS
 EFIAPI
-BaseCryptSetup (
+BaseCryptInit (
   VOID
   )
 {
