@@ -12,7 +12,8 @@
 #include <openssl/objects.h>
 #include <openssl/rsa.h>
 #include <openssl/x509.h>
-#include <Library/MemoryAllocationLib.h>
+#include "Rand/CryptRand.h"
+#include <Library/BaseCryptCrtLib.h>
 
 /**
   Retrieve a pointer to EVP message digest object.
@@ -176,7 +177,7 @@ InternalPkcs1v2Encrypt (
   //
   // Allocate a buffer for the output data.
   //
-  OutData = AllocatePool (OutDataSize);
+  OutData = BaseCryptAllocatePool(OutDataSize);
   if (OutData == NULL) {
     //
     // Fail to allocate the output buffer.
@@ -191,7 +192,7 @@ InternalPkcs1v2Encrypt (
     //
     // Fail to encrypt data, need to free the output buffer.
     //
-    FreePool (OutData);
+    BaseCryptFreePool(OutData);
     OutData     = NULL;
     OutDataSize = 0;
     goto _Exit;
@@ -479,7 +480,7 @@ InternalPkcs1v2Decrypt (
     //
     // Fail to create contex.
     //
-    DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_CTK_new() failed\n", __func__));
+    BASECRYPT_DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_CTK_new() failed\n", __func__));
     goto _Exit;
   }
 
@@ -492,7 +493,7 @@ InternalPkcs1v2Decrypt (
     //
     // Fail to initialize the context.
     //
-    DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt_init() failed\n", __func__));
+     BASECRYPT_DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt_init() failed\n", __func__));
     goto _Exit;
   }
 
@@ -519,14 +520,14 @@ InternalPkcs1v2Decrypt (
     //
     // Fail to determine output buffer size.
     //
-    DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt() failed to determine output buffer size (rc=%d)\n", __func__, ReturnCode));
+    BASECRYPT_DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt() failed to determine output buffer size (rc=%d)\n", __func__, ReturnCode));
     goto _Exit;
   }
 
   //
   // Allocate a buffer for the output data.
   //
-  TempData = AllocatePool (TempDataSize);
+  TempData = BaseCryptAllocatePool(TempDataSize);
   if (TempData == NULL) {
     //
     // Fail to allocate the output buffer.
@@ -542,11 +543,11 @@ InternalPkcs1v2Decrypt (
     //
     // Fail to decrypt data, need to free the output buffer.
     //
-    FreePool (TempData);
+    BaseCryptFreePool(TempData);
     TempData     = NULL;
     TempDataSize = 0;
 
-    DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt(TempData) failed to decrypt (rc=%d)\n", __func__, ReturnCode));
+    BASECRYPT_DEBUG ((DEBUG_ERROR, "[%a] EVP_PKEY_decrypt(TempData) failed to decrypt (rc=%d)\n", __func__, ReturnCode));
     goto _Exit;
   }
 

@@ -11,7 +11,7 @@
 #include <openssl/aes.h>
 
 #include <Uefi.h>
-#include <Library/RngLib.h>
+#include <Library/BaseCryptCrtLib.h>
 
 /**
   Calls RandomNumber64 to fill
@@ -39,14 +39,14 @@ RandGetBytes (
   Ret = FALSE;
 
   if (RandBuffer == NULL) {
-    DEBUG ((DEBUG_ERROR, "[OPENSSL_RAND_POOL] NULL RandBuffer. No random numbers are generated and your system is not secure\n"));
+    BASECRYPT_DEBUG((DEBUG_ERROR, "[OPENSSL_RAND_POOL] NULL RandBuffer. No random numbers are generated and your system is not secure\n"));
     ASSERT (RandBuffer != NULL); // Since we can't generate random numbers, we should assert. Otherwise we will just blow up later.
     return Ret;
   }
 
   while (Length > 0) {
     // Use RngLib to get random number
-    Ret = GetRandomNumber64 (&TempRand);
+    Ret = BaseCryptGetRandomNumber64 (&TempRand);
 
     if (!Ret) {
       return Ret;

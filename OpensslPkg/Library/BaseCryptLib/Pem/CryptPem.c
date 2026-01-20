@@ -6,8 +6,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 
-#include "InternalCryptLib.h"
 #include <openssl/pem.h>
+#include <Library/BaseLib.h>
 
 /**
   Callback function for password phrase conversion used for retrieving the encrypted PEM.

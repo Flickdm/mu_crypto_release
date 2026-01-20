@@ -8,8 +8,6 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <CrtLibSupport.h>
-#include <Library/MemoryAllocationLib.h>
-
 //
 // Extra header to record the memory buffer size from malloc routine.
 //
@@ -41,7 +39,7 @@ malloc (
   //
   NewSize = (UINTN)(size) + CRYPTMEM_OVERHEAD;
 
-  Data = AllocatePool (NewSize);
+  Data = BaseCryptAllocatePool(NewSize);
   if (Data != NULL) {
     PoolHdr = (CRYPTMEM_HEAD *)Data;
     //
@@ -73,7 +71,7 @@ realloc (
   VOID           *Data;
 
   NewSize = (UINTN)size + CRYPTMEM_OVERHEAD;
-  Data    = AllocatePool (NewSize);
+  Data    = BaseCryptAllocatePool(NewSize);
   if (Data != NULL) {
     NewPoolHdr            = (CRYPTMEM_HEAD *)Data;
     NewPoolHdr->Signature = CRYPTMEM_HEAD_SIGNATURE;
@@ -90,7 +88,7 @@ realloc (
       // Duplicate the buffer content.
       //
       CopyMem ((VOID *)(NewPoolHdr + 1), ptr, MIN (OldSize, size));
-      FreePool ((VOID *)OldPoolHdr);
+      BaseCryptFreePool((VOID *)OldPoolHdr);
     }
 
     return (VOID *)(NewPoolHdr + 1);
@@ -112,11 +110,11 @@ free (
 
   //
   // In Standard C, free() handles a null pointer argument transparently. This
-  // is not true of FreePool() below, so protect it.
+  // is not true of BaseCryptFreePool() below, so protect it.
   //
   if (ptr != NULL) {
     PoolHdr = (CRYPTMEM_HEAD *)ptr - 1;
     ASSERT (PoolHdr->Signature == CRYPTMEM_HEAD_SIGNATURE);
-    FreePool (PoolHdr);
+    BaseCryptFreePool(PoolHdr);
   }
 }
