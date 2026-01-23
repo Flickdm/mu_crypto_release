@@ -189,6 +189,73 @@ class PlatformBuilder(UefiBuilder, BuildSettingsManager):
         return 0
 
     def PlatformPostBuild(self):
+        # Package the build artifacts after successful build
+        logging.critical("=" * 80)
+        logging.critical("Running post-build packaging...")
+
+        # Import the packaging script
+        import sys
+        script_dir = os.path.join(CommonPlatform.WorkspaceRoot, "OneCryptoPkg", "Scripts")
+        if script_dir not in sys.path:
+            sys.path.insert(0, script_dir)
+
+        from package_onecrypto import create_package
+        from uefi_compress import analyze_efi_compression
+        from pathlib import Path
+
+        # Get the toolchain from environment
+        toolchain = self.env.GetValue("TOOL_CHAIN_TAG", "VS2022")
+        workspace_root = Path(CommonPlatform.WorkspaceRoot)
+
+        # Package for each architecture that was built
+        for arch in self.arch:
+            logging.critical(f"Packaging OneCrypto for {arch} {self.target}...")
+            result = create_package(
+                arch=arch,
+                target=self.target,
+                toolchain=toolchain
+            )
+            if result is None:
+                logging.error(f"Packaging failed for {arch} {self.target}")
+            else:
+                # Collect OneCryptoBin EFI files for compression analysis
+                onecrypto_bin_files = []
+
+                # Display individual file sizes for OneCryptoBin (size-critical)
+                logging.critical("-" * 60)
+                logging.critical("OneCryptoBin EFI Sizes (size-critical components):")
+                for file_info in result.get("file_details", []):
+                    if file_info["folder"] == "OneCryptoBin" and file_info["name"].endswith(".efi"):
+                        size_kb = file_info["size"] / 1024
+                        logging.critical(f"  {file_info['name']}: {file_info['size']:,} bytes ({size_kb:.1f} KB)")
+                        onecrypto_bin_files.append(Path(file_info["path"]))
+
+                # UEFI Compression analysis for OneCryptoBin
+                if onecrypto_bin_files:
+                    compression_results = analyze_efi_compression(onecrypto_bin_files, workspace_root)
+                    if compression_results["tool_available"]:
+                        logging.critical("-" * 60)
+                        logging.critical("OneCryptoBin UEFI Compressed Sizes (TianoCompress):")
+                        for file_info in compression_results["files"]:
+                            orig_kb = file_info["original_size"] / 1024
+                            comp_kb = file_info["compressed_size"] / 1024
+                            ratio_pct = file_info["ratio"] * 100
+                            logging.critical(f"  {file_info['name']}: {file_info['compressed_size']:,} bytes ({comp_kb:.1f} KB) [{ratio_pct:.1f}%]")
+
+                logging.critical("-" * 60)
+                logging.critical("OneCryptoLoaders EFI Sizes:")
+                for file_info in result.get("file_details", []):
+                    if file_info["folder"] == "OneCryptoLoaders" and file_info["name"].endswith(".efi"):
+                        size_kb = file_info["size"] / 1024
+                        logging.critical(f"  {file_info['name']}: {file_info['size']:,} bytes ({size_kb:.1f} KB)")
+
+                logging.critical("-" * 60)
+                logging.critical(f"Total uncompressed: {result['total_uncompressed']:,} bytes ({result['total_uncompressed'] / 1024:.1f} KB)")
+                logging.critical(f"Compressed (zip): {result['compressed_size']:,} bytes ({result['compressed_size'] / 1024:.1f} KB)")
+                logging.critical(f"SHA256: {result['sha256']}")
+                logging.critical(f"Package created: {result['path']}")
+
+        logging.critical("=" * 80)
         return 0
 
 
