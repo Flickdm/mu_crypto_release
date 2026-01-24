@@ -1,6 +1,4 @@
 [submodule "OpensslPkg/Library/OpensslLib/openssl"]
 	path = OpensslPkg/Library/OpensslLib/openssl
 	url = https://github.com/openssl/openssl
-[submodule "CryptoPkg/Library/MbedTlsLib/mbedtls"]
-	path = CryptoPkg/Library/MbedTlsLib/mbedtls
-	url = https://github.com/ARMmbed/mbedtls
+[submodule "MbedTlsPkg/Library/MbedTlsLib/mbedtls"]
