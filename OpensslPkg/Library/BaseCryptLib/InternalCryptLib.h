@@ -20,7 +20,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 #include "CrtLibSupport.h"
 
-#define OPENSSL_NO_DEPRECATED  0
+// #define OPENSSL_NO_DEPRECATED  0 // MU_CHANGE - Openssl Configuration already defines this
 
 #include <openssl/opensslv.h>
 
