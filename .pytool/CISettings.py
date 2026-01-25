@@ -3,6 +3,7 @@
 # Copyright (c) Microsoft Corporation.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
 ##
+import git
 import os
 import logging
 from edk2toolext.environment import shell_environment
@@ -10,6 +11,8 @@ from edk2toolext.invocables.edk2_ci_build import CiBuildSettingsManager
 from edk2toolext.invocables.edk2_update import UpdateSettingsManager
 from edk2toolext.invocables.edk2_ci_setup import CiSetupSettingsManager
 from edk2toolext.invocables.edk2_setup import SetupSettingsManager, RequiredSubmodule
+from edk2toolext.invocables.edk2_pr_eval import PrEvalSettingsManager
+from edk2toollib.utility_functions import GetHostInfo
 
 
 class Settings(
@@ -17,6 +20,7 @@ class Settings(
     UpdateSettingsManager,
     CiSetupSettingsManager,
     SetupSettingsManager,
+    PrEvalSettingsManager,
 ):
 
     def __init__(self):
@@ -43,11 +47,11 @@ class Settings(
         """return iterable of edk2 packages supported by this build.
         These should be edk2 workspace relative paths"""
 
-        return ("CryptoPkg",)
+        return ("CryptoPkg", "OpensslPkg", "MbedTlsPkg")
 
     def GetArchitecturesSupported(self):
         """return iterable of edk2 architectures supported by this build"""
-        return ("X64", "AARCH64")
+        return ("IA32", "X64", "ARM", "AARCH64")
 
     def GetTargetsSupported(self):
         """return iterable of edk2 target tags supported by this build"""
@@ -111,6 +115,14 @@ class Settings(
             "TOOL_CHAIN_TAG", ""
         )
 
+        is_linux = GetHostInfo().os.upper() == "LINUX"
+
+        if is_linux and self.ActualToolChainTag.upper().startswith("GCC"):
+            if "AARCH64" in self.ActualArchitectures:
+                scopes += ("gcc_aarch64_linux",)
+            if "ARM" in self.ActualArchitectures:
+                scopes += ("gcc_arm_linux",)
+
         return scopes
 
     def GetRequiredSubmodules(self):
@@ -118,8 +130,13 @@ class Settings(
         If no RequiredSubmodules return an empty iterable
         """
         rs = []
-        rs.append(RequiredSubmodule("CryptoPkg/Library/OpensslLib/openssl", False))
-        rs.append(RequiredSubmodule("CryptoPkg/Library/MbedTlsLib/mbedtls", False))
+
+        # To avoid maintenance of this file for every new submodule
+        # lets just parse the .gitmodules and add each if not already in list.
+        gitrepo = git.Repo(self.GetWorkspaceRoot())
+        for submodule in gitrepo.submodules:
+            if submodule.path not in [x.path for x in rs]:
+                rs.append(RequiredSubmodule(submodule.path, True))
         return rs
 
     def GetName(self):
@@ -128,9 +145,9 @@ class Settings(
     def GetDependencies(self):
         return [
             {
-                "Path": "EDK2",
-                "Url": "https://github.com/tianocore/edk2.git",
-                "Branch": "master"
+                "Path": "MU_BASECORE",
+                "Url": "https://github.com/microsoft/mu_basecore.git",
+                "Branch": "release/202502"
             }
         ]
 
@@ -143,3 +160,7 @@ class Settings(
     def GetWorkspaceRoot(self):
         """get WorkspacePath"""
         return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def FilterPackagesToTest(self, changedFilesList: list, potentialPackagesList: list) -> list:
+        """Filter potential packages to test based on changed files."""
+        return []
