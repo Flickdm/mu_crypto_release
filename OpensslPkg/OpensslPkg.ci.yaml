@@ -79,8 +79,12 @@
     },
     "GuidCheck": {
         "IgnoreGuidName": [],
-        "IgnoreGuidValue": [],
-        "IgnoreFoldersAndFiles": []
+        "IgnoreGuidValue": [
+            "63850097-3E97-4C4F-A52D-C811A0106105"
+        ],
+        "IgnoreFoldersAndFiles": [
+            "MU_BASECORE"
+        ]
     },
     "LibraryClassCheck": {
         "IgnoreHeaderFile": []
@@ -104,9 +108,14 @@
     # options defined in .pytool/Plugin/UncrustifyCheck
     "UncrustifyCheck": {
         "IgnoreFiles": [
-            "opensslconf.h",
-            "dso_conf.h",
-            "opensslconf_generated.h"
+            "Library/OpensslLib/openssl/**",
+            "Library/OpensslLib/OpensslGen/**",
+            "Library/OpensslLib/OpensslStub/**",
+            "Library/Include/openssl/**",
+            "Library/Include/crypto/**",
+            "**/opensslconf.h",
+            "**/dso_conf.h",
+            "**/opensslconf_generated.h"
         ]
     }
 }

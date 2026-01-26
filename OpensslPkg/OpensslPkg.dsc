@@ -115,6 +115,7 @@
   OpensslPkg/Library/OpensslLib/OpensslLib.inf
   OpensslPkg/Library/OpensslLib/OpensslLibCrypto.inf
   OpensslPkg/Library/OpensslLib/OpensslLibFull.inf
+  OpensslPkg/Library/OpensslLib/OpensslLibSm3.inf
   OpensslPkg/Library/TlsLib/TlsLib.inf
 
 [Components.X64, Components.IA32]
