@@ -1,0 +1,37 @@
+## @file
+#  OneCryptoLoaderHost.inf
+#
+#  Host-based loader library for OneCrypto that enables fuzzing and testing
+#  on the host system. This library provides POSIX/libc implementations for
+#  the ONE_CRYPTO_DEPENDENCIES interface.
+#
+#  Copyright (c) Microsoft Corporation.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = OneCryptoLoaderHost
+  FILE_GUID                      = E8D7F9C1-3A2B-4C5D-8E6F-7A1B2C3D4E5F
+  MODULE_TYPE                    = HOST_APPLICATION
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = OneCryptoLoaderHostLib|HOST_APPLICATION
+
+#
+#  VALID_ARCHITECTURES           = X64 IA32 AARCH64
+#
+
+[Sources]
+  OneCryptoLoaderHost.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  OneCryptoPkg/OneCryptoPkg.dec
+  CryptoPkg/CryptoPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  DebugLib
+  PrintLib
