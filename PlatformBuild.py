@@ -221,7 +221,7 @@ class PlatformBuilder(UefiBuilder, BuildSettingsManager):
             for arch in result.get("architectures", []):
                 logging.critical("-" * 60)
                 logging.critical(f"[{self.target}/{arch}] OneCryptoBin EFI Sizes (size-critical components):")
-                
+
                 # Collect OneCryptoBin EFI files for this architecture
                 onecrypto_bin_files = []
                 for file_info in result.get("file_details", []):
