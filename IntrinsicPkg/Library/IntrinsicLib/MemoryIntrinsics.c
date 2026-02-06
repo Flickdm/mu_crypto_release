@@ -19,9 +19,13 @@ typedef UINTN size_t;
 #define GLOBAL_USED
 #endif
 
+// MU_CHANGE START - _fltused is provided by FltUsedLib to avoid duplicate symbol
+#if 0
 /* OpenSSL will use floating point support, and C compiler produces the _fltused
    symbol by default. Simply define this symbol here to satisfy the linker. */
 int  GLOBAL_USED  _fltused = 1;
+#endif
+// MU_CHANGE END
 
 /* Sets buffers to a specified character */
 void *
