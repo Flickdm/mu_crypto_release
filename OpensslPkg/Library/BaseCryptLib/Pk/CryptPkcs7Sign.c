@@ -53,6 +53,7 @@ Pkcs7Sign (
   )
 {
   BOOLEAN   Status;
+  X509      *Cert;      // MU_CHANGE [TCBZ3925] - Pkcs7Sign is broken
   EVP_PKEY  *Key;
   BIO       *DataBio;
   PKCS7     *Pkcs7;
@@ -108,6 +109,17 @@ Pkcs7Sign (
 
   RandomSeed (NULL, 0);
 
+  // MU_CHANGE [TCBZ3925] [BEGIN] - Pkcs7Sign is broken
+  //
+  // Read DER-encoded root certificate and Construct X509 Certificate
+  //
+  Cert = d2i_X509 (NULL, &SignCert, (long)SignCertSize);
+  if (Cert == NULL) {
+    goto _Exit;
+  }
+
+  // MU_CHANGE [TCBZ3925] [END] - Pkcs7Sign is broken
+
   //
   // Construct OpenSSL EVP_PKEY for private key.
   //
@@ -136,7 +148,7 @@ Pkcs7Sign (
   // Create the PKCS#7 signedData structure.
   //
   Pkcs7 = PKCS7_sign (
-            (X509 *)SignCert,
+            Cert,     // MU_CHANGE [TCBZ3925] - Pkcs7Sign is broken
             Key,
             (STACK_OF (X509) *) OtherCerts,
             DataBio,
