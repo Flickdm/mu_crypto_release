@@ -1,0 +1,25 @@
+## @file
+#  Package for compiler intrinsic library implementation.
+#
+#  This package provides the IntrinsicLib library, which supplies compiler
+#  intrinsic functions required by cryptographic libraries such as OpenSSL
+#  and MbedTLS.
+#
+#  Copyright (c) Microsoft Corporation.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = IntrinsicPkg
+  PACKAGE_GUID                   = 7A4EB25C-378F-4222-B843-4E4AF6E4B01A
+  PACKAGE_VERSION                = 1.0
+
+[Includes.Common.Private]
+  Private
+
+[LibraryClasses.Common.Private]
+  ##  @libraryclass  Provides compiler intrinsic functions required by crypto libraries.
+  #
+  IntrinsicLib|Private/Library/IntrinsicLib.h
