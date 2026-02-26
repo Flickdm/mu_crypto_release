@@ -39,7 +39,7 @@
   DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
   FltUsedLib|MdePkg/Library/FltUsedLib/FltUsedLib.inf
   HashApiLib|CryptoPkg/Library/BaseHashApiLib/BaseHashApiLib.inf
-  IntrinsicLib|OpensslPkg/Library/IntrinsicLib/IntrinsicLib.inf
+  IntrinsicLib|IntrinsicPkg/Library/IntrinsicLib/IntrinsicLib.inf
   IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
   MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
   MmServicesTableLib|MdePkg/Library/MmServicesTableLib/MmServicesTableLib.inf
@@ -100,6 +100,10 @@
   gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000000
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x06
 
+[PcdsFeatureFlag]
+  gEfiCryptoPkgTokenSpaceGuid.PcdOpensslLibAssemblySourceStyleNasm|TRUE
+  gEfiCryptoPkgTokenSpaceGuid.PcdOpensslLibAssemblySourceStylePe|FALSE
+
 ###################################################################################################
 #
 # Components Section - list of the modules and components that will be processed by compilation
@@ -111,7 +115,6 @@
   OpensslPkg/Library/BaseCryptLib/PeiCryptLib.inf
   OpensslPkg/Library/BaseCryptLib/RuntimeCryptLib.inf
   OpensslPkg/Library/BaseCryptLib/SecCryptLib.inf
-  OpensslPkg/Library/IntrinsicLib/IntrinsicLib.inf
   OpensslPkg/Library/OpensslLib/OpensslLib.inf
   OpensslPkg/Library/OpensslLib/OpensslLibCrypto.inf
   OpensslPkg/Library/OpensslLib/OpensslLibFull.inf
