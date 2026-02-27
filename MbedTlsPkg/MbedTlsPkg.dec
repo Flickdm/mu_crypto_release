@@ -17,8 +17,10 @@
 
 [Includes.Common.Private]
   Private
+  Library/Include
   Library/MbedTlsLib/Include
   Library/MbedTlsLib/mbedtls/include
+  Library/MbedTlsLib/mbedtls/include/mbedtls
   Library/MbedTlsLib/mbedtls/library
 
 [LibraryClasses.Common.Private]
@@ -26,6 +28,3 @@
   #
   MbedTlsLib|Private/Library/MbedTlsLib.h
 
-  ##  @libraryclass  Provides compiler intrinsic functions required to link mbedtls project.
-  #
-  IntrinsicLib|Private/Library/IntrinsicLib.h

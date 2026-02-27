@@ -26,8 +26,7 @@
         "IgnoreFiles": [
             "Library/MbedTlsLib/mbedtls",
             # This has MbedTLS interfaces that aren't UEFI spec compliant
-            "Library/BaseCryptLib/SysCall",
-            "Library/IntrinsicLib"
+            "Library/BaseCryptLib/SysCall"
         ]
     },
     "CompilerPlugin": {
@@ -41,6 +40,7 @@
             "MdePkg/MdePkg.dec",
             "MdeModulePkg/MdeModulePkg.dec",
             "CryptoPkg/CryptoPkg.dec",
+            "IntrinsicPkg/IntrinsicPkg.dec",
             "MbedTlsPkg/MbedTlsPkg.dec",
         ],
         # For host based unit tests
@@ -52,7 +52,8 @@
     "DscCompleteCheck": {
         "DscPath": "MbedTlsPkg.dsc",
         "IgnoreInf": [
-            "MbedTlsPkg/Library/MbedTlsLib/MbedTlsLibFull.inf"
+            "MbedTlsPkg/Library/MbedTlsLib/MbedTlsLibFull.inf",
+            "MbedTlsPkg/Library/BaseCryptLib/TestBaseCryptLib.inf"
         ]
     },
     "GuidCheck": {
