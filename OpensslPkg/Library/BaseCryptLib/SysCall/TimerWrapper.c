@@ -9,8 +9,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 #include <Uefi.h>
 #include <CrtLibSupport.h>
-#include <Library/UefiBootServicesTableLib.h>
-#include <Library/UefiRuntimeServicesTableLib.h>
+#include <Library/RealTimeClockLib.h> // MU_CHANGE
+#include <Library/TimerLib.h>         // MU_CHANGE - for sleep()
 
 //
 // -- Time Management Routines --
@@ -19,8 +19,6 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #define SECSPERMIN   (60)
 #define SECSPERHOUR  (60 * 60)
 #define SECSPERDAY   (24 * SECSPERHOUR)
-
-long  timezone;
 
 //
 //  The arrays give the cumulative number of days up to the first of the
@@ -129,7 +127,7 @@ time (
   //
   // Get the current time and date information
   //
-  Status = gRT->GetTime (&Time, NULL);
+  Status = LibGetTime (&Time, NULL); // MU_CHANGE
   if (EFI_ERROR (Status) || (Time.Year < 1970)) {
     return 0;
   }
@@ -235,7 +233,7 @@ sleep (
   unsigned int  seconds
   )
 {
-  gBS->Stall (seconds * 1000 * 1000);
+  MicroSecondDelay (seconds * 1000 * 1000); // MU_CHANGE - use TimerLib instead of gBS->Stall
   return 0;
 }
 

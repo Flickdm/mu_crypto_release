@@ -71,6 +71,7 @@
   DebugLib
   OpensslLib
   PrintLib
+  RealTimeClockLib # MU_CHANGE
 
 #
 # Remove these [BuildOptions] after this library is cleaned up
