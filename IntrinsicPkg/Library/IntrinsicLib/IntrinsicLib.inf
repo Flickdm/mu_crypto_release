@@ -66,11 +66,14 @@
 [LibraryClasses]
   BaseLib
   BaseMemoryLib
+  FltUsedLib # MU_CHANGE
+  CompilerIntrinsicsLib  # MU_CHANGE - Required for 128-bit intrinsics (__ashlti3) used by OpenSSL curve448
 
 [BuildOptions]
    #
    # Override MSFT build option to remove /Oi and /GL
    #
+   MSFT:*_*_*_CC_FLAGS                    =  /Oi-  # MU_CHANGE - TCBZ2029
    MSFT:DEBUG_VS2003_IA32_CC_FLAGS        == /nologo /c /WX /W4 /Gs32768 /Gy /D UNICODE /O1b2 /FIAutoGen.h /EHs-c- /GR- /GF /GX- /Zi /Gm
    MSFT:RELEASE_VS2003_IA32_CC_FLAGS      == /nologo /c /WX /W4 /Gs32768 /Gy /D UNICODE /O1b2 /FIAutoGen.h /EHs-c- /GR- /GF /GX-
    MSFT:DEBUG_VS2003xASL_IA32_CC_FLAGS    == /nologo /c /WX /W4 /Gs32768 /Gy /D UNICODE /O1b2 /FIAutoGen.h /EHs-c- /GR- /GF /GX- /Zi /Gm
