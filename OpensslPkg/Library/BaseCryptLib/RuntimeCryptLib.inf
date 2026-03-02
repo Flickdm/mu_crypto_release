@@ -87,6 +87,7 @@
   MdePkg/MdePkg.dec
   CryptoPkg/CryptoPkg.dec
   OpensslPkg/OpensslPkg.dec # MU_CHANGE
+  MdeModulePkg/MdeModulePkg.dec # MU_CHANGE
 
 [LibraryClasses]
   BaseLib
@@ -96,6 +97,7 @@
   OpensslLib
   IntrinsicLib
   PrintLib
+  RealTimeClockLib # MU_CHANGE
 
 #
 # Remove these [BuildOptions] after this library is cleaned up

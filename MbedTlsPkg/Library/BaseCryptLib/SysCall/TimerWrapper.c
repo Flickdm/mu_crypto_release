@@ -8,9 +8,10 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <Uefi.h>
-#include <Library/UefiRuntimeServicesTableLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/MemoryAllocationLib.h>
+#include <Library/RealTimeClockLib.h> // MU_CHANGE
+#include <Library/TimerLib.h>         // MU_CHANGE - for sleep()
 #include <CrtLibSupport.h>
 
 //
@@ -76,7 +77,7 @@ time (
   //
   // Get the current time and date information
   //
-  Status = gRT->GetTime (&Time, NULL);
+  Status = LibGetTime (&Time, NULL); // MU_CHANGE
   if (EFI_ERROR (Status) || (Time.Year < 1970)) {
     return 0;
   }
@@ -179,8 +180,6 @@ _time64 (
   return time (t);
 }
 
-long  timezone;
-
 int
 gettimeofday (
   struct timeval   *tv,
@@ -198,6 +197,7 @@ sleep (
   unsigned int  seconds
   )
 {
+  MicroSecondDelay (seconds * 1000 * 1000); // MU_CHANGE - use TimerLib instead of gBS->Stall
   return 0;
 }
 
@@ -214,7 +214,7 @@ mbedtls_ms_time (
   //
   // Get the current time and date information
   //
-  Status = gRT->GetTime (&Time, NULL);
+  Status = LibGetTime (&Time, NULL); // MU_CHANGE
   if (EFI_ERROR (Status) || (Time.Year < 1970)) {
     return 0;
   }
