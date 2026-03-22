@@ -12,6 +12,10 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <crypto/asn1.h>
 #include <openssl/asn1.h>
 #include <openssl/rsa.h>
+#include "Pk/CryptRsaPkeyCtx.h"
+#include "Pk/CryptEcPkeyCtx.h"
+#include <openssl/core_names.h>
+#include <openssl/objects.h>
 
 /* OID*/
 #define OID_EXT_KEY_USAGE      { 0x55, 0x1D, 0x25 }
@@ -591,9 +595,10 @@ RsaGetPublicKeyFromX509 (
   OUT  VOID         **RsaContext
   )
 {
-  BOOLEAN   Status;
-  EVP_PKEY  *Pkey;
-  X509      *X509Cert;
+  BOOLEAN       Status;
+  EVP_PKEY      *Pkey;
+  X509          *X509Cert;
+  RSA_PKEY_CTX  *RsaPkeyCtx;
 
   //
   // Check input parameters.
@@ -627,8 +632,15 @@ RsaGetPublicKeyFromX509 (
   //
   // Duplicate RSA Context from the retrieved EVP_PKEY.
   //
-  if ((*RsaContext = RSAPublicKey_dup (EVP_PKEY_get0_RSA (Pkey))) != NULL) {
-    Status = TRUE;
+  RsaPkeyCtx = AllocateZeroPool (sizeof (RSA_PKEY_CTX));
+  if (RsaPkeyCtx != NULL) {
+    RsaPkeyCtx->Pkey = EVP_PKEY_dup (Pkey);
+    if (RsaPkeyCtx->Pkey != NULL) {
+      *RsaContext = (VOID *)RsaPkeyCtx;
+      Status      = TRUE;
+    } else {
+      FreePool (RsaPkeyCtx);
+    }
   }
 
 _Exit:
@@ -891,9 +903,13 @@ EcGetPublicKeyFromX509 (
   OUT  VOID         **EcContext
   )
 {
-  BOOLEAN   Status;
-  EVP_PKEY  *Pkey;
-  X509      *X509Cert;
+  BOOLEAN      Status;
+  EVP_PKEY     *Pkey;
+  X509         *X509Cert;
+  EC_PKEY_CTX  *EcPkeyCtx;
+  CHAR8        CurveNameBuf[64];
+  UINTN        CurveNameLen;
+  INT32        OpenSslNid;
 
   //
   // Check input parameters.
@@ -927,8 +943,32 @@ EcGetPublicKeyFromX509 (
   //
   // Duplicate EC Context from the retrieved EVP_PKEY.
   //
-  if ((*EcContext = EC_KEY_dup (EVP_PKEY_get0_EC_KEY (Pkey))) != NULL) {
-    Status = TRUE;
+  EcPkeyCtx    = AllocateZeroPool (sizeof (EC_PKEY_CTX));
+  CurveNameLen = sizeof (CurveNameBuf);
+  if ((EcPkeyCtx != NULL) &&
+      (EVP_PKEY_get_utf8_string_param (
+         Pkey,
+         OSSL_PKEY_PARAM_GROUP_NAME,
+         CurveNameBuf,
+         CurveNameLen,
+         &CurveNameLen
+         ) == 1))
+  {
+    OpenSslNid = OBJ_sn2nid (CurveNameBuf);
+    if (OpenSslNid == NID_undef) {
+      OpenSslNid = OBJ_ln2nid (CurveNameBuf);
+    }
+
+    EcPkeyCtx->Nid  = OpenSslNid;
+    EcPkeyCtx->Pkey = EVP_PKEY_dup (Pkey);
+    if (EcPkeyCtx->Pkey != NULL) {
+      *EcContext = (VOID *)EcPkeyCtx;
+      Status     = TRUE;
+    } else {
+      FreePool (EcPkeyCtx);
+    }
+  } else if (EcPkeyCtx != NULL) {
+    FreePool (EcPkeyCtx);
   }
 
 _Exit:
