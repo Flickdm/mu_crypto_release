@@ -1,0 +1,192 @@
+# Coverage workflow - builds host-based unit tests with gcov instrumentation
+# via the HostBasedUnitTestRunner plugin (CODE_COVERAGE=TRUE), then publishes
+# a Cobertura XML summary and optional HTML report.
+#
+# The plugin handles lcov capture, filtering, and XML generation automatically.
+# This workflow adds HTML report generation, baseline comparison, and PR comments.
+#
+##
+# Copyright (c) Microsoft Corporation.
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+name: Coverage
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.pytool/**'
+      - 'OpensslPkg/**'
+      - 'MU_BASECORE/**'
+      - '.github/workflows/coverage.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - '.pytool/**'
+      - 'OpensslPkg/**'
+      - 'MU_BASECORE/**'
+      - '.github/workflows/coverage.yml'
+
+env:
+  TOOL_CHAIN_TAG: GCC5
+  PACKAGE: OpensslPkg
+  TARGET: NOOPT
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/microsoft/mu_devops/ubuntu-24-dev:8b4aa53
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set Safe Directory
+        run: git config --global --add safe.directory '*'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r pip-requirements.txt
+
+      - name: Install lcov
+        run: apt-get install -y --no-install-recommends lcov
+
+      - name: Setup
+        run: stuart_setup -c .pytool/CISettings.py -p ${{ env.PACKAGE }}
+
+      - name: CI Setup
+        run: stuart_ci_setup -c .pytool/CISettings.py -p ${{ env.PACKAGE }}
+
+      - name: Update
+        run: stuart_update -c .pytool/CISettings.py -p ${{ env.PACKAGE }}
+
+      - name: Build and Run Tests with Coverage
+        run: >-
+          stuart_ci_build
+          -c .pytool/CISettings.py
+          -p ${{ env.PACKAGE }}
+          -t ${{ env.TARGET }}
+          -d HostUnitTestCompilerPlugin=run
+          TOOL_CHAIN_TAG=${{ env.TOOL_CHAIN_TAG }}
+          CODE_COVERAGE=TRUE
+
+      - name: Filter Coverage to BaseCryptLib
+        if: always()
+        run: |
+            BUILD_OUTPUT="Build/${{ env.PACKAGE }}/HostTest/${{ env.TARGET }}_${{ env.TOOL_CHAIN_TAG }}"
+            COVERAGE_INFO="${BUILD_OUTPUT}/total-coverage.info"
+            FILTERED_INFO="coverage_report/basecryptlib-coverage.info"
+            FILTERED_XML="coverage_report/basecryptlib_coverage.xml"
+
+            mkdir -p coverage_report
+
+            if [[ ! -f "${COVERAGE_INFO}" ]]; then
+              echo "Coverage tracefile not found: ${COVERAGE_INFO}"
+              exit 1
+            fi
+
+            # Keep all BaseCryptLib sources generically, then drop helper folders.
+            lcov --extract "${COVERAGE_INFO}" \
+              '*/OpensslPkg/Library/BaseCryptLib/*' \
+              --output-file "${FILTERED_INFO}.tmp"
+
+            lcov --remove "${FILTERED_INFO}.tmp" \
+              '*/OpensslPkg/Library/BaseCryptLib/Info/*' \
+              '*/OpensslPkg/Library/BaseCryptLib/Setup/*'
+              '*/OpensslPkg/Library/BaseCryptLib/Syscall/*' \
+              --ignore-errors unused \
+              --output-file "${FILTERED_INFO}"
+
+            rm -f "${FILTERED_INFO}.tmp"
+
+            # Generate HTML and Cobertura from the filtered lcov tracefile.
+            genhtml "${FILTERED_INFO}" \
+              --output-directory coverage_report/html \
+              --title "${{ env.PACKAGE }} BaseCryptLib Coverage" \
+              --legend --quiet || true
+
+            python -m lcov_cobertura "${FILTERED_INFO}" \
+              -b "${GITHUB_WORKSPACE}" \
+              -o "${FILTERED_XML}"
+
+      - name: Upload HTML Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE }}-coverage-html
+          path: coverage_report/html/
+
+      - name: Upload Coverage Baseline
+        if: github.ref == 'refs/heads/main' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE }}-coverage-baseline
+          path: coverage_report/basecryptlib_coverage.xml
+          overwrite: true
+
+      - name: Download Main Baseline
+        if: github.event_name == 'pull_request' && always()
+        id: baseline
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          name: ${{ env.PACKAGE }}-coverage-baseline
+          branch: main
+          workflow: coverage.yml
+          path: baseline/
+          if_no_artifact_found: warn
+
+      - name: Coverage Summary
+        if: always()
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage_report/basecryptlib_coverage.xml
+          badge: true
+          format: markdown
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
+
+      - name: Append Coverage Delta
+        if: github.event_name == 'pull_request' && always()
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          # Extract line-rate from current and baseline Cobertura XML
+          current=$(grep -oP 'line-rate="\K[^"]+' coverage_report/basecryptlib_coverage.xml | head -1)
+          if [[ -f baseline/basecryptlib_coverage.xml ]]; then
+            base=$(grep -oP 'line-rate="\K[^"]+' baseline/basecryptlib_coverage.xml | head -1)
+          else
+            base=""
+          fi
+
+          echo "" >> code-coverage-results.md
+          echo "---" >> code-coverage-results.md
+
+          if [[ -n "${base}" ]]; then
+            cur_pct=$(awk "BEGIN {printf \"%.1f\", ${current} * 100}")
+            base_pct=$(awk "BEGIN {printf \"%.1f\", ${base} * 100}")
+            delta=$(awk "BEGIN {printf \"%+.1f\", (${current} - ${base}) * 100}")
+            if awk "BEGIN {exit !(${current} > ${base})}"; then
+              echo "**Coverage: ${cur_pct}% (${delta}%) :arrow_up: vs main (${base_pct}%)**" >> code-coverage-results.md
+            elif awk "BEGIN {exit !(${current} < ${base})}"; then
+              echo "**Coverage: ${cur_pct}% (${delta}%) :arrow_down: vs main (${base_pct}%)**" >> code-coverage-results.md
+            else
+              echo "**Coverage: ${cur_pct}% (no change vs main)**" >> code-coverage-results.md
+            fi
+          else
+            echo "_No baseline from main available yet — delta will appear after the next main merge._" >> code-coverage-results.md
+          fi
+
+          echo "[View detailed HTML coverage report](${RUN_URL})" >> code-coverage-results.md
+
+      - name: Add PR Coverage Comment
+        if: github.event_name == 'pull_request' && always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          path: code-coverage-results.md
