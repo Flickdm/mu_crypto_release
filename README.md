@@ -12,10 +12,23 @@ maintained separately.
 
 ## Repository Structure
 
-| Package        | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| **OpensslPkg** | BaseCryptLib, OpensslLib, TlsLib, and supporting headers backed by OpenSSL. |
-| **MbedTlsPkg** | BaseCryptLib, MbedTlsLib, and supporting headers backed by Mbed TLS.        |
+| Package          | Description                                                                                       |
+|------------------|---------------------------------------------------------------------------------------------------|
+| **OpensslPkg**   | BaseCryptLib, OpensslLib, TlsLib, and supporting headers backed by OpenSSL.                       |
+| **MbedTlsPkg**   | BaseCryptLib, MbedTlsLib, and supporting headers backed by Mbed TLS.                              |
+| **OneCryptoPkg** | A single crypto binary designed to be shared across execution phases (DXE, SMM, Standalone MM). |
+
+### OneCryptoPkg
+
+OneCryptoPkg builds a single binary that contains all the cryptographic
+implementations a platform needs, designed to be shared across execution phases.
+Phase-specific loaders (DXE, SMM, Standalone MM, Supervisor MM) discover and
+load the binary, while platform code continues to use the standard BaseCryptLib /
+TlsLib APIs through the
+[BaseCryptLibOnOneCrypto](https://github.com/microsoft/mu_basecore/tree/release/202511/CryptoPkg/Library/BaseCryptLibOnOneCrypto)
+library, which dispatches calls via a versioned protocol interface. This enables
+crypto agility — the binary can be updated or swapped without modifying platform
+code.
 
 ## Setup
 
@@ -24,7 +37,7 @@ maintained separately.
 git submodule update --init --recursive
 pip install -r pip-requirements.txt
 
-# Packages: (OpensslPkg or MbedTlsPkg)
+# Packages: (OpensslPkg, MbedTlsPkg, or OneCryptoPkg)
 stuart_setup    -c .pytool/CISettings.py -p <Pkg>
 stuart_ci_setup -c .pytool/CISettings.py -p <Pkg> # Only required for CI
 stuart_update   -c .pytool/CISettings.py -p <Pkg>
@@ -43,7 +56,7 @@ stuart_ci_build -c .pytool/CISettings.py -p <Pkg> -t RELEASE TOOL_CHAIN_TAG=CLAN
 ```bash
 # Run host-based unit tests locally with GCC5
 
-# Packages: (OpensslPkg, MbedTlsPkg)
+# Packages: (OpensslPkg, MbedTlsPkg, OneCryptoPkg)
 stuart_ci_build -c .pytool/CISettings.py -p <Pkg> -t NOOPT -d HostUnitTestCompilerPlugin=run TOOL_CHAIN_TAG=GCC5
 ```
 
