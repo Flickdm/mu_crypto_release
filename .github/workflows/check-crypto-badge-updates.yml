@@ -1,0 +1,137 @@
+# Check if README crypto version badges need updating based on submodule tags.
+# Posts a review comment on PRs that update OpenSSL or Mbed TLS submodules.
+#
+# Copyright (c) Microsoft Corporation.
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+
+name: Check Crypto Badge Updates
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  pull-requests: write
+
+jobs:
+  check-badges:
+    name: Check Version Badges
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Get OpenSSL Version
+        id: openssl
+        run: |
+          TAG=$(git -C OpensslPkg/Library/OpensslLib/openssl describe --tags --exact-match 2>/dev/null || \
+                git -C OpensslPkg/Library/OpensslLib/openssl describe --tags --abbrev=0 2>/dev/null || \
+                echo "unknown")
+          VERSION="${TAG#openssl-}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "OpenSSL version: $VERSION (tag: $TAG)"
+
+      - name: Get Mbed TLS Version
+        id: mbedtls
+        run: |
+          TAG=$(git -C MbedTlsPkg/Library/MbedTlsLib/mbedtls describe --tags --exact-match 2>/dev/null || \
+                git -C MbedTlsPkg/Library/MbedTlsLib/mbedtls describe --tags --abbrev=0 2>/dev/null || \
+                echo "unknown")
+          VERSION="${TAG#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Mbed TLS version: $VERSION (tag: $TAG)"
+
+      - name: Check Badge Updates Needed
+        id: badge-updates
+        run: |
+          OPENSSL_CURRENT=$(grep -oP '(?<=OpenSSL-)\d+\.\d+\.\d+' README.md || echo "unknown")
+          MBEDTLS_CURRENT=$(grep -oP '(?<=Mbed_TLS-)\d+\.\d+\.\d+' README.md || echo "unknown")
+
+          OPENSSL_NEW="${{ steps.openssl.outputs.version }}"
+          MBEDTLS_NEW="${{ steps.mbedtls.outputs.version }}"
+
+          echo "openssl_current=$OPENSSL_CURRENT" >> "$GITHUB_OUTPUT"
+          echo "openssl_new=$OPENSSL_NEW" >> "$GITHUB_OUTPUT"
+          echo "mbedtls_current=$MBEDTLS_CURRENT" >> "$GITHUB_OUTPUT"
+          echo "mbedtls_new=$MBEDTLS_NEW" >> "$GITHUB_OUTPUT"
+
+          if [ "$OPENSSL_CURRENT" != "$OPENSSL_NEW" ] || [ "$MBEDTLS_CURRENT" != "$MBEDTLS_NEW" ]; then
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post Suggested Badge Updates
+        if: steps.badge-updates.outputs.needs_update == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const readme = fs.readFileSync('README.md', 'utf8');
+            const openssl = {
+              current: '${{ steps.badge-updates.outputs.openssl_current }}',
+              new: '${{ steps.badge-updates.outputs.openssl_new }}'
+            };
+            const mbedtls = {
+              current: '${{ steps.badge-updates.outputs.mbedtls_current }}',
+              new: '${{ steps.badge-updates.outputs.mbedtls_new }}'
+            };
+
+            const lines = readme.split('\n');
+            let body = '## 🔄 Crypto Badge Updates Available\n\n';
+            body += 'Consider updating README badges to match crypto dependencies:\n\n';
+            body += '| Library | Current | Latest |\n';
+            body += '|---------|---------|--------|\n';
+
+            // Find and suggest OpenSSL badge update
+            if (openssl.current !== openssl.new && openssl.current !== 'unknown') {
+              for (let i = 0; i < lines.length; i++) {
+                if (lines[i].includes(`OpenSSL-${openssl.current}`) && lines[i].includes('img.shields.io')) {
+                  const oldLine = lines[i];
+                  const newLine = oldLine.replace(
+                    `OpenSSL-${openssl.current}`,
+                    `OpenSSL-${openssl.new}`
+                  ).replace(
+                    `openssl-${openssl.current}`,
+                    `openssl-${openssl.new}`
+                  );
+                  body += `| OpenSSL | ${openssl.current} | ${openssl.new} |\n`;
+                  body += `\n**Line ${i + 1}:**\n\`\`\`diff\n- ${oldLine}\n+ ${newLine}\n\`\`\`\n`;
+                  break;
+                }
+              }
+            }
+
+            // Find and suggest Mbed TLS badge update
+            if (mbedtls.current !== mbedtls.new && mbedtls.current !== 'unknown') {
+              for (let i = 0; i < lines.length; i++) {
+                if (lines[i].includes(`Mbed_TLS-${mbedtls.current}`) && lines[i].includes('img.shields.io')) {
+                  const oldLine = lines[i];
+                  const newLine = oldLine.replace(
+                    `Mbed_TLS-${mbedtls.current}`,
+                    `Mbed_TLS-${mbedtls.new}`
+                  ).replace(
+                    `v${mbedtls.current}`,
+                    `v${mbedtls.new}`
+                  );
+                  body += `| Mbed TLS | ${mbedtls.current} | ${mbedtls.new} |\n`;
+                  body += `\n**Line ${i + 1}:**\n\`\`\`diff\n- ${oldLine}\n+ ${newLine}\n\`\`\`\n`;
+                  break;
+                }
+              }
+            }
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
