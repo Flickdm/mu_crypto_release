@@ -1,7 +1,10 @@
 # Project Mu Crypto Release
 
-[![Continuous Integration](https://github.com/Microsoft/mu_crypto_release/actions/workflows/continuous-integration.yml/badge.svg?branch=main)](https://github.com/microsoft/mu_crypto_release/actions/workflows/continuous-integration.yml)
+[![Continuous Integration](https://github.com/microsoft/mu_crypto_release/actions/workflows/continuous-integration.yml/badge.svg?branch=main)](https://github.com/microsoft/mu_crypto_release/actions/workflows/continuous-integration.yml)
+[![Build OneCryptoPkg](https://github.com/microsoft/mu_crypto_release/actions/workflows/build-onecrypto.yml/badge.svg?branch=main)](https://github.com/microsoft/mu_crypto_release/actions/workflows/build-onecrypto.yml)
 [![Host-Based Unit Tests](https://github.com/microsoft/mu_crypto_release/actions/workflows/host-based-test-runner.yml/badge.svg?branch=main)](https://github.com/microsoft/mu_crypto_release/actions/workflows/host-based-test-runner.yml)
+[![CodeQL](https://github.com/microsoft/mu_crypto_release/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/microsoft/mu_crypto_release/actions/workflows/codeql.yml)
+[![Coverage](https://github.com/microsoft/mu_crypto_release/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/microsoft/mu_crypto_release/actions/workflows/coverage.yml)
 [![OpenSSL](https://img.shields.io/badge/OpenSSL-3.5.5-blue)](https://github.com/openssl/openssl/releases/tag/openssl-3.5.5)
 [![Mbed TLS](https://img.shields.io/badge/Mbed_TLS-3.6.5-blue)](https://github.com/Mbed-TLS/mbedtls/releases/tag/v3.6.5)
 
@@ -12,12 +15,13 @@ maintained separately.
 
 ## Repository Structure
 
-| Package        | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| **OpensslPkg** | BaseCryptLib, OpensslLib, TlsLib, and supporting headers backed by OpenSSL. |
-| **MbedTlsPkg** | BaseCryptLib, MbedTlsLib, and supporting headers backed by Mbed TLS.        |
+| Package            | Description                                                                              |
+|--------------------|------------------------------------------------------------------------------------------|
+| **OneCryptoPkg**   | Unified cross-phase crypto driver that dispatches the crypto provider.     |
+| **OpensslPkg**     | BaseCryptLib, OpensslLib, TlsLib, and supporting headers backed by OpenSSL.              |
+| **MbedTlsPkg**     | BaseCryptLib, MbedTlsLib, and supporting headers backed by Mbed TLS.                     |
 
-## Setup
+## CI Setup
 
 ```bash
 # One-time setup
