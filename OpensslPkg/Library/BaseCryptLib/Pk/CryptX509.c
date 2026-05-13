@@ -102,13 +102,16 @@ X509ConstructCertificateStackV (
   IN      VA_LIST  Args
   )
 {
-  UINT8  *Cert;
+  UINT8  Cert;
   UINTN  CertSize;
   X509   *X509Cert;
   UINTN  CertIndex; // MU_CHANGE
 
+  UINTN  CertIndex; // MU_CHANGE
+
   STACK_OF (X509)  *CertStack;
   BOOLEAN  Status;
+  BOOLEAN  NewlyAllocated; // MU_CHANGE
   BOOLEAN  NewlyAllocated; // MU_CHANGE
 
   //
@@ -123,6 +126,22 @@ X509ConstructCertificateStackV (
   // MU_CHANGE [BEGIN]
   CertIndex      = 0;
   NewlyAllocated = FALSE;
+  // MU_CHANGE [END]
+
+  // MU_CHANGE [BEGIN] - Debug: dump VA_LIST representation after crossing protocol boundary
+  {
+    UINTN  Idx;
+    UINT8  *RawBytes;
+    DEBUG ((DEBUG_ERROR, "sizeof(__builtin_va_list) = %u\n", (UINT32)sizeof (__builtin_va_list)));
+    DEBUG ((DEBUG_ERROR, "IMPL: sizeof(VA_LIST) = %u\n", sizeof (VA_LIST)));
+    RawBytes = (UINT8 *)&Args;
+    DEBUG ((DEBUG_ERROR, "IMPL: VA_LIST raw bytes:"));
+    for (Idx = 0; Idx < sizeof (VA_LIST) && Idx < 40; Idx++) {
+      DEBUG ((DEBUG_ERROR, " %02X", RawBytes[Idx]));
+    }
+
+    DEBUG ((DEBUG_ERROR, "\n"));
+  }
   // MU_CHANGE [END]
 
   //
@@ -153,6 +172,8 @@ X509ConstructCertificateStackV (
     if (CertSize == 0) {
       break;
     }
+    
+    DEBUG ((DEBUG_ERROR, "DEBUG: Cert = %p, CertSize = %u\n", Cert, CertSize));
 
     //
     // Construct X509 Object from the given DER-encoded certificate data.
