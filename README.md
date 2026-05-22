@@ -58,7 +58,7 @@ stuart_ci_build -c .pytool/CISettings.py -p <Pkg> -t NOOPT -d HostUnitTestCompil
 
 > For more details, see [OneCryptoPkg/Docs/README.md](OneCryptoPkg/Docs/README.md).
 
-OneCryptoPkg uses `PlatformBuild.py` (via `stuart_build`) instead of the CI
+OneCryptoPkg uses `OneCryptoPkg/PlatformBuild.py` (via `stuart_build`) instead of the CI
 settings file. By default, it builds **both** DEBUG and RELEASE targets for
 `X64` and `AARCH64`.
 
@@ -67,26 +67,26 @@ settings file. By default, it builds **both** DEBUG and RELEASE targets for
 ```bash
 
 # Clone GetDependencies() repos (MU_BASECORE, MM_SUPV, mu_plus)
-stuart_ci_setup -c PlatformBuild.py
+stuart_ci_setup -c OneCryptoPkg/PlatformBuild.py
 
 # Sync git submodules listed in .gitmodules (openssl, mbedtls)
-stuart_setup  -c PlatformBuild.py
+stuart_setup  -c OneCryptoPkg/PlatformBuild.py
 
 # Fetch ext_deps (NuGet, web, etc.)
-stuart_update -c PlatformBuild.py
+stuart_update -c OneCryptoPkg/PlatformBuild.py
 ```
 
 ### Build
 
 ```bash
 # Build all targets and architectures
-stuart_build -c PlatformBuild.py TOOL_CHAIN_TAG=CLANGPDB
+stuart_build -c OneCryptoPkg/PlatformBuild.py TOOL_CHAIN_TAG=CLANGPDB
 
 # Build only X64 RELEASE
-stuart_build -c PlatformBuild.py -a X64 -t RELEASE TOOL_CHAIN_TAG=CLANGPDB
+stuart_build -c OneCryptoPkg/PlatformBuild.py -a X64 -t RELEASE TOOL_CHAIN_TAG=CLANGPDB
 
 # Build only AARCH64 DEBUG
-stuart_build -c PlatformBuild.py -a AARCH64 -t DEBUG TOOL_CHAIN_TAG=CLANGPDB
+stuart_build -c OneCryptoPkg/PlatformBuild.py -a AARCH64 -t DEBUG TOOL_CHAIN_TAG=CLANGPDB
 ```
 
 ### Build Variants
@@ -98,7 +98,7 @@ Two variants are available:
 
 ```bash
 # Non-accelerated build
-stuart_build -c PlatformBuild.py BLD_*_NON_ACCEL=TRUE TOOL_CHAIN_TAG=CLANGPDB
+stuart_build -c OneCryptoPkg/PlatformBuild.py BLD_*_NON_ACCEL=TRUE TOOL_CHAIN_TAG=CLANGPDB
 ```
 
 ### Packaging
@@ -108,7 +108,7 @@ After a successful build the OneCryptoBundler plugin automatically produces
 `--skip-packaging`:
 
 ```bash
-stuart_build -c PlatformBuild.py --skip-packaging TOOL_CHAIN_TAG=CLANGPDB
+stuart_build -c OneCryptoPkg/PlatformBuild.py --skip-packaging TOOL_CHAIN_TAG=CLANGPDB
 ```
 
 ## Contributing
