@@ -28,7 +28,9 @@ class CommonPlatform():
     ArchSupported = ("X64", "AARCH64")
     TargetsSupported = ("DEBUG", "RELEASE")
     Scopes = ('OneCrypto', 'edk2-build')
-    WorkspaceRoot = str(Path(__file__).resolve().parent)
+    # This script lives at <repo>/OneCryptoPkg/PlatformBuild.py, so the
+    # workspace root is two levels up from this file.
+    WorkspaceRoot = str(Path(__file__).resolve().parent.parent)
 
     @staticmethod
     def GetAllSubmodules():
