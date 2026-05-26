@@ -1,4 +1,4 @@
-# @file PlatformBuild.py
+# @file DriverBuild.py
 # Script to Build OneCryptoPkg
 #
 # Copyright (c) Microsoft Corporation.
@@ -28,7 +28,7 @@ class CommonPlatform():
     ArchSupported = ("X64", "AARCH64")
     TargetsSupported = ("DEBUG", "RELEASE")
     Scopes = ('OneCrypto', 'edk2-build')
-    # This script lives at <repo>/OneCryptoPkg/PlatformBuild.py, so the
+    # This script lives at <repo>/OneCryptoPkg/DriverBuild.py, so the
     # workspace root is two levels up from this file.
     WorkspaceRoot = str(Path(__file__).resolve().parent.parent)
 

@@ -32,13 +32,13 @@ jobs:
           pip install -r pip-requirements.txt
 
       - name: Setup
-        run: stuart_setup -c OneCryptoPkg/PlatformBuild.py
+        run: stuart_setup -c OneCryptoPkg/DriverBuild.py
 
       - name: CI Setup
-        run: stuart_ci_setup -c OneCryptoPkg/PlatformBuild.py
+        run: stuart_ci_setup -c OneCryptoPkg/DriverBuild.py
 
       - name: Update
-        run: stuart_update -c OneCryptoPkg/PlatformBuild.py
+        run: stuart_update -c OneCryptoPkg/DriverBuild.py
 
       - name: Build OneCryptoPkg (${{ inputs.variant }})
         shell: bash
@@ -58,7 +58,7 @@ jobs:
           else
             echo "No release tag available; building without --version."
           fi
-          python OneCryptoPkg/PlatformBuild.py $VERSION_ARG TOOL_CHAIN_TAG=${{ inputs.tool_chain_tag }} ${{ inputs.bld_flags }}
+          python OneCryptoPkg/DriverBuild.py $VERSION_ARG TOOL_CHAIN_TAG=${{ inputs.tool_chain_tag }} ${{ inputs.bld_flags }}
 
       - name: unzip to staging
         run: |
