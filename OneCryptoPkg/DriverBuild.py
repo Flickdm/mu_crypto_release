@@ -65,8 +65,13 @@ class CommonPlatform():
         return [
             {
                 "Path": "MU_BASECORE",
-                "Url": "https://github.com/microsoft/mu_basecore.git",
-                "Commit": "922377cb580e03c45628ddb4e0a0871ccf2f6f2d"
+                # MU_CHANGE [TEMP] - pin to fork commit carrying the new
+                # BaseCryptLib/OneCrypto APIs (GetAuthenticodeHash,
+                # GetTrustAnchorX509FromAuthData, FreeTrustAnchorX509Cache,
+                # GetAuthenticodeHashAlgorithm, X509GetTbsCertHash). Revert to
+                # https://github.com/microsoft/mu_basecore.git once merged.
+                "Url": "https://github.com/flickdm/mu_basecore.git",
+                "Commit": "709ab9b016ecf0555142ba5bc0da55227f34a7cd"
             },
             {
                 "Path": "Features/MM_SUPV",
