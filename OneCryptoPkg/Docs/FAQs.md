@@ -8,10 +8,10 @@ updating the DSC.
 
 ## Where can I see OneCryptoPkg integrated into a platform?
 
-QemuQ35Pkg and QemuSbsaPkg on [mu_tiano_platforms](https://github.com/microsoft/mu_tiano_platforms)
-uses the OneCrypto binary drivers. See pull request
-[Platforms: Wire up OneCrypto binary drivers
-](https://github.com/microsoft/mu_tiano_platforms/pull/1278).
+QemuQ35Pkg and QemuArmVirtPkg on
+[mu_tiano_platforms](https://github.com/microsoft/mu_tiano_platforms) use the
+OneCrypto binary drivers. See pull request
+[Platforms: Wire up OneCrypto binary drivers](https://github.com/microsoft/mu_tiano_platforms/pull/1278).
 
 ## OneCryptoBinSupvMm is MODULE_TYPE MM_STANDALONE — how does it run in DXE?
 
@@ -20,9 +20,14 @@ On X64, the DXE Loader (`OneCryptoLoaderDxe`) calls `LoadImage()` on the
 applied, then parses the PE/COFF exports to find and invoke the `CryptoEntry`
 function.
 
-On AARCH64 the approach is different — a dedicated `OneCryptoBinDxe`
-(`DXE_DRIVER`) is used instead because the secure-world FV is not accessible
-from DXE.
+On AARCH64 there are now two approaches:
+
+1. Legacy dual-bin mode: a dedicated `OneCryptoBinDxe` (`DXE_DRIVER`) is used
+  because the secure-world FV is not directly accessible from DXE.
+2. Single-copy AARCH64 mode: DXE uses
+  `OneCryptoLoaderDxeFromMm` to fetch OneCrypto
+  image bytes from `OneCryptoImageProviderStandaloneMm` over
+  `EFI_MM_COMMUNICATION2_PROTOCOL`, then calls `LoadImage()`.
 
 See [Architecture.md](Architecture.md) for the full Bin + Loader pattern and
 the differences between X64 and AARCH64.
@@ -42,7 +47,7 @@ not match the executing environment. The Loader must call `SetupEntry` instead,
 which manually initializes the library constructors before providing the crypto
 protocol.
 
-## Why are there two DXE Loaders (OneCryptoLoaderDxe vs OneCryptoLoaderDxeByProtocol)?
+## Why are there multiple DXE Loaders (OneCryptoLoaderDxe, OneCryptoLoaderDxeByProtocol, OneCryptoLoaderDxeFromMm)?
 
 They serve different architectures with fundamentally different loading
 strategies:
@@ -58,5 +63,11 @@ strategies:
   The Loader simply calls `LocateProtocol()` on `gOneCryptoPrivateProtocolGuid`
   to find it. No `LoadImage()` or PE/COFF parsing is needed, and it uses
   `NoSetupEntry` since constructors already ran during normal dispatch.
+
+- **`OneCryptoLoaderDxeFromMm`** (AARCH64 single-copy mode) — DXE cannot read the
+  secure-world FV directly, so this loader requests OneCrypto image bytes from
+  StandaloneMM (`OneCryptoImageProviderStandaloneMm`) via
+  `EFI_MM_COMMUNICATION2_PROTOCOL`, then `LoadImage()`s the resulting PE32 and
+  resolves `CryptoEntry`.
 
 See [Architecture.md](Architecture.md) for the full X64 vs AARCH64 breakdown.
