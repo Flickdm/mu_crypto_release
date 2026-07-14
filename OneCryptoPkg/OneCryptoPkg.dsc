@@ -61,6 +61,8 @@
   # Ensure DEBUG prints are enabled (excluding VERBOSE: 0x8040004F & ~0x00400000 = 0x8000004F)
   gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8000004F
   gEfiMdePkgTokenSpaceGuid.PcdFixedDebugPrintErrorLevel|0x8000004F
+  # StandaloneMM under Hafnium uses SVC conduit for FF-A calls.
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFfaLibConduitSmc|FALSE
 
   # OneCryptoPkg Debug Configuration
   # DEBUG builds: Enable Debug Print (BIT1) and Debug Code (BIT2) = 0x06
@@ -118,7 +120,14 @@
     <LibraryClasses>
       BaseLib                      | MdePkg/Library/BaseLib/BaseLib.inf
       BaseMemoryLib                | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
+      PrintLib                     | MdePkg/Library/BasePrintLib/BasePrintLib.inf
       DebugLib                     | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
+      DebugPrintErrorLevelLib      | MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+      SerialPortLib                | MdeModulePkg/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
+      IoLib                        | MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
+      PlatformHookLib              | MdeModulePkg/Library/BasePlatformHookLibNull/BasePlatformHookLibNull.inf
+      PciLib                       | MdePkg/Library/BasePciLibCf8/BasePciLibCf8.inf
+      PciCf8Lib                    | MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
       PcdLib                       | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
       RngLib                       | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # Drivers should use the protocol, GetRandomNumber64 will not work.
       RegisterFilterLib            | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
@@ -272,7 +281,11 @@
     <LibraryClasses>
       BaseLib                      | MdePkg/Library/BaseLib/BaseLib.inf
       BaseMemoryLib                | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
-      DebugLib                     | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
+      PrintLib                     | MdePkg/Library/BasePrintLib/BasePrintLib.inf
+      DebugLib                     | MdeModulePkg/Library/ArmFfaConsoleDebugLib/ArmFfaConsoleDebugStandaloneMmLib.inf
+      DebugPrintErrorLevelLib      | MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+      ArmSmcLib                    | MdePkg/Library/ArmSmcLib/ArmSmcLib.inf
+      ArmSvcLib                    | MdePkg/Library/ArmSvcLib/ArmSvcLib.inf
       PcdLib                       | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
       RngLib                       | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # Drivers should use the protocol, GetRandomNumber64 will not work.
       RegisterFilterLib            | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
@@ -290,6 +303,28 @@
       MemoryAllocationLib          | StandaloneMmPkg/Library/StandaloneMmMemoryAllocationLib/StandaloneMmMemoryAllocationLib.inf
       HobLib                       | StandaloneMmPkg/Library/StandaloneMmHobLib/StandaloneMmHobLib.inf
       FvLib                        | StandaloneMmPkg/Library/FvLib/FvLib.inf
+  }
+
+  OneCryptoPkg/OneCryptoLoaders/OneCryptoImageProviderStandaloneMm.inf {
+    <LibraryClasses>
+      BaseLib                      | MdePkg/Library/BaseLib/BaseLib.inf
+      BaseMemoryLib                | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
+      PrintLib                     | MdePkg/Library/BasePrintLib/BasePrintLib.inf
+      DebugLib                     | MdeModulePkg/Library/ArmFfaConsoleDebugLib/ArmFfaConsoleDebugStandaloneMmLib.inf
+      DebugPrintErrorLevelLib      | MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+      ArmSmcLib                    | MdePkg/Library/ArmSmcLib/ArmSmcLib.inf
+      ArmSvcLib                    | MdePkg/Library/ArmSvcLib/ArmSvcLib.inf
+      PcdLib                       | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
+      RegisterFilterLib            | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
+      StackCheckFailureHookLib     | MdePkg/Library/StackCheckFailureHookLibNull/StackCheckFailureHookLibNull.inf
+      StackCheckLib                | MdePkg/Library/StackCheckLib/StackCheckLib.inf
+      SafeIntLib                   | MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
+      MemoryAllocationLib          | StandaloneMmPkg/Library/StandaloneMmMemoryAllocationLib/StandaloneMmMemoryAllocationLib.inf
+      StandaloneMmDriverEntryPoint | MdePkg/Library/StandaloneMmDriverEntryPoint/StandaloneMmDriverEntryPoint.inf
+      MmServicesTableLib           | MdePkg/Library/StandaloneMmServicesTableLib/StandaloneMmServicesTableLib.inf
+      HobLib                       | StandaloneMmPkg/Library/StandaloneMmHobLib/StandaloneMmHobLib.inf
+      FvLib                        | StandaloneMmPkg/Library/FvLib/FvLib.inf
+      ExtractGuidedSectionLib      | StandaloneMmPkg/Library/StandaloneMmExtractGuidedSectionLib/StandaloneMmExtractGuidedSectionLib.inf
   }
 
   #############################################################################
@@ -343,12 +378,13 @@
       NULL                           | MdePkg/Library/CompilerIntrinsicsLib/CompilerIntrinsicsLib.inf
   }
 
-  ## OneCryptoLoaderDxeByProtocol for AARCH64
+  ## OneCryptoLoaderDxeFromMm for AARCH64
   #
-  # This loader consumes gOneCryptoPrivateProtocolGuid installed by OneCryptoBinDxe
-  # and produces gOneCryptoProtocolGuid for consumers.
+  # This loader fetches OneCrypto PE bytes from StandaloneMM over
+  # gEfiMmCommunication2ProtocolGuid, then LoadImage()s and publishes
+  # gOneCryptoProtocolGuid for DXE consumers.
   ##
-  OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderDxeByProtocol.inf {
+  OneCryptoPkg/OneCryptoLoaders/OneCryptoLoaderDxeFromMm.inf {
     <LibraryClasses>
       BaseLib                     | MdePkg/Library/BaseLib/BaseLib.inf
       BaseMemoryLib               | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
@@ -358,10 +394,19 @@
       UefiRuntimeServicesTableLib | MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
       DevicePathLib               | MdePkg/Library/UefiDevicePathLibDevicePathProtocol/UefiDevicePathLibDevicePathProtocol.inf
       RngLib                      | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # Drivers should use the protocol, GetRandomNumber64 will not work.
+      PeCoffLib                   | MdePkg/Library/BasePeCoffLib/BasePeCoffLib.inf
+      PeCoffExtraActionLib        | MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
+      PeCoffExtendedLib           | OneCryptoPkg/Library/PeCoffExtendedLib/PeCoffExtendedLib.inf
+      PeCoffGetEntryPointLib      | MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
+      DxeServicesLib              | MdePkg/Library/DxeServicesLib/DxeServicesLib.inf
+      FvLib                       | MdePkg/Library/FvLib/FvLib.inf
+      ExtractGuidedSectionLib     | MdePkg/Library/DxeExtractGuidedSectionLib/DxeExtractGuidedSectionLib.inf
+      NULL                        | MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
       RegisterFilterLib           | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
       HobLib                      | MdePkg/Library/DxeHobLib/DxeHobLib.inf
       StackCheckFailureHookLib    | MdePkg/Library/StackCheckFailureHookLibNull/StackCheckFailureHookLibNull.inf
       StackCheckLib               | MdePkg/Library/StackCheckLib/StackCheckLib.inf
+      SafeIntLib                  | MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
       UefiDriverEntryPoint        | MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
       UefiBootServicesTableLib    | MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
       MemoryAllocationLib         | MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
