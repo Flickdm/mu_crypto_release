@@ -23,10 +23,10 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 //
 // ASN.1 DER constants used during the walk.
 //
-#define ASN1_TAG_SEQUENCE                0x30
-#define ASN1_TAG_SET                     0x31
-#define ASN1_TAG_OID                     0x06
-#define ASN1_TAG_CTX_CONS_0              0xA0  // [0] EXPLICIT / IMPLICIT constructed
+#define ASN1_TAG_SEQUENCE    0x30
+#define ASN1_TAG_SET         0x31
+#define ASN1_TAG_OID         0x06
+#define ASN1_TAG_CTX_CONS_0  0xA0              // [0] EXPLICIT / IMPLICIT constructed
 
 //
 // signedData OID 1.2.840.113549.1.7.2 = 06 09 2A 86 48 86 F7 0D 01 07 02
@@ -634,13 +634,13 @@ LocateCertificatesField (
 EFI_STATUS
 EFIAPI
 GetTrustAnchorX509FromAuthData (
-  IN OUT VOID         **CacheHandle  OPTIONAL,
-  IN  CONST UINT8     *TbsCertHash,
-  IN  UINTN           TbsCertHashSize,
-  IN  CONST UINT8     *AuthData,
-  IN  UINTN           AuthDataSize,
-  OUT UINT8           **TrustAnchorX509,
-  OUT UINTN           *TrustAnchorX509Size
+  IN OUT VOID      **CacheHandle  OPTIONAL,
+  IN  CONST UINT8  *TbsCertHash,
+  IN  UINTN        TbsCertHashSize,
+  IN  CONST UINT8  *AuthData,
+  IN  UINTN        AuthDataSize,
+  OUT UINT8        **TrustAnchorX509,
+  OUT UINTN        *TrustAnchorX509Size
   )
 {
   EFI_STATUS          Status;
@@ -749,4 +749,385 @@ FreeTrustAnchorX509Cache (
 
   ZeroMem (Cache, sizeof (TRUST_ANCHOR_CACHE));
   FreePool (Cache);
+}
+
+//
+// Maximum number of certificates in a returned chain (signer .. anchor
+// inclusive). This bounds the on-stack working set and terminates any
+// cyclic issuer links in an adversarial certificates field. Real
+// db-rooted image-signing chains are short - typically leaf -> CA ->
+// root - so 8 (a leaf, up to six intermediates, and the anchor) is
+// already far more than any legitimate chain requires.
+//
+#define PKCS7_CHAIN_MAX_DEPTH  8
+
+//
+// Upper bound on the total number of X509VerifyCert calls performed by a
+// single chain search. A well-formed image signature carries only a
+// handful of certificates and its chain is at most PKCS7_CHAIN_MAX_DEPTH
+// deep, so a legitimate search performs at most a few dozen
+// verifications. The depth cap alone does not bound how many distinct
+// paths a backtracking search may explore, so this budget bounds total
+// signature-verification work: it is generous for any real chain
+// (~PKCS7_CHAIN_MAX_DEPTH levels x a small candidate set) yet makes the
+// search fail closed - cheaply - against an adversarial certificates
+// field crafted to force super-polynomial work.
+//
+#define PKCS7_CHAIN_MAX_VERIFY  256
+
+/**
+  Advance an iterator over the certificates in a SignedData certificates
+  field, returning the next DER-encoded Certificate TLV. Non-Certificate
+  CHOICE entries (e.g. extendedCertificate) are skipped.
+
+  @param[in,out] Cursor     Iterator; advanced past the returned cert.
+  @param[in]     End        One past the last valid input byte.
+  @param[out]    CertStart  Receives a pointer to the next certificate.
+  @param[out]    CertLen    Receives the length of the next certificate.
+
+  @retval EFI_SUCCESS            A certificate was returned.
+  @retval EFI_NOT_FOUND          The iterator reached the end of the set.
+  @retval EFI_INVALID_PARAMETER  Malformed encoding.
+**/
+STATIC
+EFI_STATUS
+NextCertInSet (
+  IN OUT CONST UINT8  **Cursor,
+  IN     CONST UINT8  *End,
+  OUT    CONST UINT8  **CertStart,
+  OUT    UINTN        *CertLen
+  )
+{
+  CONST UINT8  *P;
+  CONST UINT8  *Start;
+  CONST UINT8  *Body;
+  UINTN        BodyLen;
+  EFI_STATUS   Status;
+
+  P = *Cursor;
+  while (P < End) {
+    if (*P != ASN1_TAG_SEQUENCE) {
+      //
+      // Skip non-Certificate CHOICE entries (e.g. extendedCertificate).
+      //
+      Start  = P + 1;
+      Status = Asn1DecodeLength (&Start, End, &BodyLen);
+      if (EFI_ERROR (Status)) {
+        return Status;
+      }
+
+      P = Start + BodyLen;
+      continue;
+    }
+
+    Start  = P;
+    Status = Asn1ExpectTagged (&P, End, ASN1_TAG_SEQUENCE, &Body, &BodyLen);
+    if (EFI_ERROR (Status)) {
+      return Status;
+    }
+
+    *CertStart = Start;
+    *CertLen   = (UINTN)(P - Start);
+    *Cursor    = P;
+    return EFI_SUCCESS;
+  }
+
+  return EFI_NOT_FOUND;
+}
+
+//
+// Working set for the certificate-path search. The signer occupies
+// index 0; the trust anchor lands at the final index on success.
+//
+typedef struct {
+  CONST UINT8    *Cert[PKCS7_CHAIN_MAX_DEPTH];
+  UINTN          CertLen[PKCS7_CHAIN_MAX_DEPTH];
+  UINTN          Count;
+} PKCS7_CHAIN_PATH;
+
+/**
+  Return TRUE if a certificate (by DER bytes) is already on the path.
+  Used as a cycle guard during the depth-first search.
+
+  @param[in]  Path     The path built so far.
+  @param[in]  Cert     Candidate certificate DER bytes.
+  @param[in]  CertLen  Length of Cert.
+
+  @retval TRUE   Cert is already on the path.
+  @retval FALSE  Cert is not on the path.
+**/
+STATIC
+BOOLEAN
+PathContainsCert (
+  IN CONST PKCS7_CHAIN_PATH  *Path,
+  IN CONST UINT8             *Cert,
+  IN UINTN                   CertLen
+  )
+{
+  UINTN  Index;
+
+  for (Index = 0; Index < Path->Count; Index++) {
+    if ((Path->CertLen[Index] == CertLen) &&
+        (CompareMem (Path->Cert[Index], Cert, CertLen) == 0))
+    {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+  Depth-first, cryptographically-verified search for a certificate path
+  from the certificate at the tail of Path up to the trust anchor.
+
+  Every hop is validated with X509VerifyCert (child, candidate): the
+  candidate must be a valid CA that actually signed the child. Because
+  the anchor is a trusted certificate supplied by the caller (e.g. from
+  db) and each edge is a real signature check, a path can only be formed
+  from certificates that genuinely issued one another. An attacker
+  cannot divert the walk through a name-colliding certificate it did not
+  actually sign, and cannot skip a revoked intermediate that the
+  signature verification really used.
+
+  On success the anchor is appended so Path ends with the anchor. The
+  recursion is bounded by PKCS7_CHAIN_MAX_DEPTH, which also terminates
+  any cycle in an adversarial certificates field. *VerifyBudget caps the
+  total number of X509VerifyCert calls across the whole search so an
+  adversarial certificates field (e.g. many certificates that mutually
+  verify) cannot force super-polynomial work; when the budget is
+  exhausted the search fails closed.
+
+  @param[in,out] Path                 Path whose tail is the current cert.
+  @param[in]     TrustAnchorCert      Trusted anchor DER bytes.
+  @param[in]     TrustAnchorCertSize  Size of TrustAnchorCert.
+  @param[in]     CertSetBody          Embedded certificates field, or NULL.
+  @param[in]     CertSetBodyLen       Length of CertSetBody.
+  @param[in,out] VerifyBudget         Remaining X509VerifyCert call budget;
+                                      decremented per call, search aborts
+                                      (FALSE) when it reaches zero.
+
+  @retval TRUE   A verified path to the anchor was found; Path holds it.
+  @retval FALSE  No verified path exists within the depth/verify bounds.
+**/
+STATIC
+BOOLEAN
+ExtendPathToAnchor (
+  IN OUT PKCS7_CHAIN_PATH  *Path,
+  IN     CONST UINT8       *TrustAnchorCert,
+  IN     UINTN             TrustAnchorCertSize,
+  IN     CONST UINT8       *CertSetBody,
+  IN     UINTN             CertSetBodyLen,
+  IN OUT UINTN             *VerifyBudget
+  )
+{
+  CONST UINT8  *Current;
+  UINTN        CurrentLen;
+  CONST UINT8  *Cursor;
+  CONST UINT8  *End;
+  CONST UINT8  *CandCert;
+  UINTN        CandLen;
+  EFI_STATUS   Status;
+
+  Current    = Path->Cert[Path->Count - 1];
+  CurrentLen = Path->CertLen[Path->Count - 1];
+
+  //
+  // Base case: the tail is already the trust anchor (byte-equal). This
+  // also covers the signer == anchor case.
+  //
+  if ((CurrentLen == TrustAnchorCertSize) &&
+      (CompareMem (Current, TrustAnchorCert, CurrentLen) == 0))
+  {
+    return TRUE;
+  }
+
+  //
+  // Depth bound; also terminates any cycle an attacker might craft.
+  //
+  if (Path->Count >= PKCS7_CHAIN_MAX_DEPTH) {
+    return FALSE;
+  }
+
+  //
+  // Prefer terminating directly at the anchor. The anchor is a trusted
+  // (db) certificate and need not be embedded in AuthData, so try it as
+  // the issuer of the current certificate first.
+  //
+  if (*VerifyBudget == 0) {
+    return FALSE;
+  }
+
+  (*VerifyBudget)--;
+  if (X509VerifyCert (Current, CurrentLen, TrustAnchorCert, TrustAnchorCertSize)) {
+    Path->Cert[Path->Count]    = TrustAnchorCert;
+    Path->CertLen[Path->Count] = TrustAnchorCertSize;
+    Path->Count++;
+    return TRUE;
+  }
+
+  //
+  // Otherwise, find an embedded certificate that actually signed the
+  // current certificate and recurse toward the anchor.
+  //
+  if (CertSetBody == NULL) {
+    return FALSE;
+  }
+
+  Cursor = CertSetBody;
+  End    = CertSetBody + CertSetBodyLen;
+
+  while (Cursor < End) {
+    Status = NextCertInSet (&Cursor, End, &CandCert, &CandLen);
+    if (Status == EFI_NOT_FOUND) {
+      break;
+    }
+
+    if (EFI_ERROR (Status)) {
+      //
+      // Malformed certificates field: stop scanning and fail closed.
+      //
+      return FALSE;
+    }
+
+    //
+    // Skip certificates already on the path (cycle guard) and verify the
+    // issuer relationship cryptographically before descending.
+    //
+    if (PathContainsCert (Path, CandCert, CandLen)) {
+      continue;
+    }
+
+    //
+    // Bound total verification work against an adversarial set.
+    //
+    if (*VerifyBudget == 0) {
+      return FALSE;
+    }
+
+    //
+    // No lightweight issuer/subject DN pre-filter is attempted before the
+    // verify. X509VerifyCert already matches the issuer/subject names
+    // internally, and does so canonically (RFC 5280 name comparison), so a
+    // byte-exact DN compare here could wrongly skip a candidate the real
+    // verifier would accept - a false negative. The chain and candidate
+    // set are small and *VerifyBudget bounds adversarial work, so calling
+    // X509VerifyCert directly is both correct and simple.
+    //
+    (*VerifyBudget)--;
+    if (!X509VerifyCert (Current, CurrentLen, CandCert, CandLen)) {
+      continue;
+    }
+
+    Path->Cert[Path->Count]    = CandCert;
+    Path->CertLen[Path->Count] = CandLen;
+    Path->Count++;
+
+    if (ExtendPathToAnchor (Path, TrustAnchorCert, TrustAnchorCertSize, CertSetBody, CertSetBodyLen, VerifyBudget)) {
+      return TRUE;
+    }
+
+    //
+    // Dead end: backtrack and try the next candidate.
+    //
+    Path->Count--;
+  }
+
+  return FALSE;
+}
+
+/**
+  Build the cryptographically-verified certificate chain from a PKCS#7
+  signer up to a caller-supplied trust anchor.
+
+  See BaseCryptLib.h for the full contract.
+**/
+EFI_STATUS
+EFIAPI
+Pkcs7GetCertificateChain (
+  IN  CONST UINT8  *AuthData,
+  IN  UINTN        AuthDataSize,
+  IN  CONST UINT8  *SignerCert,
+  IN  UINTN        SignerCertSize,
+  IN  CONST UINT8  *TrustAnchorCert,
+  IN  UINTN        TrustAnchorCertSize,
+  OUT UINT8        **CertChain,
+  OUT UINTN        *CertChainSize
+  )
+{
+  EFI_STATUS        Status;
+  CONST UINT8       *CertSetBody;
+  UINTN             CertSetBodyLen;
+  PKCS7_CHAIN_PATH  Path;
+  UINTN             VerifyBudget;
+  UINTN             TotalSize;
+  UINTN             Index;
+  UINT8             *Buffer;
+  UINT8             *Cursor;
+
+  if ((AuthData == NULL) || (AuthDataSize == 0) ||
+      (SignerCert == NULL) || (SignerCertSize == 0) ||
+      (TrustAnchorCert == NULL) || (TrustAnchorCertSize == 0) ||
+      (CertChain == NULL) || (CertChainSize == NULL))
+  {
+    return EFI_INVALID_PARAMETER;
+  }
+
+  *CertChain     = NULL;
+  *CertChainSize = 0;
+
+  //
+  // Locate the embedded certificates. An absent certificates field is
+  // not fatal: the signer may be issued directly by the trust anchor.
+  //
+  CertSetBody    = NULL;
+  CertSetBodyLen = 0;
+  Status         = LocateCertificatesField (AuthData, AuthDataSize, &CertSetBody, &CertSetBodyLen);
+  if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
+    return Status;
+  }
+
+  //
+  // Seed the path with the signer at index 0 and build a signature-
+  // verified chain up to the trust anchor. Every hop is checked with
+  // X509VerifyCert, so the returned chain is the set of certificates
+  // that actually issued one another - not a name-guessed ordering.
+  //
+  Path.Cert[0]    = SignerCert;
+  Path.CertLen[0] = SignerCertSize;
+  Path.Count      = 1;
+  VerifyBudget    = PKCS7_CHAIN_MAX_VERIFY;
+
+  if (!ExtendPathToAnchor (&Path, TrustAnchorCert, TrustAnchorCertSize, CertSetBody, CertSetBodyLen, &VerifyBudget)) {
+    return EFI_NOT_FOUND;
+  }
+
+  //
+  // Serialize the ordered chain into EFI_CERT_STACK form:
+  //   UINT8  CertNumber;
+  //   { UINT32 CertLength; UINT8 Cert[]; } x CertNumber
+  // ordered signer (index 0) .. trust anchor (index N-1).
+  //
+  TotalSize = sizeof (UINT8);
+  for (Index = 0; Index < Path.Count; Index++) {
+    TotalSize += sizeof (UINT32) + Path.CertLen[Index];
+  }
+
+  Buffer = AllocatePool (TotalSize);
+  if (Buffer == NULL) {
+    return EFI_OUT_OF_RESOURCES;
+  }
+
+  Cursor    = Buffer;
+  *Cursor++ = (UINT8)Path.Count;
+  for (Index = 0; Index < Path.Count; Index++) {
+    WriteUnaligned32 ((UINT32 *)Cursor, (UINT32)Path.CertLen[Index]);
+    Cursor += sizeof (UINT32);
+    CopyMem (Cursor, Path.Cert[Index], Path.CertLen[Index]);
+    Cursor += Path.CertLen[Index];
+  }
+
+  *CertChain     = Buffer;
+  *CertChainSize = TotalSize;
+  return EFI_SUCCESS;
 }
