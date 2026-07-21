@@ -43,3 +43,25 @@ FreeTrustAnchorX509Cache (
 {
   ASSERT (FALSE);
 }
+
+/**
+  Null stub for Pkcs7GetCertificateChain().
+
+  @retval EFI_UNSUPPORTED  This interface is not supported.
+**/
+EFI_STATUS
+EFIAPI
+Pkcs7GetCertificateChain (
+  IN  CONST UINT8  *AuthData,
+  IN  UINTN        AuthDataSize,
+  IN  CONST UINT8  *SignerCert,
+  IN  UINTN        SignerCertSize,
+  IN  CONST UINT8  *TrustAnchorCert,
+  IN  UINTN        TrustAnchorCertSize,
+  OUT UINT8        **CertChain,
+  OUT UINTN        *CertChainSize
+  )
+{
+  ASSERT (FALSE);
+  return EFI_UNSUPPORTED;
+}
