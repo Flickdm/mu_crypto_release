@@ -71,7 +71,7 @@ class CommonPlatform():
                 # GetAuthenticodeHashAlgorithm, X509GetTbsCertHash). Revert to
                 # https://github.com/microsoft/mu_basecore.git once merged.
                 "Url": "https://github.com/flickdm/mu_basecore.git",
-                "Commit": "709ab9b016ecf0555142ba5bc0da55227f34a7cd"
+                "Commit": "66f056dd1bd13ab8c38dd88601a35e10a71e6b65"
             },
             {
                 "Path": "Features/MM_SUPV",
