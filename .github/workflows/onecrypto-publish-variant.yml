@@ -55,6 +55,35 @@ jobs:
         run: |
           gh release upload ${{ github.event.release.tag_name }} ${{ inputs.publish_name }}.zip
 
+      - name: Publish ext_dep Descriptor (${{ inputs.variant }})
+        if: github.event_name == 'release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          ZIP="${{ inputs.publish_name }}.zip"
+          SHA="$(sha256sum "$ZIP" | cut -d ' ' -f 1)"
+          URL="https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/$ZIP"
+          cat > "${{ inputs.publish_name }}_ext_dep.json" <<EOF
+          {
+            "scope": "global",
+            "type": "web",
+            "id": "onecrypto-bin-local-override",
+            "override_id": "onecrypto-bin",
+            "name": "onecrypto-bin-local-override",
+            "source": "$URL",
+            "version": "${{ github.event.release.tag_name }}",
+            "sha256": "$SHA",
+            "compression_type": "zip",
+            "internal_path": "/",
+            "flags": [
+              "set_build_var"
+            ],
+            "var_name": "BLD_*_ONE_CRYPTO_PATH"
+          }
+          EOF
+          gh release upload ${{ github.event.release.tag_name }} "${{ inputs.publish_name }}_ext_dep.json"
+
       - name: Delete Intermediate Artifact (${{ inputs.variant }})
         uses: geekyeggo/delete-artifact@v5
         with:
