@@ -120,14 +120,7 @@
     <LibraryClasses>
       BaseLib                      | MdePkg/Library/BaseLib/BaseLib.inf
       BaseMemoryLib                | MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
-      PrintLib                     | MdePkg/Library/BasePrintLib/BasePrintLib.inf
       DebugLib                     | MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
-      DebugPrintErrorLevelLib      | MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
-      SerialPortLib                | MdeModulePkg/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
-      IoLib                        | MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
-      PlatformHookLib              | MdeModulePkg/Library/BasePlatformHookLibNull/BasePlatformHookLibNull.inf
-      PciLib                       | MdePkg/Library/BasePciLibCf8/BasePciLibCf8.inf
-      PciCf8Lib                    | MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
       PcdLib                       | MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
       RngLib                       | MdePkg/Library/BaseRngLibNull/BaseRngLibNull.inf # Drivers should use the protocol, GetRandomNumber64 will not work.
       RegisterFilterLib            | MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
