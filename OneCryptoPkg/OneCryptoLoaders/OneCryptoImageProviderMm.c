@@ -181,6 +181,22 @@ LocateOneCryptoImage (
     return EFI_SUCCESS;
   }
 
+  //
+  // FV3 Hobs supersede FV and FV2
+  //
+  for (Hob.Raw = GetNextHob (EFI_HOB_TYPE_FV3, GetHobList ());
+       Hob.Raw != NULL;
+       Hob.Raw = GetNextHob (EFI_HOB_TYPE_FV3, GET_NEXT_HOB (Hob)))
+  {
+    if ((Hob.FirmwareVolume3 == NULL) || (Hob.FirmwareVolume3->Length == 0)) {
+      continue;
+    }
+
+    if (!EFI_ERROR (ScanFvForOneCrypto ((EFI_FIRMWARE_VOLUME_HEADER *)(UINTN)Hob.FirmwareVolume3->BaseAddress))) {
+      return EFI_SUCCESS;
+    }
+  }
+
   for (Hob.Raw = GetNextHob (EFI_HOB_TYPE_FV, GetHobList ());
        Hob.Raw != NULL;
        Hob.Raw = GetNextHob (EFI_HOB_TYPE_FV, GET_NEXT_HOB (Hob)))
