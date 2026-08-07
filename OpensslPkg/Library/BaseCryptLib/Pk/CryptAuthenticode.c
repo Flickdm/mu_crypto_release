@@ -93,6 +93,7 @@ AuthenticodeExpectedDigestNid (
   @return  Length of the produced DER bytes, or 0 on error.
 
 **/
+#ifndef OPENSSL_NO_CMS
 STATIC
 INT32
 SerializePkcs7AsDetached (
@@ -137,6 +138,8 @@ SerializePkcs7AsDetached (
   return (INT32)DerLen;
 }
 
+#endif
+
 /**
   Verifies the validity of a PE/COFF Authenticode Signature as described in "Windows
   Authenticode Portable Executable Signature Format".
@@ -162,16 +165,28 @@ SerializePkcs7AsDetached (
   @retval  TRUE   The specified Authenticode Signature is valid.
   @retval  FALSE  Invalid Authenticode Signature.
 
+  Core Authenticode verification worker. Verifies the signature and, when
+  CertChain is non-NULL, additionally returns the cryptographically-verified
+  signer certificate chain (as OpenSSL built and used it during CMS
+  verification) in EFI_CERT_STACK form. Both AuthenticodeVerify() and
+  AuthenticodeVerifyEx() call this so the security-sensitive logic lives in
+  exactly one place.
+
+  @param[out]  CertChain      Optional EFI_CERT_STACK output; caller frees.
+  @param[out]  CertChainSize  Optional length of CertChain.
+
 **/
+STATIC
 BOOLEAN
-EFIAPI
-AuthenticodeVerify (
+AuthenticodeVerifyWorker (
   IN  CONST UINT8  *AuthData,
   IN  UINTN        DataSize,
   IN  CONST UINT8  *TrustedCert,
   IN  UINTN        CertSize,
   IN  CONST UINT8  *ImageHash,
-  IN  UINTN        HashSize
+  IN  UINTN        HashSize,
+  OUT UINT8        **CertChain      OPTIONAL,
+  OUT UINTN        *CertChainSize   OPTIONAL
   )
 {
   BOOLEAN                  Status;
@@ -191,8 +206,11 @@ AuthenticodeVerify (
   CONST ASN1_OBJECT        *DigestAlgoOid;
   CONST ASN1_OCTET_STRING  *DigestOctet;
   int                      ExpectedDigestNid;
-  UINT8                    *DetachedDer;
-  INT32                    DetachedDerLen;
+
+ #ifndef OPENSSL_NO_CMS
+  UINT8  *DetachedDer;
+  INT32  DetachedDerLen;
+ #endif
 
   //
   // Check input parameters.
@@ -205,11 +223,13 @@ AuthenticodeVerify (
     return FALSE;
   }
 
-  Status         = FALSE;
-  Pkcs7          = NULL;
-  DigestInfo     = NULL;
+  Status     = FALSE;
+  Pkcs7      = NULL;
+  DigestInfo = NULL;
+ #ifndef OPENSSL_NO_CMS
   DetachedDer    = NULL;
   DetachedDerLen = 0;
+ #endif
 
   //
   // Retrieve & Parse PKCS#7 Data (DER encoding) from Authenticode Signature
@@ -382,31 +402,128 @@ AuthenticodeVerify (
   // Authenticode uses PKCS#7 v1.5 format where eContent is encoded as a raw
   // SEQUENCE (SpcIndirectDataContent). CMS (RFC 5652) requires eContent to be
   // an OCTET STRING, so d2i_CMS_ContentInfo cannot parse the inline form. To
-  // make Pkcs7Verify's CMS-based path work, produce a detached re-encoding
+  // make the CMS-based Pkcs7Verify path work, produce a detached re-encoding
   // of the PKCS#7 and pass the original SpcIndirectDataContent separately as
   // the detached content.
   //
+  // CmsVerify additionally returns the verified signer chain when requested
+  // (CertChain != NULL), avoiding a second chain-building pass.
+  //
+ #ifdef OPENSSL_NO_CMS
+  Status = Pkcs7Verify (AuthData, DataSize, TrustedCert, CertSize, SpcIndirectDataContent, ContentSize);
+ #else
   DetachedDerLen = SerializePkcs7AsDetached (Pkcs7, &DetachedDer);
   if ((DetachedDerLen <= 0) || (DetachedDer == NULL)) {
     goto _Exit;
   }
 
-  Status = Pkcs7Verify (
-             DetachedDer,
-             (UINTN)DetachedDerLen,
-             TrustedCert,
-             CertSize,
-             SpcIndirectDataContent,
-             ContentSize
-             );
+  Status = (BOOLEAN)CmsVerify (
+                      DetachedDer,
+                      (UINTN)DetachedDerLen,
+                      TrustedCert,
+                      CertSize,
+                      SpcIndirectDataContent,
+                      ContentSize,
+                      CertChain,
+                      CertChainSize
+                      );
+ #endif
 
 _Exit:
   //
   // Release Resources
   //
   X509_SIG_free (DigestInfo);
+ #ifndef OPENSSL_NO_CMS
   OPENSSL_free (DetachedDer);
+ #endif
   PKCS7_free (Pkcs7);
 
   return Status;
+}
+
+/**
+  Verifies the validity of a PE/COFF Authenticode Signature as described in
+  "Windows Authenticode Portable Executable Signature Format".
+
+  See BaseCryptLib.h for the full contract.
+**/
+BOOLEAN
+EFIAPI
+AuthenticodeVerify (
+  IN  CONST UINT8  *AuthData,
+  IN  UINTN        DataSize,
+  IN  CONST UINT8  *TrustedCert,
+  IN  UINTN        CertSize,
+  IN  CONST UINT8  *ImageHash,
+  IN  UINTN        HashSize
+  )
+{
+  return AuthenticodeVerifyWorker (
+           AuthData,
+           DataSize,
+           TrustedCert,
+           CertSize,
+           ImageHash,
+           HashSize,
+           NULL,
+           NULL
+           );
+}
+
+/**
+  Verifies a PE/COFF Authenticode Signature and, on success, additionally
+  returns the cryptographically-verified signer certificate chain that
+  OpenSSL built and used during CMS verification, in EFI_CERT_STACK form
+  (signer..anchor). This lets a caller obtain the chain for per-certificate
+  revocation (dbx) checks without a separate, redundant certificate-chain
+  pass.
+
+  See BaseCryptLib.h for the full contract.
+**/
+EFI_STATUS
+EFIAPI
+AuthenticodeVerifyEx (
+  IN  CONST UINT8  *AuthData,
+  IN  UINTN        DataSize,
+  IN  CONST UINT8  *TrustedCert,
+  IN  UINTN        CertSize,
+  IN  CONST UINT8  *ImageHash,
+  IN  UINTN        HashSize,
+  OUT UINT8        **CertChain      OPTIONAL,
+  OUT UINTN        *CertChainSize   OPTIONAL
+  )
+{
+ #ifndef OPENSSL_NO_CMS
+  BOOLEAN  Valid;
+ #endif
+
+  if (CertChain != NULL) {
+    *CertChain = NULL;
+  }
+
+  if (CertChainSize != NULL) {
+    *CertChainSize = 0;
+  }
+
+  if ((AuthData == NULL) || (TrustedCert == NULL) || (ImageHash == NULL)) {
+    return EFI_INVALID_PARAMETER;
+  }
+
+ #ifdef OPENSSL_NO_CMS
+  return EFI_UNSUPPORTED;
+ #else
+  Valid = AuthenticodeVerifyWorker (
+            AuthData,
+            DataSize,
+            TrustedCert,
+            CertSize,
+            ImageHash,
+            HashSize,
+            (CertChainSize != NULL) ? CertChain : NULL,
+            (CertChain != NULL) ? CertChainSize : NULL
+            );
+
+  return Valid ? EFI_SUCCESS : EFI_SECURITY_VIOLATION;
+ #endif
 }
