@@ -49,7 +49,7 @@ GetAuthenticodeHash (
 
   @param[in]   AuthData      Pointer to the PKCS#7 SignedData blob.
   @param[in]   AuthDataSize  Size of AuthData in bytes.
-  @param[out]  HashType      Receives the signature-type GUID.
+  @param[out]  HashType      Receives the hash-algorithm GUID.
 
   @retval EFI_UNSUPPORTED  This interface is not supported.
 
