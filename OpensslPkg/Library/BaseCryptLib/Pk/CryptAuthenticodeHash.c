@@ -17,6 +17,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 #include <IndustryStandard/PeImage.h>
 #include <Guid/ImageAuthentication.h>
+#include <Protocol/Hash.h>
 
 //
 // Function pointer table type for a single hash algorithm.
@@ -497,8 +498,9 @@ STATIC CONST UINT8  mAuthOidSha512[] = {
 };
 
 //
-// Mapping of digest-algorithm OID to the signature-type GUID consumed by
-// GetAuthenticodeHash().
+// Mapping of digest-algorithm OID to the generic hash-algorithm GUID
+// (as defined in Protocol/Hash.h) returned by
+// GetAuthenticodeHashAlgorithm().
 //
 typedef struct {
   CONST UINT8       *Oid;
@@ -507,10 +509,10 @@ typedef struct {
 } AUTH_DIGEST_OID_INFO;
 
 STATIC CONST AUTH_DIGEST_OID_INFO  mAuthDigestOidInfo[] = {
-  { mAuthOidSha1,   sizeof (mAuthOidSha1),   &gEfiCertSha1Guid   },
-  { mAuthOidSha256, sizeof (mAuthOidSha256), &gEfiCertSha256Guid },
-  { mAuthOidSha384, sizeof (mAuthOidSha384), &gEfiCertSha384Guid },
-  { mAuthOidSha512, sizeof (mAuthOidSha512), &gEfiCertSha512Guid },
+  { mAuthOidSha1,   sizeof (mAuthOidSha1),   &gEfiHashAlgorithmSha1Guid   },
+  { mAuthOidSha256, sizeof (mAuthOidSha256), &gEfiHashAlgorithmSha256Guid },
+  { mAuthOidSha384, sizeof (mAuthOidSha384), &gEfiHashAlgorithmSha384Guid },
+  { mAuthOidSha512, sizeof (mAuthOidSha512), &gEfiHashAlgorithmSha512Guid },
 };
 
 #define AUTH_DIGEST_OID_INFO_COUNT  (sizeof (mAuthDigestOidInfo) / sizeof (mAuthDigestOidInfo[0]))
@@ -634,8 +636,9 @@ Asn1ExpectTagged (
   Parses the PKCS#7 SignedData blob's SpcIndirectDataContent
   (OID 1.3.6.1.4.1.311.2.1.4) and reads the digestAlgorithm of its
   embedded messageDigest DigestInfo, mapping it to the corresponding
-  signature-type GUID. The recovered GUID can be passed directly to
-  GetAuthenticodeHash() as its HashType.
+  generic hash-algorithm GUID (as defined in Protocol/Hash.h). The
+  recovered GUID identifies the digest algorithm used to compute the
+  Authenticode image hash.
 
   Caution: AuthData is untrusted. The ASN.1 DER is parsed with
   bounds-checked length decoding to avoid out-of-bounds reads.
@@ -643,7 +646,7 @@ Asn1ExpectTagged (
   @param[in]   AuthData      Pointer to the PKCS#7 SignedData blob
                              (DER-encoded Authenticode signature).
   @param[in]   AuthDataSize  Size of AuthData in bytes.
-  @param[out]  HashType      On success, receives the signature-type
+  @param[out]  HashType      On success, receives the hash-algorithm
                              GUID identifying the digest algorithm.
 
   @retval EFI_SUCCESS            The hash algorithm was identified.
