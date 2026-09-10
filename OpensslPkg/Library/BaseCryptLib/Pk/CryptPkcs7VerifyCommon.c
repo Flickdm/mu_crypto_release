@@ -1251,6 +1251,101 @@ CmsVerify (
 #endif
 
 /**
+  Get the number of SignerInfo structures in a PKCS#7/CMS SignedData structure.
+
+  @param[in]  P7Data    PKCS#7/CMS message.
+  @param[in]  P7Length  Length of P7Data in bytes.
+
+  @retval  >0  Number of SignerInfo structures.
+  @retval  0   Error or no SignerInfo found.
+**/
+UINTN
+EFIAPI
+CmsGetSignerInfoNum (
+  IN  CONST UINT8  *P7Data,
+  IN  UINTN        P7Length
+  )
+{
+ #ifdef OPENSSL_NO_CMS
+  PKCS7  *Pkcs7;
+
+  STACK_OF (PKCS7_SIGNER_INFO)  *SignerInfos;
+ #else
+  CMS_ContentInfo  *Cms;
+
+  STACK_OF (CMS_SignerInfo)  *SignerInfos;
+ #endif
+  UINT8        *SignedData;
+  CONST UINT8  *Temp;
+  UINTN        SignedDataSize;
+  BOOLEAN      Wrapped;
+  UINTN        SignerInfoNum;
+
+  if ((P7Data == NULL) || (P7Length == 0) || (P7Length > INT_MAX)) {
+    return 0;
+  }
+
+ #ifdef OPENSSL_NO_CMS
+  Pkcs7 = NULL;
+ #else
+  Cms = NULL;
+ #endif
+  SignerInfos   = NULL;
+  SignedData    = NULL;
+  SignerInfoNum = 0;
+
+  if (!WrapPkcs7Data (P7Data, P7Length, &Wrapped, &SignedData, &SignedDataSize)) {
+    return 0;
+  }
+
+  if (SignedDataSize > INT_MAX) {
+    goto Exit;
+  }
+
+  Temp = SignedData;
+ #ifdef OPENSSL_NO_CMS
+  // Counting signer records does not require CMS verification support.
+  Pkcs7 = d2i_PKCS7 (NULL, &Temp, (long)SignedDataSize);
+  if ((Pkcs7 == NULL) || !PKCS7_type_is_signed (Pkcs7)) {
+    goto Exit;
+  }
+
+  SignerInfos = PKCS7_get_signer_info (Pkcs7);
+  if ((SignerInfos != NULL) && (sk_PKCS7_SIGNER_INFO_num (SignerInfos) > 0)) {
+    SignerInfoNum = (UINTN)sk_PKCS7_SIGNER_INFO_num (SignerInfos);
+  }
+
+ #else
+  Cms = d2i_CMS_ContentInfo (NULL, (CONST unsigned char **)&Temp, (long)SignedDataSize);
+  if (Cms == NULL) {
+    goto Exit;
+  }
+
+  if (OBJ_obj2nid (CMS_get0_type (Cms)) != NID_pkcs7_signed) {
+    goto Exit;
+  }
+
+  SignerInfos = CMS_get0_SignerInfos (Cms);
+  if ((SignerInfos != NULL) && (sk_CMS_SignerInfo_num (SignerInfos) > 0)) {
+    SignerInfoNum = (UINTN)sk_CMS_SignerInfo_num (SignerInfos);
+  }
+
+ #endif
+
+Exit:
+ #ifdef OPENSSL_NO_CMS
+  PKCS7_free (Pkcs7);
+ #else
+  CMS_ContentInfo_free (Cms);
+ #endif
+  if (!Wrapped) {
+    OPENSSL_free (SignedData);
+  }
+
+  return SignerInfoNum;
+}
+
+/**
   Verifies the validity of a PKCS#7/CMS signed data structure.
 
   Pkcs7Verify() is retained for API compatibility. PKCS#7 SignedData is a
