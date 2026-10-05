@@ -18,7 +18,22 @@ on:
     types: [published]
 
 jobs:
+  validate-release-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate prerelease tag
+        env:
+          IS_PRERELEASE: ${{ github.event_name == 'release' && github.event.release.prerelease }}
+          RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
+        shell: bash
+        run: |
+          if [ "$IS_PRERELEASE" = "true" ] && [[ ! "$RELEASE_TAG" =~ -Beta[0-9]+$ ]]; then
+            echo "::error title=Invalid prerelease tag::Prerelease tags must end in -BetaN, where N is a non-negative integer."
+            exit 1
+          fi
+
   build:
+    needs: validate-release-tag
     strategy:
       matrix:
         variant: [accelerated, non-accelerated]

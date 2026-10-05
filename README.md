@@ -111,6 +111,12 @@ After a successful build the OneCryptoBundler plugin automatically produces
 stuart_build -c OneCryptoPkg/DriverBuild.py --skip-packaging TOOL_CHAIN_TAG=CLANGPDB
 ```
 
+### Prerelease Tags
+
+OneCrypto prerelease tags must end in `-BetaN`, where `N` is a non-negative
+integer, such as `v2.0.0-OneCrypto-PQC-Beta3`. The release workflow validates
+this format before starting the OneCrypto build.
+
 ## Contributing
 
 Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for
