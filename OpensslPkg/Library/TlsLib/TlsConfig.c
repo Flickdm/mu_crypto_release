@@ -449,6 +449,162 @@ TlsSetCompressionMethod (
   @param[in]  VerifyMode    A set of logically or'ed verification mode flags.
 
 **/
+// MU_CHANGE [BEGIN] - Report the failing certificate without changing verification policy.
+STATIC
+VOID
+TlsDebugPrintCertificate (
+  IN CONST X509  *Certificate,
+  IN INT32       ChainDepth
+  )
+{
+  CHAR8       Subject[256];
+  CHAR8       Issuer[256];
+  CONST CHAR8 *SubjectString;
+  CONST CHAR8 *IssuerString;
+  CONST CHAR8 *KeyType;
+  EVP_PKEY    *PublicKey;
+  INT32       KeyBits;
+  struct tm   NotBefore;
+  struct tm   NotAfter;
+
+  if (Certificate == NULL) {
+    DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: certificate unavailable\n", ChainDepth));
+    return;
+  }
+
+  Subject[0] = '\0';
+  Issuer[0]  = '\0';
+
+  SubjectString = X509_NAME_oneline (
+                    X509_get_subject_name (Certificate),
+                    Subject,
+                    sizeof (Subject)
+                    );
+  IssuerString = X509_NAME_oneline (
+                   X509_get_issuer_name (Certificate),
+                   Issuer,
+                   sizeof (Issuer)
+                   );
+
+  PublicKey = X509_get_pubkey ((X509 *)Certificate);
+  KeyType   = "<unavailable>";
+  KeyBits   = 0;
+  if (PublicKey != NULL) {
+    KeyType = EVP_PKEY_get0_type_name (PublicKey);
+    KeyBits = EVP_PKEY_get_bits (PublicKey);
+  }
+
+  DEBUG ((
+    DEBUG_ERROR,
+    "TLS X509 chain[%d]: Subject=%a\n",
+    ChainDepth,
+    (SubjectString != NULL) ? SubjectString : "<unavailable>"
+    ));
+  DEBUG ((
+    DEBUG_ERROR,
+    "TLS X509 chain[%d]: Issuer=%a\n",
+    ChainDepth,
+    (IssuerString != NULL) ? IssuerString : "<unavailable>"
+    ));
+  DEBUG ((
+    DEBUG_ERROR,
+    "TLS X509 chain[%d]: PublicKey=%a %d bits\n",
+    ChainDepth,
+    (KeyType != NULL) ? KeyType : "<unavailable>",
+    KeyBits
+    ));
+
+  if (ASN1_TIME_to_tm (X509_get0_notBefore (Certificate), &NotBefore) == 1) {
+    DEBUG ((
+      DEBUG_ERROR,
+      "TLS X509 chain[%d]: NotBefore=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
+      ChainDepth,
+      NotBefore.tm_year + 1900,
+      NotBefore.tm_mon + 1,
+      NotBefore.tm_mday,
+      NotBefore.tm_hour,
+      NotBefore.tm_min,
+      NotBefore.tm_sec
+      ));
+  } else {
+    DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: NotBefore=<invalid>\n", ChainDepth));
+  }
+
+  if (ASN1_TIME_to_tm (X509_get0_notAfter (Certificate), &NotAfter) == 1) {
+    DEBUG ((
+      DEBUG_ERROR,
+      "TLS X509 chain[%d]: NotAfter=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
+      ChainDepth,
+      NotAfter.tm_year + 1900,
+      NotAfter.tm_mon + 1,
+      NotAfter.tm_mday,
+      NotAfter.tm_hour,
+      NotAfter.tm_min,
+      NotAfter.tm_sec
+      ));
+  } else {
+    DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: NotAfter=<invalid>\n", ChainDepth));
+  }
+
+  EVP_PKEY_free (PublicKey);
+}
+
+STATIC
+int
+TlsDebugVerifyCallback (
+  IN int             PreverifyOk,
+  IN X509_STORE_CTX  *StoreContext
+  )
+{
+  STACK_OF (X509)  *Chain;
+  X509             *Certificate;
+  X509_VERIFY_PARAM *VerifyParam;
+  unsigned long     VerifyFlags;
+  INT32            Error;
+  INT32            ErrorDepth;
+  INT32            ChainIndex;
+  INT32            ChainLength;
+
+  if ((PreverifyOk != 0) || (StoreContext == NULL)) {
+    return PreverifyOk;
+  }
+
+  Error       = X509_STORE_CTX_get_error (StoreContext);
+  ErrorDepth  = X509_STORE_CTX_get_error_depth (StoreContext);
+  Certificate = X509_STORE_CTX_get_current_cert (StoreContext);
+  VerifyParam = X509_STORE_CTX_get0_param (StoreContext);
+  VerifyFlags = (VerifyParam != NULL) ? X509_VERIFY_PARAM_get_flags (VerifyParam) : 0;
+
+  DEBUG ((
+    DEBUG_ERROR,
+    "TLS X509 verify failure: Error=%d \"%a\" Depth=%d\n",
+    Error,
+    X509_verify_cert_error_string (Error),
+    ErrorDepth
+    ));
+  DEBUG ((
+    DEBUG_ERROR,
+    "TLS X509 effective policy: VerifyFlags=0x%lx NoCheckTime=%a\n",
+    VerifyFlags,
+    ((VerifyFlags & X509_V_FLAG_NO_CHECK_TIME) != 0) ? "TRUE" : "FALSE"
+    ));
+  TlsDebugPrintCertificate (Certificate, ErrorDepth);
+
+  Chain       = X509_STORE_CTX_get0_chain (StoreContext);
+  ChainLength = (Chain != NULL) ? sk_X509_num (Chain) : 0;
+  DEBUG ((DEBUG_ERROR, "TLS X509 presented chain: %d certificate(s)\n", ChainLength));
+  for (ChainIndex = 0; ChainIndex < ChainLength; ChainIndex++) {
+    Certificate = sk_X509_value (Chain, ChainIndex);
+    if (ChainIndex != ErrorDepth) {
+      TlsDebugPrintCertificate (Certificate, ChainIndex);
+    }
+  }
+
+  return PreverifyOk;
+}
+
+// MU_CHANGE [END]
+
 VOID
 EFIAPI
 TlsSetVerify (
@@ -464,9 +620,11 @@ TlsSetVerify (
   }
 
   //
-  // Set peer certificate verification parameters with NULL callback.
+  // Set peer certificate verification parameters.
   //
-  SSL_set_verify (TlsConn->Ssl, VerifyMode, NULL);
+  // MU_CHANGE [BEGIN] - Preserve OpenSSL's decision while reporting verification failures.
+  SSL_set_verify (TlsConn->Ssl, VerifyMode, TlsDebugVerifyCallback);
+  // MU_CHANGE [END]
 }
 
 /**

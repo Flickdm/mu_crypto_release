@@ -24,6 +24,9 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
 #include <openssl/err.h>
+#include <openssl/evp.h>
+#include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 
 ///
 /// TLS Minimum security level

@@ -123,6 +123,32 @@ TlsDoHandshake (
         (Ret == SSL_ERROR_SYSCALL) ||
         (Ret == SSL_ERROR_ZERO_RETURN))
     {
+      // MU_CHANGE [BEGIN] - Report the certificate verification result for handshake failures.
+      CONST SSL_CIPHER  *Cipher;
+      CONST CHAR8       *CipherName;
+      CONST CHAR8       *ServerName;
+      SSL_CTX           *SslContext;
+      X509_STORE        *CertStore;
+      X509_VERIFY_PARAM *ConnectionVerifyParam;
+      X509_VERIFY_PARAM *StoreVerifyParam;
+      unsigned long     ConnectionVerifyFlags;
+      unsigned long     StoreVerifyFlags;
+      long              VerifyResult;
+
+      VerifyResult          = SSL_get_verify_result (TlsConn->Ssl);
+      ConnectionVerifyParam = SSL_get0_param (TlsConn->Ssl);
+      ConnectionVerifyFlags = (ConnectionVerifyParam != NULL) ?
+                              X509_VERIFY_PARAM_get_flags (ConnectionVerifyParam) :
+                              0;
+      SslContext            = SSL_get_SSL_CTX (TlsConn->Ssl);
+      CertStore             = (SslContext != NULL) ? SSL_CTX_get_cert_store (SslContext) : NULL;
+      StoreVerifyParam      = (CertStore != NULL) ? X509_STORE_get0_param (CertStore) : NULL;
+      StoreVerifyFlags      = (StoreVerifyParam != NULL) ?
+                              X509_VERIFY_PARAM_get_flags (StoreVerifyParam) :
+                              0;
+      ServerName            = SSL_get_servername (TlsConn->Ssl, TLSEXT_NAMETYPE_host_name);
+      Cipher                = SSL_get_current_cipher (TlsConn->Ssl);
+      CipherName            = (Cipher != NULL) ? SSL_CIPHER_get_name (Cipher) : "<unavailable>";
       DEBUG ((
         DEBUG_ERROR,
         "%a SSL_HANDSHAKE_ERROR State=0x%x SSL_ERROR_%a\n",
@@ -130,6 +156,30 @@ TlsDoHandshake (
         SSL_get_state (TlsConn->Ssl),
         Ret == SSL_ERROR_SSL ? "SSL" : Ret == SSL_ERROR_SYSCALL ? "SYSCALL" : "ZERO_RETURN"
         ));
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS verify error %ld: %a\n",
+        VerifyResult,
+        X509_verify_cert_error_string (VerifyResult)
+        ));
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS policy: SecurityLevel=%d VerifyMode=0x%x ConnectionFlags=0x%lx StoreFlags=0x%lx NoCheckTime=%a\n",
+        SSL_get_security_level (TlsConn->Ssl),
+        SSL_get_verify_mode (TlsConn->Ssl),
+        ConnectionVerifyFlags,
+        StoreVerifyFlags,
+        (((ConnectionVerifyFlags | StoreVerifyFlags) & X509_V_FLAG_NO_CHECK_TIME) != 0) ? "TRUE" : "FALSE"
+        ));
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS connection: State=%a Version=%a Cipher=%a SNI=%a\n",
+        SSL_state_string_long (TlsConn->Ssl),
+        SSL_get_version (TlsConn->Ssl),
+        CipherName,
+        (ServerName != NULL) ? ServerName : "<unset>"
+        ));
+      // MU_CHANGE [END]
       DEBUG_CODE_BEGIN ();
       while (TRUE) {
         unsigned long  ErrorCode;
