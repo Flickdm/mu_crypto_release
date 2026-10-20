@@ -454,21 +454,39 @@ STATIC
 VOID
 TlsDebugPrintCertificate (
   IN CONST X509  *Certificate,
-  IN INT32       ChainDepth
+  IN INT32       ChainDepth,
+  IN BOOLEAN     TrustedCa
   )
 {
-  CHAR8       Subject[256];
-  CHAR8       Issuer[256];
-  CONST CHAR8 *SubjectString;
-  CONST CHAR8 *IssuerString;
-  CONST CHAR8 *KeyType;
-  EVP_PKEY    *PublicKey;
-  INT32       KeyBits;
-  struct tm   NotBefore;
-  struct tm   NotAfter;
+  CHAR8                    Subject[256];
+  CHAR8                    Issuer[256];
+  CONST CHAR8              *SubjectString;
+  CONST CHAR8              *IssuerString;
+  CONST CHAR8              *KeyType;
+  EVP_PKEY                 *PublicKey;
+  INT32                    KeyBits;
+  struct tm                NotBefore;
+  struct tm                NotAfter;
+  UINT8                    Fingerprint[EVP_MAX_MD_SIZE];
+  UINT32                   FingerprintSize;
+  CHAR8                    FingerprintString[(EVP_MAX_MD_SIZE * 2) + 1];
+  CONST ASN1_OCTET_STRING  *SubjectKeyId;
+  CONST ASN1_OCTET_STRING  *AuthorityKeyId;
+  CHAR8                    SubjectKeyIdString[(EVP_MAX_MD_SIZE * 2) + 1];
+  CHAR8                    AuthorityKeyIdString[(EVP_MAX_MD_SIZE * 2) + 1];
+  CONST CHAR8              *HexDigits;
+  CONST UINT8              *Octets;
+  UINTN                    OctetCount;
+  UINTN                    Index;
+  INT32                    SelfSigned;
 
   if (Certificate == NULL) {
-    DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: certificate unavailable\n", ChainDepth));
+    if (TrustedCa) {
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: certificate unavailable\n"));
+    } else {
+      DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: certificate unavailable\n", ChainDepth));
+    }
+
     return;
   }
 
@@ -494,56 +512,162 @@ TlsDebugPrintCertificate (
     KeyBits = EVP_PKEY_get_bits (PublicKey);
   }
 
-  DEBUG ((
-    DEBUG_ERROR,
-    "TLS X509 chain[%d]: Subject=%a\n",
-    ChainDepth,
-    (SubjectString != NULL) ? SubjectString : "<unavailable>"
-    ));
-  DEBUG ((
-    DEBUG_ERROR,
-    "TLS X509 chain[%d]: Issuer=%a\n",
-    ChainDepth,
-    (IssuerString != NULL) ? IssuerString : "<unavailable>"
-    ));
-  DEBUG ((
-    DEBUG_ERROR,
-    "TLS X509 chain[%d]: PublicKey=%a %d bits\n",
-    ChainDepth,
-    (KeyType != NULL) ? KeyType : "<unavailable>",
-    KeyBits
-    ));
-
-  if (ASN1_TIME_to_tm (X509_get0_notBefore (Certificate), &NotBefore) == 1) {
+  if (TrustedCa) {
     DEBUG ((
       DEBUG_ERROR,
-      "TLS X509 chain[%d]: NotBefore=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
-      ChainDepth,
-      NotBefore.tm_year + 1900,
-      NotBefore.tm_mon + 1,
-      NotBefore.tm_mday,
-      NotBefore.tm_hour,
-      NotBefore.tm_min,
-      NotBefore.tm_sec
+      "TLS trusted CA: Subject=%a\n",
+      (SubjectString != NULL) ? SubjectString : "<unavailable>"
+      ));
+    DEBUG ((
+      DEBUG_ERROR,
+      "TLS trusted CA: Issuer=%a\n",
+      (IssuerString != NULL) ? IssuerString : "<unavailable>"
+      ));
+    DEBUG ((
+      DEBUG_ERROR,
+      "TLS trusted CA: PublicKey=%a %d bits\n",
+      (KeyType != NULL) ? KeyType : "<unavailable>",
+      KeyBits
       ));
   } else {
-    DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: NotBefore=<invalid>\n", ChainDepth));
+    DEBUG ((
+      DEBUG_ERROR,
+      "TLS X509 chain[%d]: Subject=%a\n",
+      ChainDepth,
+      (SubjectString != NULL) ? SubjectString : "<unavailable>"
+      ));
+    DEBUG ((
+      DEBUG_ERROR,
+      "TLS X509 chain[%d]: Issuer=%a\n",
+      ChainDepth,
+      (IssuerString != NULL) ? IssuerString : "<unavailable>"
+      ));
+    DEBUG ((
+      DEBUG_ERROR,
+      "TLS X509 chain[%d]: PublicKey=%a %d bits\n",
+      ChainDepth,
+      (KeyType != NULL) ? KeyType : "<unavailable>",
+      KeyBits
+      ));
+  }
+
+  if (ASN1_TIME_to_tm (X509_get0_notBefore (Certificate), &NotBefore) == 1) {
+    if (TrustedCa) {
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS trusted CA: NotBefore=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
+        NotBefore.tm_year + 1900,
+        NotBefore.tm_mon + 1,
+        NotBefore.tm_mday,
+        NotBefore.tm_hour,
+        NotBefore.tm_min,
+        NotBefore.tm_sec
+        ));
+    } else {
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS X509 chain[%d]: NotBefore=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
+        ChainDepth,
+        NotBefore.tm_year + 1900,
+        NotBefore.tm_mon + 1,
+        NotBefore.tm_mday,
+        NotBefore.tm_hour,
+        NotBefore.tm_min,
+        NotBefore.tm_sec
+        ));
+    }
+  } else {
+    if (TrustedCa) {
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: NotBefore=<invalid>\n"));
+    } else {
+      DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: NotBefore=<invalid>\n", ChainDepth));
+    }
   }
 
   if (ASN1_TIME_to_tm (X509_get0_notAfter (Certificate), &NotAfter) == 1) {
+    if (TrustedCa) {
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS trusted CA: NotAfter=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
+        NotAfter.tm_year + 1900,
+        NotAfter.tm_mon + 1,
+        NotAfter.tm_mday,
+        NotAfter.tm_hour,
+        NotAfter.tm_min,
+        NotAfter.tm_sec
+        ));
+    } else {
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS X509 chain[%d]: NotAfter=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
+        ChainDepth,
+        NotAfter.tm_year + 1900,
+        NotAfter.tm_mon + 1,
+        NotAfter.tm_mday,
+        NotAfter.tm_hour,
+        NotAfter.tm_min,
+        NotAfter.tm_sec
+        ));
+    }
+  } else {
+    if (TrustedCa) {
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: NotAfter=<invalid>\n"));
+    } else {
+      DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: NotAfter=<invalid>\n", ChainDepth));
+    }
+  }
+
+  if (TrustedCa) {
+    HexDigits       = "0123456789abcdef";
+    FingerprintSize = sizeof (Fingerprint);
+    if (X509_digest (Certificate, EVP_sha256 (), Fingerprint, &FingerprintSize) == 1) {
+      for (Index = 0; Index < FingerprintSize; Index++) {
+        FingerprintString[Index * 2]     = HexDigits[Fingerprint[Index] >> 4];
+        FingerprintString[Index * 2 + 1] = HexDigits[Fingerprint[Index] & 0x0F];
+      }
+
+      FingerprintString[FingerprintSize * 2] = '\0';
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: SHA256=%a\n", FingerprintString));
+    } else {
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: SHA256=<unavailable>\n"));
+    }
+
+    SubjectKeyId = X509_get0_subject_key_id ((X509 *)Certificate);
+    OctetCount   = (SubjectKeyId != NULL) ? (UINTN)ASN1_STRING_length (SubjectKeyId) : 0;
+    Octets       = (SubjectKeyId != NULL) ? ASN1_STRING_get0_data (SubjectKeyId) : NULL;
+    if ((Octets != NULL) && (OctetCount <= EVP_MAX_MD_SIZE)) {
+      for (Index = 0; Index < OctetCount; Index++) {
+        SubjectKeyIdString[Index * 2]     = HexDigits[Octets[Index] >> 4];
+        SubjectKeyIdString[Index * 2 + 1] = HexDigits[Octets[Index] & 0x0F];
+      }
+
+      SubjectKeyIdString[OctetCount * 2] = '\0';
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: SKID=%a\n", SubjectKeyIdString));
+    } else {
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: SKID=<unavailable>\n"));
+    }
+
+    AuthorityKeyId = X509_get0_authority_key_id ((X509 *)Certificate);
+    OctetCount     = (AuthorityKeyId != NULL) ? (UINTN)ASN1_STRING_length (AuthorityKeyId) : 0;
+    Octets         = (AuthorityKeyId != NULL) ? ASN1_STRING_get0_data (AuthorityKeyId) : NULL;
+    if ((Octets != NULL) && (OctetCount <= EVP_MAX_MD_SIZE)) {
+      for (Index = 0; Index < OctetCount; Index++) {
+        AuthorityKeyIdString[Index * 2]     = HexDigits[Octets[Index] >> 4];
+        AuthorityKeyIdString[Index * 2 + 1] = HexDigits[Octets[Index] & 0x0F];
+      }
+
+      AuthorityKeyIdString[OctetCount * 2] = '\0';
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: AKID=%a\n", AuthorityKeyIdString));
+    } else {
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: AKID=<unavailable>\n"));
+    }
+
+    SelfSigned = X509_self_signed ((X509 *)Certificate, 1);
     DEBUG ((
       DEBUG_ERROR,
-      "TLS X509 chain[%d]: NotAfter=%04d-%02d-%02dT%02d:%02d:%02dZ\n",
-      ChainDepth,
-      NotAfter.tm_year + 1900,
-      NotAfter.tm_mon + 1,
-      NotAfter.tm_mday,
-      NotAfter.tm_hour,
-      NotAfter.tm_min,
-      NotAfter.tm_sec
+      "TLS trusted CA: SelfSigned=%a\n",
+      (SelfSigned == 1) ? "TRUE" : ((SelfSigned == 0) ? "FALSE" : "<error>")
       ));
-  } else {
-    DEBUG ((DEBUG_ERROR, "TLS X509 chain[%d]: NotAfter=<invalid>\n", ChainDepth));
   }
 
   EVP_PKEY_free (PublicKey);
@@ -588,7 +712,7 @@ TlsDebugVerifyCallback (
     VerifyFlags,
     ((VerifyFlags & X509_V_FLAG_NO_CHECK_TIME) != 0) ? "TRUE" : "FALSE"
     ));
-  TlsDebugPrintCertificate (Certificate, ErrorDepth);
+  TlsDebugPrintCertificate (Certificate, ErrorDepth, FALSE);
 
   Chain       = X509_STORE_CTX_get0_chain (StoreContext);
   ChainLength = (Chain != NULL) ? sk_X509_num (Chain) : 0;
@@ -596,7 +720,7 @@ TlsDebugVerifyCallback (
   for (ChainIndex = 0; ChainIndex < ChainLength; ChainIndex++) {
     Certificate = sk_X509_value (Chain, ChainIndex);
     if (ChainIndex != ErrorDepth) {
-      TlsDebugPrintCertificate (Certificate, ChainIndex);
+      TlsDebugPrintCertificate (Certificate, ChainIndex, FALSE);
     }
   }
 
@@ -902,14 +1026,19 @@ TlsSetCaCertificate (
 
     Cert = PEM_read_bio_X509 (BioCert, NULL, NULL, NULL);
     if (Cert == NULL) {
+      DEBUG ((DEBUG_ERROR, "TLS trusted CA: Parse=FAILED DataSize=%u\n", DataSize));
       Status = EFI_ABORTED;
       goto ON_EXIT;
     }
   }
 
+  DEBUG ((DEBUG_ERROR, "TLS trusted CA: Parse=SUCCESS DataSize=%u\n", DataSize));
+  TlsDebugPrintCertificate (Cert, 0, TRUE);
+
   SslCtx    = SSL_get_SSL_CTX (TlsConn->Ssl);
   X509Store = SSL_CTX_get_cert_store (SslCtx);
   if (X509Store == NULL) {
+    DEBUG ((DEBUG_ERROR, "TLS trusted CA: StoreAdd=FAILED Store=<unavailable>\n"));
     Status = EFI_ABORTED;
     goto ON_EXIT;
   }
@@ -928,9 +1057,19 @@ TlsSetCaCertificate (
     if (!((ERR_GET_LIB (ErrorCode) == ERR_LIB_X509) &&
           (ERR_GET_REASON (ErrorCode) == X509_R_CERT_ALREADY_IN_HASH_TABLE)))
     {
+      DEBUG ((
+        DEBUG_ERROR,
+        "TLS trusted CA: StoreAdd=FAILED Error=0x%lx \"%a\"\n",
+        ErrorCode,
+        ERR_reason_error_string (ErrorCode)
+        ));
       Status = EFI_ABORTED;
       goto ON_EXIT;
     }
+
+    DEBUG ((DEBUG_ERROR, "TLS trusted CA: StoreAdd=ALREADY_PRESENT\n"));
+  } else {
+    DEBUG ((DEBUG_ERROR, "TLS trusted CA: StoreAdd=SUCCESS\n"));
   }
 
 ON_EXIT:
