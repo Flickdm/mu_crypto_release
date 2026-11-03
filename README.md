@@ -89,6 +89,41 @@ stuart_ci_build -c .pytool/CISettings.py -p <Pkg> -t NOOPT -d HostUnitTestCompil
 > **Note:** MbedTlsPkg host-based tests are currently disabled due to known test
 > failures. See the TODO in `host-based-test-runner.yml` for details.
 
+Public PKCS7 input/length and Authenticode content-type regressions run in the
+shared CryptoPkg BaseCryptLib suites from MU_BASECORE. The dependency is
+temporarily pinned to Flickdm's `test/crypto-public-api-regressions` commit;
+restore the Microsoft URL once these tests are merged upstream.
+
+The OpenSSL host test DSC also includes `PqcTest` (CMS verification and
+negative cases, ML-KEM round trips, and SLH-DSA unavailability) and `Tls13Test`
+(cipher-list policy, TLS versions, and supported groups). These link the UEFI
+provider, not the system OpenSSL provider. TLS configuration tests do not
+replace a handshake against an independent TLS server.
+
+CMS fixtures are public certificates and signatures generated with an
+independent native OpenSSL 4.1+ executable:
+
+```bash
+python OpensslPkg/Test/Pqc/GenerateFixtures.py --openssl /path/to/openssl
+```
+
+SLH-DSA fixtures are retained to test rejection of unsupported signatures.
+Fixture private keys are temporary and are not retained. The UEFI library
+continues to omit OpenSSL encoder support; enabling verification does not
+enable certificate issuance or private-key export.
+
+On Linux, exercise the built UEFI TLS client against an independent native
+OpenSSL 4.1+ server (eight TLS 1.3 cipher/group combinations and two TLS 1.2
+controls):
+
+```bash
+python OpensslPkg/Test/Tls13/RunInterop.py --openssl /path/to/openssl \
+  --client Build/OpensslPkg/HostTest/NOOPT_GCC/X64/Tls13Test
+```
+
+This uses temporary, self-signed certificates with client certificate-trust
+checks disabled. It validates protocol/cipher/group negotiation, not PKI policy.
+
 ## OneCryptoPkg
 
 > For more details, see [OneCryptoPkg/Docs/README.md](OneCryptoPkg/Docs/README.md).
