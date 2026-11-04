@@ -21,6 +21,33 @@ maintained separately.
 | **OpensslPkg**     | BaseCryptLib, OpensslLib, TlsLib, and supporting headers backed by OpenSSL.              |
 | **MbedTlsPkg**     | BaseCryptLib, MbedTlsLib, and supporting headers backed by Mbed TLS.                     |
 
+## Crypto-operation capability reporting
+
+`GetCryptoOpCapability()` returns an unordered `BASE_CRYPT_OP_CAPABILITY` array
+for one operation GUID from `CryptoPkg/Include/Guid/CryptoOpId.h`:
+
+| Operation | Reported algorithms |
+|---|---|
+| `gCryptoOpCmsVerifyGuid` | Provider signature OIDs for PKCS#7/CMS verification |
+| `gCryptoOpCmsContentDigestGuid` | Provider fixed-output content-digest OIDs |
+| `gCryptoOpAuthenticodeVerifyGuid` | Provider signature OIDs for Authenticode verification |
+| `gCryptoOpAuthenticodeHashGuid` | Available SHA-1/256/384/512 image-hash digest OIDs |
+
+Free the returned array once with `FreePool()`; its OID strings share the same
+allocation. Empty supported sets return success with a NULL array and zero count.
+Errors clear both outputs. Unknown operations return `EFI_NOT_FOUND`.
+
+The full OpenSSL BaseCryptLib and its host-test instance implement reporting.
+Reduced OpenSSL and MbedTLS instances return `EFI_UNSUPPORTED`; the NULL
+BaseCryptLib returns `EFI_NOT_FOUND`. OneCrypto publishes the query through an
+appended protocol **1.1** service, preserving all 1.0 fields. Its forwarder returns
+`EFI_UNSUPPORTED` for older binaries or incompatible major versions, including
+the experimental v2 layout.
+
+These are provider algorithm sets, not exact signature/digest profiles,
+certificate-trust decisions, or feature/enrollment policy. Reporting does not
+enable CMS, PQC, TLS, or new verification behavior.
+
 ## CI Setup
 
 ```bash
