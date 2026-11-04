@@ -66,7 +66,7 @@ class CommonPlatform:
             {
                 "Path": "MU_BASECORE",
                 "Url": "https://github.com/Flickdm/mu_basecore.git",
-                "Commit": "06d99d20dbdea29ca2e90c13fa6a6990627fb284"
+                "Commit": "9b2647cfa47c848729b78a5055c5958a19c2e6ff"
             },
             {
                 "Path": "Features/MM_SUPV",
