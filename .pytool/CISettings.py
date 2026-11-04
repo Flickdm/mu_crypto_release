@@ -167,8 +167,8 @@ class Settings(
         return [
             {
                 "Path": "MU_BASECORE",
-                "Url": "https://github.com/microsoft/mu_basecore.git",
-                "Commit": "1fd035c9360b923fdf39e879046031cad491a6e1"
+                "Url": "https://github.com/Flickdm/mu_basecore.git",
+                "Commit": "06d99d20dbdea29ca2e90c13fa6a6990627fb284"
             },
             {
                 "Path": "Features/MM_SUPV",

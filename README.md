@@ -48,6 +48,11 @@ These are provider algorithm sets, not exact signature/digest profiles,
 certificate-trust decisions, or feature/enrollment policy. Reporting does not
 enable CMS, PQC, TLS, or new verification behavior.
 
+This branch temporarily pins MU_BASECORE to the
+[`Flickdm:feat/crypto-op-capabilities` fork](https://github.com/Flickdm/mu_basecore/tree/feat/crypto-op-capabilities),
+based on `release/202608`. Replace the fork pin with an upstream commit once
+the capability API is merged.
+
 ## CI Setup
 
 ```bash
